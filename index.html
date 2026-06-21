@@ -100,7 +100,7 @@
         <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
         <div class="flex-1 min-w-0">
           <p id="sidebar-profile-name" class="text-sm font-semibold truncate text-slate-100">Hasnat Safdar</p>
-          <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider">Project App Developer</p>
+          <p id="sidebar-profile-role" class="text-[10px] text-slate-500 font-medium truncate uppercase tracking-wider">Project App Developer</p>
         </div>
       </div>
       <!-- Database Connection Status Display -->
@@ -313,7 +313,7 @@
             <div>
               <div class="flex justify-between items-center mb-1.5">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
-                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
+                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
               </div>
               <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-28 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
             </div>
@@ -444,7 +444,7 @@
             <p class="text-xs text-slate-400 mb-5 max-w-xs text-center leading-relaxed">Please enter the security password to unlock profile modifications.</p>
             <div class="flex gap-2">
               <input type="password" id="profile-password" placeholder="Enter password..." class="p-2 border border-slate-200 rounded-xl outline-none text-xs w-48 bg-slate-50/50 premium-input" />
-              <button onclick="unlockProfile()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition">Unlock</button>
+              <button onclick="unlockProfile()" class="bg-slate-950 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition">Unlock</button>
             </div>
           </div>
 
@@ -855,9 +855,13 @@
                 category: p.category,
                 aiText: p.aiText
             }));
-            const reportToSave = { ...reportData, photos: safePhotos, createdAt: Date.now() };
-            const reportsRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports');
-            await addDoc(reportsRef, reportToSave);
+            const reportToSave = { ...reportData, photos: safePhotos, createdAt: reportData.createdAt || Date.now() };
+            
+            // FIX: Use setDoc with reportData.dbId instead of addDoc!
+            // This guarantees the Firestore document ID is EXACTLY the same as our local report ID (dbId),
+            // resolving the "No document to update" error and allowing report deletions to work perfectly.
+            const reportDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId);
+            await setDoc(reportDocRef, reportToSave);
             setDbStatus('connected');
         } catch(e) {
             console.error("Error saving to cloud:", e);
