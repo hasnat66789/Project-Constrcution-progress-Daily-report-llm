@@ -15,6 +15,29 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
+    /* Premium font stack styling */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
     @media print {
       body { background: white !important; }
       .print-hidden { display: none !important; }
@@ -23,64 +46,81 @@
       .print-w-full { width: 100% !important; max-width: 100% !important; }
       .print-shadow-none { box-shadow: none !important; }
     }
+    
     .view-section { display: none; }
     .view-section.active { display: block; }
+    
+    /* Elegant input focus ring effect */
+    .premium-input {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .premium-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
   </style>
 </head>
-<body class="flex font-sans text-slate-900 bg-slate-50 min-h-screen">
+<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-slate-900 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40">
-    <div class="p-6 flex flex-col gap-1 border-b border-slate-800">
+  <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
+    <!-- Header Title Area -->
+    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-900 bg-slate-950">
       <div class="flex items-center gap-3">
-        <i data-lucide="hard-hat" class="text-yellow-400 w-7 h-7"></i>
-        <span class="text-lg font-bold tracking-tight leading-tight">Construction daily reports</span>
+        <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
+          <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
+        </div>
+        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction Reports</span>
       </div>
-      <span class="text-xs text-slate-400 ml-10">by Hasnat Safdar</span>
+      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
     </div>
-    <nav class="flex-1 p-4 space-y-2" id="nav-menu">
-      <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors bg-blue-600 text-white" data-target="dashboard">
-        <i data-lucide="home" class="w-5 h-5"></i><span>Dashboard</span>
+    
+    <!-- Nav Items -->
+    <nav class="flex-1 p-4 space-y-1.5" id="nav-menu">
+      <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10" data-target="dashboard">
+        <i data-lucide="home" class="w-4.5 h-4.5"></i><span>Dashboard</span>
       </button>
-      <button onclick="switchView('create_report')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-slate-800 text-slate-300" data-target="create_report">
-        <i data-lucide="plus-circle" class="w-5 h-5"></i><span>New Report</span>
+      <button onclick="switchView('create_report')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="create_report">
+        <i data-lucide="plus-circle" class="w-4.5 h-4.5"></i><span>New Report</span>
       </button>
-      <button onclick="switchView('upload_documents')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-slate-800 text-slate-300" data-target="upload_documents">
-        <i data-lucide="upload-cloud" class="w-5 h-5"></i><span>Upload Documents</span>
+      <button onclick="switchView('upload_documents')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="upload_documents">
+        <i data-lucide="upload-cloud" class="w-4.5 h-4.5"></i><span>Upload Documents</span>
       </button>
-      <button onclick="switchView('archives')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-slate-800 text-slate-300" data-target="archives">
-        <i data-lucide="file-text" class="w-5 h-5"></i><span>Archives</span>
+      <button onclick="switchView('archives')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="archives">
+        <i data-lucide="file-text" class="w-4.5 h-4.5"></i><span>Archives</span>
       </button>
-      <button onclick="switchView('settings')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-slate-800 text-slate-300" data-target="settings">
-        <i data-lucide="settings" class="w-5 h-5"></i><span>Settings</span>
+      <button onclick="switchView('settings')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="settings">
+        <i data-lucide="settings" class="w-4.5 h-4.5"></i><span>Settings</span>
       </button>
     </nav>
-    <div class="p-4 border-t border-slate-800 flex flex-col gap-2">
-      <div class="flex items-center gap-3 px-4 py-1">
-        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center font-bold">HS</div>
+    
+    <!-- Footer Profile Area -->
+    <div class="p-4 border-t border-slate-900 bg-slate-950/80">
+      <div class="flex items-center gap-3 px-3 py-1">
+        <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
         <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium truncate">Hasnat Safdar</p>
-          <p class="text-xs text-slate-400 truncate">App Developer</p>
+          <p id="sidebar-profile-name" class="text-sm font-semibold truncate text-slate-100">Hasnat Safdar</p>
+          <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider">Project App Developer</p>
         </div>
       </div>
       <!-- Database Connection Status Display -->
-      <div class="px-4 pb-2 border-t border-slate-800/50 pt-2 flex items-center justify-between">
-        <p class="text-[11px] text-slate-400 flex items-center gap-1.5" id="db-status-container">
+      <div class="px-3 pb-1 border-t border-slate-900/50 mt-3 pt-2.5 flex items-center justify-between">
+        <p class="text-[11px] text-slate-400 flex items-center gap-2" id="db-status-container">
           <span id="db-status-dot" class="w-2 h-2 rounded-full bg-yellow-500"></span> 
-          <span id="db-status-text">Connecting...</span>
+          <span id="db-status-text" class="font-medium tracking-wide">Connecting...</span>
         </p>
       </div>
     </div>
   </aside>
 
-  <!-- Main Content -->
+  <!-- Main Content Area -->
   <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
     
     <!-- API Key Bar -->
-    <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200 shadow-sm z-50 print-hidden">
-      <div id="api-indicator" class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-sm p-1.5 outline-none border-b border-slate-200 focus:border-blue-500 w-48 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-xs bg-slate-800 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-slate-900 transition flex items-center gap-2">
+    <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
+      <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
         Connect
       </button>
     </div>
@@ -91,124 +131,145 @@
     <section id="dashboard" class="view-section active pb-24">
       <header class="flex justify-between items-center mb-8 pr-72">
         <div>
-          <h1 class="text-3xl font-bold text-slate-900">Project Dashboard</h1>
-          <p class="text-slate-500">Welcome back, Hasnat. Here is your site overview.</p>
+          <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Dashboard</h1>
+          <p class="text-slate-500 text-sm mt-0.5">Welcome back, <span class="profile-name-span font-semibold text-indigo-600">Hasnat Safdar</span>. Here is your site overview.</p>
         </div>
         <div class="flex items-center gap-4">
-          <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-10 max-w-[200px] object-contain hidden" />
+          <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-12 max-w-[200px] object-contain hidden rounded-lg border border-slate-200 p-1 bg-white shadow-sm" />
           <div class="relative">
             <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-            <button class="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-sm font-medium text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-              <i data-lucide="image" class="w-4 h-4"></i>
+            <button class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
+              <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
               <span id="logo-btn-text">Upload Logo</span>
             </button>
           </div>
         </div>
       </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="p-4 rounded-full bg-blue-100 text-blue-600"><i data-lucide="file-text" class="w-6 h-6"></i></div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-slate-500">Total Reports</p>
-            <p class="text-2xl font-bold text-slate-900" id="stat-total-reports">0</p>
+      <!-- 5-Column Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <!-- Card 1: Total Reports -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+          <div class="p-3.5 rounded-xl bg-blue-50 text-blue-600"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Reports</p>
+            <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-total-reports">0</p>
           </div>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="p-4 rounded-full bg-green-100 text-green-600"><i data-lucide="users" class="w-6 h-6"></i></div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-slate-500">Avg Workforce</p>
-            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
+        <!-- Card 2: Avg Workforce -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+          <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Workforce</p>
+            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="p-4 rounded-full bg-orange-100 text-orange-600"><i data-lucide="alert-triangle" class="w-6 h-6"></i></div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-slate-500">Safety Incidents</p>
-            <p class="text-2xl font-bold text-slate-900">0</p>
+        <!-- Card 3: Safety Incidents -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+          <div class="p-3.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Safety Incidents</p>
+            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex items-center gap-4">
-          <div class="p-4 rounded-full bg-purple-100 text-purple-600"><i data-lucide="clock" class="w-6 h-6"></i></div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-slate-500">Days Active</p>
-            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-transparent hover:border-slate-300 focus:border-blue-500 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
+        <!-- Card 4: Days Active -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+          <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Days Active</p>
+            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
+          </div>
+        </div>
+        <!-- Card 5: Remaining Days -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
+          <div class="p-3.5 rounded-xl bg-rose-50 text-rose-600"><i data-lucide="hourglass" class="w-5 h-5"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Remaining Days</p>
+            <input type="text" id="stat-remaining-days" value="120" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('remainingDays', this.value)" title="Click to edit"/>
           </div>
         </div>
       </div>
 
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+      <!-- Recent Reports -->
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-lg font-bold text-slate-900">Recent Reports</h2>
-          <button class="text-blue-600 text-sm font-medium hover:underline" onclick="switchView('archives')">View All</button>
+          <h2 class="text-base font-bold text-slate-900">Recent Progress Logs</h2>
+          <div class="flex items-center gap-3">
+             <button onclick="loadSampleReport()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-500 animate-pulse"></i> ✨ Load Demo Report
+             </button>
+             <button class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold" onclick="switchView('archives')">View All Reports</button>
+          </div>
         </div>
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-slate-200 text-sm text-slate-500">
-              <th class="pb-3 font-medium">Date</th>
-              <th class="pb-3 font-medium">Project</th>
-              <th class="pb-3 font-medium">Prepared By</th>
-              <th class="pb-3 font-medium">Status</th>
-              <th class="pb-3 font-medium text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody id="dashboard-recent-reports">
-            <tr><td colspan="5" class="py-8 text-center text-slate-500">No reports generated yet. Click "New Report" to create one.</td></tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+              <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <th class="pb-3.5 font-semibold">Date</th>
+                <th class="pb-3.5 font-semibold">Project</th>
+                <th class="pb-3.5 font-semibold">Prepared By</th>
+                <th class="pb-3.5 font-semibold">Status</th>
+                <th class="pb-3.5 font-semibold text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-recent-reports" class="divide-y divide-slate-100 text-sm">
+              <tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" or "Load Demo Report" to view.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <!-- Create Report View -->
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
-        <h1 class="text-3xl font-bold text-slate-900">Generate Daily Report</h1>
-        <p class="text-slate-500">Enter site details and upload photos for AI analysis.</p>
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
+        <p class="text-slate-500 text-sm">Input real-time site variables, configure PMC stakeholders, and leverage Vision AI for automated photo logs.</p>
       </header>
 
-      <div class="max-w-5xl space-y-8">
+      <div class="max-w-5xl space-y-6">
         <!-- Project Details -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="hard-hat" class="text-yellow-500 w-5 h-5"></i> Project Details
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="hard-hat" class="text-amber-500 w-5 h-5"></i> Project Details & PMC Configuration
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Project Name</label>
-              <input type="text" id="frm-projectName" placeholder="e.g., Downtown Commercial Plaza" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('projectName', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Project Name</label>
+              <input type="text" id="frm-projectName" placeholder="e.g., Downtown Commercial Plaza" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('projectName', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Client Name</label>
-              <input type="text" id="frm-clientName" placeholder="e.g., Emaar Properties" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('clientName', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Client Name</label>
+              <input type="text" id="frm-clientName" placeholder="e.g., Emaar Properties" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('clientName', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Location</label>
-              <input type="text" id="frm-location" placeholder="e.g., Dubai, UAE" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('location', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Location</label>
+              <input type="text" id="frm-location" placeholder="e.g., Dubai, UAE" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('location', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Supervision Consultant</label>
-              <input type="text" id="frm-supervisionConsultant" placeholder="e.g., TYA Associates" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('supervisionConsultant', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supervision Consultant</label>
+              <input type="text" id="frm-supervisionConsultant" placeholder="e.g., TYA Associates" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('supervisionConsultant', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">PMC Name</label>
-              <input type="text" id="frm-pmcName" placeholder="e.g., MAB Consult" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('pmcName', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PMC Name</label>
+              <input type="text" id="frm-pmcName" placeholder="e.g., MAB Consult" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('pmcName', this.value)" />
             </div>
           </div>
         </div>
 
         <!-- Site Conditions -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="thermometer" class="text-blue-500 w-5 h-5"></i> Site Conditions
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Environmental Variables
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Date</label>
-              <input type="date" id="frm-date" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('date', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Date</label>
+              <input type="date" id="frm-date" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('date', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Weather</label>
-              <select id="frm-weather" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('weather', this.value)">
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Weather</label>
+              <select id="frm-weather" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" onchange="updateForm('weather', this.value)">
                 <option>Sunny</option>
                 <option>Cloudy</option>
                 <option>Rainy</option>
@@ -216,12 +277,12 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Temperature (°C)</label>
-              <input type="number" id="frm-temperature" value="32" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('temperature', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Temperature (°C)</label>
+              <input type="number" id="frm-temperature" value="32" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('temperature', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Shift</label>
-              <select id="frm-shift" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('shift', this.value)">
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Shift</label>
+              <select id="frm-shift" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" onchange="updateForm('shift', this.value)">
                 <option>Day Shift</option>
                 <option>Night Shift</option>
               </select>
@@ -230,70 +291,72 @@
         </div>
 
         <!-- Resources & Progress -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="users" class="text-green-500 w-5 h-5"></i> Resources & Status
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="users" class="text-emerald-500 w-5 h-5"></i> Site Resources & Workforce Allocation
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Workforce Count</label>
-              <input type="text" id="frm-workforce" placeholder="e.g., 150 Subcontractors, 20 Staff" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('workforce', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Workforce Count</label>
+              <input type="text" id="frm-workforce" placeholder="e.g., 150 Subcontractors, 20 Staff" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('workforce', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Heavy Equipment</label>
-              <input type="text" id="frm-equipment" placeholder="e.g., 2 Cranes, 4 Excavators" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('equipment', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Heavy Equipment</label>
+              <input type="text" id="frm-equipment" placeholder="e.g., 2 Cranes, 4 Excavators" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('equipment', this.value)" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Site Visitors</label>
-              <input type="text" id="frm-visitors" placeholder="e.g., Client Rep, Safety Inspector" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" onchange="updateForm('visitors', this.value)" />
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Site Visitors</label>
+              <input type="text" id="frm-visitors" placeholder="e.g., Client Rep, Safety Inspector" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('visitors', this.value)" />
             </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-sm font-medium text-slate-700">Delays / Issues</label>
-                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1">✨ Suggest Fixes</button>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
+                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
               </div>
-              <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none h-24 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
+              <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-28 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
             </div>
             <div>
-              <div class="flex justify-between items-center mb-1">
-                <label class="block text-sm font-medium text-slate-700">Planned for Tomorrow</label>
-                <button onclick="professionalizeText('frm-plannedTomorrow', this)" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1">✨ Professionalize</button>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Planned for Tomorrow</label>
+                <button onclick="professionalizeText('frm-plannedTomorrow', this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Professionalize Notes</button>
               </div>
-              <textarea id="frm-plannedTomorrow" placeholder="Key activities for next shift..." class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none h-24 resize-none" onchange="updateForm('plannedTomorrow', this.value)"></textarea>
+              <textarea id="frm-plannedTomorrow" placeholder="Key activities for next shift..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-28 resize-none" onchange="updateForm('plannedTomorrow', this.value)"></textarea>
             </div>
           </div>
         </div>
 
         <!-- AI Photo Upload -->
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photos & AI Analysis
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="flex justify-between items-center mb-5">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photos & Vision AI Analyzer
             </h2>
             <div class="relative">
               <input type="file" multiple accept="image/*" onchange="handlePhotoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-              <button class="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-medium hover:bg-purple-200 transition flex items-center gap-2">
-                <i data-lucide="image" class="w-4 h-4"></i> Upload Photos
+              <button class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shadow-indigo-100/50">
+                <i data-lucide="image" class="w-4 h-4"></i> Upload Site Photos
               </button>
             </div>
           </div>
 
           <div id="photo-list-container">
             <!-- Rendered via JS -->
-            <div class="border-2 border-dashed border-slate-300 rounded-xl p-12 text-center">
-              <i data-lucide="camera" class="mx-auto text-slate-400 mb-4 w-12 h-12"></i>
-              <p class="text-slate-600 font-medium">No photos uploaded yet.</p>
-              <p class="text-sm text-slate-400 mt-1">Upload site images to automatically generate progress descriptions using Vision AI.</p>
+            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center bg-slate-50/40">
+              <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100">
+                <i data-lucide="camera" class="text-slate-400 w-7 h-7"></i>
+              </div>
+              <p class="text-slate-600 font-semibold text-sm">No photos uploaded yet.</p>
+              <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Upload site images to automatically generate professional progress descriptions using Vision AI.</p>
             </div>
           </div>
         </div>
 
         <!-- Generate Action -->
         <div class="flex justify-end pt-4">
-          <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition shadow-lg flex items-center gap-3">
-            <i data-lucide="file-text" id="gen-icon" class="w-6 h-6"></i>
+          <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
+            <i data-lucide="file-text" id="gen-icon" class="w-5 h-5"></i>
             <span id="gen-text">Generate Daily Report</span>
           </button>
         </div>
@@ -303,26 +366,26 @@
     <!-- Upload Documents View -->
     <section id="upload_documents" class="view-section pb-24">
       <header class="mb-8 pr-72">
-        <h1 class="text-3xl font-bold text-slate-900">Project Documents</h1>
-        <p class="text-slate-500">Upload and manage site plans, specifications, and client letters.</p>
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Documents</h1>
+        <p class="text-slate-500 text-sm">Upload and manage site plans, specifications, drawings, and client letters.</p>
       </header>
-      <div class="max-w-5xl space-y-8">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center relative hover:bg-slate-50 transition border-dashed border-2">
+      <div class="max-w-5xl space-y-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center relative hover:bg-slate-50/50 transition duration-200 border-dashed border-2">
           <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
           <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
-            <div class="p-4 bg-blue-100 rounded-full">
-              <i data-lucide="upload" class="text-blue-600 w-8 h-8"></i>
+            <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
+              <i data-lucide="upload" class="w-7 h-7"></i>
             </div>
             <div>
-              <p class="text-lg font-bold text-slate-700">Click or drag files here to upload</p>
-              <p class="text-sm text-slate-500 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
+              <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
+              <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
             </div>
           </div>
         </div>
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h2 class="text-lg font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Uploaded Files</h2>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Uploaded Files</h2>
           <div id="documents-list-container">
-            <p class="text-slate-500 text-center py-8">No documents uploaded yet.</p>
+            <p class="text-slate-500 text-center py-8 text-sm">No documents uploaded yet.</p>
           </div>
         </div>
       </div>
@@ -331,90 +394,95 @@
     <!-- Archives View -->
     <section id="archives" class="view-section pb-24">
       <header class="mb-8 pr-72">
-        <h1 class="text-3xl font-bold text-slate-900">Report Archives</h1>
-        <p class="text-slate-500">Access and search all previously generated daily progress reports.</p>
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Report Archives</h1>
+        <p class="text-slate-500 text-sm">Search, filter, and audit all historic dailies saved directly on your cloud Firestore database.</p>
       </header>
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6 max-w-6xl">
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 max-w-6xl">
         <div class="flex justify-between items-center mb-6">
-          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
-          <button class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition">Export List</button>
+          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs bg-slate-50/50 premium-input" />
+          <button class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition">Export List</button>
         </div>
-        <table class="w-full text-left border-collapse">
-          <thead>
-            <tr class="border-b border-slate-200 text-sm text-slate-500">
-              <th class="pb-3 font-medium">Date</th>
-              <th class="pb-3 font-medium">Project</th>
-              <th class="pb-3 font-medium">Prepared By</th>
-              <th class="pb-3 font-medium">Status</th>
-              <th class="pb-3 font-medium text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody id="archives-list">
-             <tr><td colspan="5" class="py-8 text-center text-slate-500">Loading reports from cloud...</td></tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+              <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                <th class="pb-3.5 font-semibold">Date</th>
+                <th class="pb-3.5 font-semibold">Project</th>
+                <th class="pb-3.5 font-semibold">Prepared By</th>
+                <th class="pb-3.5 font-semibold">Status</th>
+                <th class="pb-3.5 font-semibold text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="archives-list" class="divide-y divide-slate-100 text-sm">
+               <tr><td colspan="5" class="py-12 text-center text-slate-400">Loading reports from cloud...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <!-- Settings View -->
     <section id="settings" class="view-section pb-24">
       <header class="mb-8 pr-72">
-        <h1 class="text-3xl font-bold text-slate-900">Settings</h1>
-        <p class="text-slate-500">Manage your profile and application preferences.</p>
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Settings</h1>
+        <p class="text-slate-500 text-sm">Manage your profile identities, database protection keys, and preferences.</p>
       </header>
       <div class="max-w-3xl space-y-6">
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <div class="flex justify-between items-center mb-4 border-b pb-2">
-            <h2 class="text-lg font-bold text-slate-900">Profile Information</h2>
-            <button id="lock-profile-btn" onclick="toggleProfileLock(false)" class="text-sm font-medium text-slate-500 hover:text-slate-800 flex items-center gap-1 hidden">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+            <h2 class="text-base font-bold text-slate-900">Profile Information</h2>
+            <button id="lock-profile-btn" onclick="toggleProfileLock(false)" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1.5 hidden">
               <i data-lucide="lock" class="w-4 h-4"></i> Lock Profile
             </button>
           </div>
           
-          <div id="profile-locked-view" class="flex flex-col items-center justify-center py-8">
-            <i data-lucide="lock" class="text-slate-300 mb-3 w-10 h-10"></i>
-            <p class="text-sm text-slate-600 mb-4">Profile details are locked to prevent unauthorized changes.</p>
+          <div id="profile-locked-view" class="flex flex-col items-center justify-center py-10">
+            <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 text-slate-400 mb-4 shadow-inner">
+              <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <p class="text-sm font-semibold text-slate-700 mb-1">Profile details are locked</p>
+            <p class="text-xs text-slate-400 mb-5 max-w-xs text-center leading-relaxed">Please enter the security password to unlock profile modifications.</p>
             <div class="flex gap-2">
-              <input type="password" id="profile-password" placeholder="Enter password..." class="p-2 border border-slate-300 rounded-lg outline-none text-sm w-48" />
-              <button onclick="unlockProfile()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 transition">Unlock</button>
+              <input type="password" id="profile-password" placeholder="Enter password..." class="p-2 border border-slate-200 rounded-xl outline-none text-xs w-48 bg-slate-50/50 premium-input" />
+              <button onclick="unlockProfile()" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition">Unlock</button>
             </div>
           </div>
 
           <div id="profile-unlocked-view" class="hidden">
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                <input type="text" value="Hasnat Safdar" class="w-full p-2 border border-slate-300 rounded-lg outline-none bg-slate-50" />
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
+                <input type="text" id="settings-profile-name" value="Hasnat Safdar" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Role</label>
-                <input type="text" value="Project App Developer" class="w-full p-2 border border-slate-300 rounded-lg outline-none bg-slate-50" />
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Role</label>
+                <input type="text" id="settings-profile-role" value="Project App Developer" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
               <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
-                <input type="email" value="hasnat@example.com" class="w-full p-2 border border-slate-300 rounded-lg outline-none" />
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Email Address</label>
+                <input type="email" id="settings-profile-email" value="hasnat@example.com" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
             </div>
-            <button onclick="toggleProfileLock(false)" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">Save Profile</button>
+            <button onclick="saveProfileToCloud()" class="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md shadow-indigo-100 transition">Save Profile</button>
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h2 class="text-lg font-bold text-slate-900 mb-4 border-b pb-2">Application Preferences</h2>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3">Application Preferences</h2>
           <div class="space-y-4">
              <div class="flex items-center justify-between">
                 <div>
-                   <p class="font-medium text-slate-900">Email Notifications</p>
-                   <p class="text-sm text-slate-500">Receive an email when a report is generated.</p>
+                   <p class="text-sm font-semibold text-slate-800">Email Notifications</p>
+                   <p class="text-xs text-slate-400 mt-0.5">Receive an email when a report is generated.</p>
                 </div>
-                <input type="checkbox" class="w-5 h-5 text-blue-600 rounded border-slate-300" checked />
+                <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" checked />
              </div>
              <div class="flex items-center justify-between">
                 <div>
-                   <p class="font-medium text-slate-900">Dark Mode</p>
-                   <p class="text-sm text-slate-500">Enable dark theme for the dashboard.</p>
+                   <p class="text-sm font-semibold text-slate-800">Dark Mode</p>
+                   <p class="text-xs text-slate-400 mt-0.5">Enable dark theme for the dashboard.</p>
                 </div>
-                <input type="checkbox" class="w-5 h-5 text-blue-600 rounded border-slate-300" />
+                <input type="checkbox" class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
              </div>
           </div>
         </div>
@@ -422,38 +490,51 @@
     </section>
 
     <!-- View Report (Output) -->
-    <section id="view_report" class="view-section py-12 flex flex-col items-center">
-      <div class="w-full max-w-4xl flex justify-between items-center mb-6 print-hidden">
-        <button onclick="switchView('archives')" class="text-slate-600 hover:text-slate-900 font-medium flex items-center gap-2">
-          ← Back to Archives
-        </button>
-        <div class="flex gap-4">
-          <button onclick="translateReport(this)" class="bg-emerald-600 border border-emerald-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition flex items-center gap-2 shadow-sm" id="translate-btn">
-            ✨ Translate to Arabic
+    <section id="view_report" class="view-section py-12">
+      <!-- Container optimized for split layout when viewing a report -->
+      <div class="w-full max-w-7xl mx-auto px-4">
+        
+        <!-- Controls Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print-hidden">
+          <button onclick="switchView('archives')" class="text-slate-500 hover:text-slate-800 font-semibold text-xs flex items-center gap-1.5 transition">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Archives
           </button>
-          <button class="bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded-lg font-medium hover:bg-slate-50 transition flex items-center gap-2">
-            <i data-lucide="download" class="w-4 h-4"></i> Export Word
-          </button>
-          <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2 shadow-sm">
-            <i data-lucide="printer" class="w-4 h-4"></i> Print PDF
-          </button>
+          <div class="flex flex-wrap gap-2.5">
+            <button onclick="translateReport(this)" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm" id="translate-btn">
+              ✨ Translate to Arabic
+            </button>
+            <button class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+              <i data-lucide="download" class="w-4 h-4 text-slate-400"></i> Export Word
+            </button>
+            <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md shadow-indigo-100">
+              <i data-lucide="printer" class="w-4 h-4"></i> Print PDF
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Paper Sheet Simulation -->
-      <div id="report-paper" class="bg-white w-full max-w-4xl min-h-[1122px] p-12 shadow-2xl rounded-sm print-shadow-none print-m-0 print-p-0 print-w-full">
-        <!-- Generated content injected here -->
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
+          <!-- Paper Sheet Simulation -->
+          <div id="report-paper" class="bg-white flex-1 p-12 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full">
+            <!-- Generated content injected here -->
+          </div>
+          
+          <!-- Interactive Review & Collaboration Panel (Side Column) -->
+          <div id="review-collab-panel" class="w-full lg:w-[380px] space-y-6 print-hidden shrink-0">
+            <!-- Dynamic Review components injected here -->
+          </div>
+        </div>
+
       </div>
     </section>
 
   </main>
 
   <!-- Custom Alert/Confirm Modal Overlay -->
-  <div id="custom-modal" class="fixed inset-0 bg-slate-900/50 flex items-center justify-center z-[9999] hidden print-hidden">
-    <div class="bg-white rounded-xl max-w-md w-full p-6 shadow-xl border border-slate-200 mx-4 transform transition-all duration-300 scale-95 opacity-0" id="custom-modal-content">
-      <h3 class="text-lg font-bold text-slate-900 mb-2" id="custom-modal-title">Notification</h3>
-      <p class="text-sm text-slate-600 mb-6 leading-relaxed" id="custom-modal-message"></p>
-      <div class="flex justify-end gap-3" id="custom-modal-actions">
+  <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[9999] hidden print-hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 mx-4 transform transition-all duration-300 scale-95 opacity-0" id="custom-modal-content">
+      <h3 class="text-base font-bold text-slate-900 mb-2.5" id="custom-modal-title">Notification</h3>
+      <div class="text-xs text-slate-500 mb-6 leading-relaxed" id="custom-modal-message"></div>
+      <div class="flex justify-end gap-2.5" id="custom-modal-actions">
         <!-- Injected dynamically -->
       </div>
     </div>
@@ -464,10 +545,9 @@
     // --- Firebase Initialization for Permanent Storage ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // Vercel Firebase Fallback Config
-    // IMPORTANT: If you deploy to Vercel, replace `fallbackConfig` keys with your own Firebase project settings to enable permanent global storage.
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
       apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
@@ -483,7 +563,6 @@
 
     let app, auth, db, currentUser;
     try {
-       // Check if keys are placeholders before initializing
        if (firebaseConfig.apiKey === "YOUR_API_KEY" || !firebaseConfig.apiKey) {
           throw new Error("unconfigured");
        }
@@ -504,6 +583,7 @@
               currentUser = u;
               if(currentUser) {
                   setDbStatus('connected');
+                  loadConfigFromCloud();
                   loadReportsFromCloud();
               } else {
                   setDbStatus('error', "Authentication failed", "Anonymous login is not enabled in your Firebase Authentication console.");
@@ -529,6 +609,7 @@
     let documents = [];
     let generatedReport = null;
     let companyLogoBase64 = null;
+    let tempScreenshotBase64 = null; // Holds the currently attached comment screenshot
     
     let formData = {
       projectName: '',
@@ -549,7 +630,15 @@
 
     let dashboardStats = {
       avgWorkforce: '350',
-      daysActive: '245'
+      safetyIncidents: '0',
+      daysActive: '245',
+      remainingDays: '120'
+    };
+
+    let globalProfile = {
+      name: 'Hasnat Safdar',
+      role: 'Project App Developer',
+      email: 'hasnat@example.com'
     };
 
     // --- Custom Modal Script replacements for alert() and confirm() ---
@@ -557,10 +646,10 @@
 
     window.showCustomAlert = function(title, message) {
         document.getElementById('custom-modal-title').innerText = title;
-        document.getElementById('custom-modal-message').innerText = message;
+        document.getElementById('custom-modal-message').innerHTML = message;
         
         document.getElementById('custom-modal-actions').innerHTML = `
-            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-800 text-white rounded-lg text-sm font-medium hover:bg-slate-900 transition">OK</button>
+            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">OK</button>
         `;
         
         openModalElement();
@@ -574,8 +663,8 @@
             modalResolveCallback = resolve;
             
             document.getElementById('custom-modal-actions').innerHTML = `
-                <button onclick="closeCustomModal(false)" class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium hover:bg-slate-200 transition">Cancel</button>
-                <button onclick="closeCustomModal(true)" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition">Delete</button>
+                <button onclick="closeCustomModal(false)" class="px-4 py-2 bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-100 transition">Cancel</button>
+                <button onclick="closeCustomModal(true)" class="px-4 py-2 bg-red-500 text-white rounded-xl text-xs font-semibold hover:bg-red-600 transition">Delete</button>
             `;
             
             openModalElement();
@@ -606,6 +695,16 @@
                 modalResolveCallback = null;
             }
         }, 200);
+    }
+
+    // Fullscreen observation/screenshot viewer
+    window.openFullscreenImage = function(src) {
+        document.getElementById('custom-modal-title').innerText = "Site Observation Reference";
+        document.getElementById('custom-modal-message').innerHTML = `<img src="${src}" class="w-full max-h-[450px] object-contain rounded-xl border border-slate-100 shadow-inner" />`;
+        document.getElementById('custom-modal-actions').innerHTML = `
+            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">Close Preview</button>
+        `;
+        openModalElement();
     }
 
     // --- Database Status Indicator Controller ---
@@ -641,26 +740,84 @@
         }
     }
 
-    // Initialize UI
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-      document.getElementById('frm-date').value = formData.date;
+    // --- Cloud Config & Logo Handlers ---
+    function loadConfigFromCloud() {
+      if (!currentUser || !db) return;
 
-      // Handle saved API key UI state
-      if(userApiKey) {
-        document.getElementById('api-key-input').value = userApiKey;
-        const indicator = document.getElementById('api-indicator');
-        indicator.className = "w-3 h-3 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)] bg-green-500 transition-colors duration-300";
-        indicator.title = "API Connected";
-        document.getElementById('connect-btn').innerText = "Connected";
+      // Listen to Stats
+      const statsRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard');
+      onSnapshot(statsRef, (docSnap) => {
+        if (docSnap.exists()) {
+          dashboardStats = docSnap.data();
+          document.getElementById('stat-avg-workforce').value = dashboardStats.avgWorkforce || '350';
+          document.getElementById('stat-safety-incidents').value = dashboardStats.safetyIncidents || '0';
+          document.getElementById('stat-days-active').value = dashboardStats.daysActive || '245';
+          document.getElementById('stat-remaining-days').value = dashboardStats.remainingDays || '120';
+        }
+      });
+
+      // Listen to Logo
+      const logoRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo');
+      onSnapshot(logoRef, (docSnap) => {
+        if (docSnap.exists()) {
+          companyLogoBase64 = docSnap.data().image;
+          const img = document.getElementById('dashboard-logo-img');
+          if (companyLogoBase64 && img) {
+            img.src = companyLogoBase64;
+            img.classList.remove('hidden');
+            document.getElementById('logo-btn-text').innerText = 'Change Logo';
+          }
+        }
+      });
+
+      // Listen to Profile
+      const profileRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile');
+      onSnapshot(profileRef, (docSnap) => {
+        if (docSnap.exists()) {
+          globalProfile = docSnap.data();
+          updateProfileUI();
+        }
+      });
+    }
+
+    function updateProfileUI() {
+      // Update Name Spans on Dashboard Header
+      const nameSpans = document.querySelectorAll('.profile-name-span');
+      nameSpans.forEach(span => span.innerText = globalProfile.name);
+
+      // Sidebar Profile Info
+      document.getElementById('sidebar-profile-name').innerText = globalProfile.name;
+      document.getElementById('sidebar-profile-role').innerText = globalProfile.role;
+
+      // Avatar Initials
+      const initials = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      document.getElementById('sidebar-profile-avatar').innerText = initials;
+
+      // Settings Inputs
+      const nameInput = document.getElementById('settings-profile-name');
+      const roleInput = document.getElementById('settings-profile-role');
+      const emailInput = document.getElementById('settings-profile-email');
+      if (nameInput) nameInput.value = globalProfile.name;
+      if (roleInput) roleInput.value = globalProfile.role;
+      if (emailInput) emailInput.value = globalProfile.email;
+    }
+
+    window.saveProfileToCloud = async function() {
+      if (!currentUser || !db) return;
+      globalProfile.name = document.getElementById('settings-profile-name').value.trim();
+      globalProfile.role = document.getElementById('settings-profile-role').value.trim();
+      globalProfile.email = document.getElementById('settings-profile-email').value.trim();
+
+      try {
+        const profileRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile');
+        await setDoc(profileRef, globalProfile);
+        updateProfileUI();
+        toggleProfileLock(false);
+        showCustomAlert("Success", "Profile updated and synchronized to cloud!");
+      } catch (e) {
+        showCustomAlert("Error", "Failed to save profile: " + e.message);
       }
-      
-      // If Firebase failed to initialize at all, set status to fallback
-      if(!db) {
-          setDbStatus('fallback');
-          updateReportsTables();
-      }
-    });
+    }
 
     // --- Cloud Database Handlers ---
     function loadReportsFromCloud() {
@@ -675,6 +832,15 @@
             // Sort by newest first
             reportsList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
             updateReportsTables();
+            
+            // If currently viewing a report, refresh to capture live comment updates from Firestore
+            if(currentView === 'view_report' && generatedReport) {
+                const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId);
+                if(refreshedReport) {
+                    generatedReport = refreshedReport;
+                    renderViewReport();
+                }
+            }
         }, (error) => {
             console.error("Firestore loading error:", error);
             setDbStatus('error', "Database permission denied", "Make sure your Firestore Database rules allow reading and writing. Set them to test-mode (allow read, write: if true;) to test your app securely.");
@@ -716,13 +882,81 @@
         }
     };
 
-    window.viewArchivedReport = function(dbId) {
+    window.viewArchivedReport = async function(dbId) {
         const report = reportsList.find(r => r.dbId === dbId);
         if(!report) return;
         generatedReport = report; 
         renderViewReport();
         switchView('view_report');
+
+        // Increment view count in Firebase
+        if (db && currentUser) {
+          try {
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', dbId);
+            const now = new Date();
+            const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const viewerLog = `${globalProfile.name} (${globalProfile.role}) viewed at ${formattedTime}`;
+            
+            await updateDoc(reportRef, {
+              views: increment(1),
+              viewers: arrayUnion(viewerLog)
+            });
+          } catch(e) {
+            console.error("Error updating view metrics:", e);
+          }
+        }
     };
+
+    // --- Interactive Live Demo Pre-population System ---
+    window.loadSampleReport = function() {
+       const demoReport = {
+          dbId: "demo-report-hash-123",
+          projectName: "Al-Reem Residential Tower (Saudi Arabia)",
+          clientName: "Dar Al Arkan Developers",
+          supervisionConsultant: "TYA Associates",
+          pmcName: "MAB Consult",
+          location: "Riyadh, Saudi Arabia",
+          date: new Date().toISOString().split('T')[0],
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          preparedBy: "Hasnat Safdar",
+          status: "Generated",
+          reviewStatus: "Open", // Active Open Remark
+          reviewRemarks: "Honeycomb structural issue identified at the Lift Core wall joints on Sector B of the 14th Floor. Corrective concrete chipping and epoxy Sika grout injection required.",
+          reviewActionTaken: "Contractor chipped away the loose aggregate, applied high-grade Sika Grout-214 epoxy, and is awaiting inspection.",
+          reviewComments: [
+             {
+                id: "c1",
+                user: "Supervision Lead (TYA)",
+                role: "Supervision Consultant",
+                time: "10:15 AM",
+                text: "Concrete structural honeycomb visible on sector B joints. Shuttering for the 15th-floor deck cannot proceed until this is certified.",
+                image: "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=600&auto=format&fit=crop"
+             }
+          ],
+          markdown: `# Daily Progress Report\n**Date:** ${new Date().toLocaleDateString()} | **Project:** Al-Reem Residential Tower\n\n## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A. Steel reinforcement inspection and conduit checkouts were completed.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **MEP Works:** Finished cable tray installation and wiring layouts in the service shafts of Floors 10-12.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule with approximately 74% structural concrete completion.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE. Fall protection nets have been re-anchored on the structural perimeter walls. Shuttering inspect on Sector B flagged one honeycomb issue.`,
+          photos: [
+             {
+                id: "p1",
+                url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop",
+                category: "Structural Works",
+                aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom. All safety scaffolding intact."
+             }
+          ],
+          views: 3,
+          viewers: ["Hasnat Safdar (App Developer) viewed at 9:00 AM", "Audit Lead (TYA) viewed at 10:15 AM"]
+       };
+
+       // Push to local list if not already there
+       if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
+          reportsList.unshift(demoReport);
+          updateReportsTables();
+          
+          if(db && currentUser) {
+             saveReportToCloud(demoReport);
+          }
+       }
+       viewArchivedReport(demoReport.dbId);
+    }
 
     // --- Navigation ---
     window.switchView = function(viewName) {
@@ -733,9 +967,9 @@
       // Update sidebar styling
       document.querySelectorAll('.nav-btn').forEach(btn => {
         if(btn.dataset.target === viewName) {
-          btn.className = 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors bg-blue-600 text-white';
+          btn.className = 'nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10';
         } else {
-          btn.className = 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors hover:bg-slate-800 text-slate-300';
+          btn.className = 'nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm';
         }
       });
       window.scrollTo(0, 0);
@@ -802,20 +1036,42 @@
       formData[field] = value;
     }
     
-    window.updateStat = function(field, value) {
+    window.updateStat = async function(field, value) {
       dashboardStats[field] = value;
+      if (db && currentUser) {
+        try {
+          const statsRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard');
+          await setDoc(statsRef, dashboardStats);
+          setDbStatus('connected');
+        } catch (e) {
+          console.error("Error saving stats to cloud:", e);
+          setDbStatus('error', "Failed to sync dashboard stats", e.message);
+        }
+      }
     }
 
     window.handleLogoUpload = function(event) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         companyLogoBase64 = reader.result;
         const img = document.getElementById('dashboard-logo-img');
         img.src = companyLogoBase64;
         img.classList.remove('hidden');
         document.getElementById('logo-btn-text').innerText = 'Change Logo';
+
+        // Sync Logo to cloud config
+        if (db && currentUser) {
+          try {
+            const logoRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo');
+            await setDoc(logoRef, { image: companyLogoBase64 });
+            setDbStatus('connected');
+          } catch(e) {
+            console.error("Error saving logo to cloud:", e);
+            setDbStatus('error', "Failed to sync Company Logo to cloud", e.message);
+          }
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -870,6 +1126,7 @@
       const photo = photos.find(p => p.id === id);
       if (!photo) return;
 
+      // Update UI to analyzing state
       photo.isAnalyzing = true;
       renderPhotos();
 
@@ -906,10 +1163,12 @@ Write using professional engineering language suitable for a daily construction 
       const container = document.getElementById('photo-list-container');
       if (photos.length === 0) {
         container.innerHTML = `
-          <div class="border-2 border-dashed border-slate-300 rounded-xl p-12 text-center">
-            <i data-lucide="camera" class="mx-auto text-slate-400 mb-4 w-12 h-12"></i>
-            <p class="text-slate-600 font-medium">No photos uploaded yet.</p>
-            <p class="text-sm text-slate-400 mt-1">Upload site images to automatically generate progress descriptions using Vision AI.</p>
+          <div class="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center bg-slate-50/40">
+            <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100">
+              <i data-lucide="camera" class="text-slate-400 w-7 h-7"></i>
+            </div>
+            <p class="text-slate-600 font-semibold text-sm">No photos uploaded yet.</p>
+            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Upload site images to automatically generate professional progress descriptions using Vision AI.</p>
           </div>
         `;
         lucide.createIcons();
@@ -978,14 +1237,14 @@ Write using professional engineering language suitable for a daily construction 
     function renderDocuments() {
       const container = document.getElementById('documents-list-container');
       if (documents.length === 0) {
-        container.innerHTML = `<p class="text-slate-500 text-center py-8">No documents uploaded yet.</p>`;
+        container.innerHTML = `<p class="text-slate-500 text-center py-8 text-sm">No documents uploaded yet.</p>`;
         return;
       }
       
       let html = '<div class="space-y-4">';
       documents.forEach(doc => {
         html += `
-          <div class="flex items-center justify-between p-4 border border-slate-200 rounded-lg bg-white hover:shadow-sm transition">
+          <div class="flex items-center justify-between p-4 border border-slate-200 rounded-xl bg-white hover:shadow-sm transition">
             <div class="flex items-center gap-4">
               <div class="p-2 bg-slate-100 rounded-lg">
                 <i data-lucide="file-text" class="text-slate-600 w-6 h-6"></i>
@@ -1078,11 +1337,14 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         const payload = { contents: [{ parts: [{ text: prompt }] }] };
         const reportMarkdown = await callGemini(payload);
 
-        // Build report object
+        const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        // Build report object with Views & Audit Tracking initialized
         const newReport = {
-          dbId: Math.random().toString(36).substr(2, 9), // Fallback local ID
+          dbId: Math.random().toString(36).substr(2, 9), 
           markdown: reportMarkdown,
           date: formData.date,
+          time: currentLocalTime,
           projectName: formData.projectName || 'Untitled Project',
           clientName: formData.clientName || 'Not specified',
           supervisionConsultant: formData.supervisionConsultant || 'Not specified',
@@ -1090,8 +1352,14 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
           location: formData.location || 'Not specified',
           photos: [...photos],
           logo: companyLogoBase64,
-          preparedBy: 'Hasnat Safdar',
-          status: 'Generated'
+          preparedBy: globalProfile.name,
+          status: 'Generated',
+          reviewStatus: 'Open', // Default review state
+          reviewRemarks: '',
+          reviewActionTaken: '',
+          reviewComments: [],
+          views: 1, 
+          viewers: [`${globalProfile.name} (${globalProfile.role}) created and viewed at ${new Date().toLocaleDateString()} ${currentLocalTime}`]
         };
         
         generatedReport = newReport;
@@ -1124,29 +1392,38 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
       
       const renderTableHtml = () => {
         if (reportsList.length === 0) {
-          return `<tr><td colspan="5" class="py-8 text-center text-slate-500">No reports generated yet.</td></tr>`;
+          return `<tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" or "Load Demo Report" to view.</td></tr>`;
         }
-        return reportsList.map(r => `
-          <tr class="border-b border-slate-100 hover:bg-slate-50">
-            <td class="py-4 text-sm text-slate-900">${r.date}</td>
-            <td class="py-4 text-sm text-slate-900">${r.projectName}</td>
-            <td class="py-4 text-sm text-slate-500">${r.preparedBy}</td>
-            <td class="py-4">
-              <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 flex items-center w-max gap-1">
-                <i data-lucide="check-circle" class="w-3 h-3"></i> ${r.status}
-              </span>
-            </td>
-            <td class="py-4 text-right flex justify-end gap-3">
-               <button class="text-slate-400 hover:text-slate-700 transition" title="Download Word Doc">
-                 <i data-lucide="download" class="w-4 h-4"></i>
-               </button>
-               <button class="text-red-400 hover:text-red-600 transition" title="Delete Report" onclick="deleteReport('${r.dbId}')">
-                 <i data-lucide="trash-2" class="w-4 h-4"></i>
-               </button>
-               <button class="text-blue-600 hover:text-blue-800 text-sm font-medium" onclick="viewArchivedReport('${r.dbId}')">View PDF</button>
-            </td>
-          </tr>
-        `).join('');
+        return reportsList.map(r => {
+          const rStatus = r.status || 'Generated';
+          const rReviewStatus = r.reviewStatus || 'Open';
+          return `
+            <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
+              <td class="py-4 text-sm text-slate-900 font-semibold">${r.date} <span class="text-slate-400 text-[10px] font-normal ml-1 bg-slate-100 px-1.5 py-0.5 rounded-md">${r.time || ''}</span></td>
+              <td class="py-4 text-sm text-slate-700 font-medium">${r.projectName}</td>
+              <td class="py-4 text-sm text-slate-500">${r.preparedBy || 'Hasnat Safdar'}</td>
+              <td class="py-4">
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 flex items-center w-max gap-1 border border-emerald-100/60 shadow-sm">
+                    <i data-lucide="check-circle" class="w-3 h-3"></i> ${rStatus}
+                  </span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center w-max gap-1 ${rReviewStatus === 'Closed' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100/60 shadow-sm' : 'bg-rose-50 text-rose-700 border border-rose-100/60 shadow-sm'}">
+                    <i data-lucide="${rReviewStatus === 'Closed' ? 'check-square' : 'alert-circle'}" class="w-3 h-3"></i> Audit: ${rReviewStatus}
+                  </span>
+                </div>
+              </td>
+              <td class="py-4 text-right flex justify-end gap-2.5">
+                 <button class="p-2 hover:bg-slate-100 text-slate-400 hover:text-slate-700 rounded-lg transition" title="Download Word Doc">
+                   <i data-lucide="download" class="w-4 h-4"></i>
+                 </button>
+                 <button class="p-2 hover:bg-red-50 text-red-400 hover:text-red-600 rounded-lg transition" title="Delete Report" onclick="deleteReport('${r.dbId}')">
+                   <i data-lucide="trash-2" class="w-4 h-4"></i>
+                 </button>
+                 <button class="text-indigo-600 hover:text-indigo-800 text-xs font-bold bg-indigo-50/50 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition" onclick="viewArchivedReport('${r.dbId}')">View PDF</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
       };
 
       const html = renderTableHtml();
@@ -1160,24 +1437,64 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
       if (!generatedReport) return;
       const paper = document.getElementById('report-paper');
       
+      // Access View History details rendered in report
+      const viewsCount = generatedReport.views || 0;
+      const viewersList = generatedReport.viewers || [];
+      const viewersHtml = viewersList.length > 0 ? 
+        `<div class="mt-4 p-4 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 print-hidden">
+           <p class="font-semibold flex items-center gap-1.5 text-slate-800 mb-1.5"><i data-lucide="eye" class="w-3.5 h-3.5 text-slate-400"></i> Access & View Log (${viewsCount} views):</p>
+           <ul class="list-disc list-inside mt-1 space-y-1 max-h-24 overflow-y-auto">
+             ${viewersList.map(v => `<li>${v}</li>`).join('')}
+           </ul>
+         </div>` : '';
+
+      // Review Details to display printed on report
+      const rStatus = generatedReport.reviewStatus || 'Open';
+      const rRemarks = generatedReport.reviewRemarks || '';
+      const rActionTaken = generatedReport.reviewActionTaken || '';
+      const rReviewSection = `
+        <div class="mt-12 pt-8 border-t-2 border-slate-200 break-inside-avoid">
+           <div class="flex items-center justify-between border-b pb-2 mb-4">
+             <h2 class="text-xl font-bold text-slate-900">Consultant Review & Action Logs</h2>
+             <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${rStatus === 'Closed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}">
+               Status: ${rStatus}
+             </span>
+           </div>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+               <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="edit-3" class="w-4 h-4 text-slate-500"></i> Supervision Consultant Remarks:</p>
+               <p class="text-slate-600 italic whitespace-pre-line">${rRemarks || 'No remarks recorded.'}</p>
+             </div>
+             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+               <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="check-square" class="w-4 h-4 text-slate-500"></i> Corrective Action Taken:</p>
+               <p class="text-slate-600 italic whitespace-pre-line">${rActionTaken || 'No corrective action recorded.'}</p>
+             </div>
+           </div>
+        </div>
+      `;
+
       let html = `
-        <div class="border-b-4 border-slate-800 pb-6 mb-8 flex justify-between items-end">
+        <!-- Professional Architecture-Grade Document Header -->
+        <div class="border-b-4 border-slate-900 pb-6 mb-8 flex justify-between items-end">
           <div>
-            ${generatedReport.logo ? `<img src="${generatedReport.logo}" alt="Company Logo" class="h-16 mb-4 object-contain" />` : ''}
+            ${generatedReport.logo ? `<img src="${generatedReport.logo}" alt="Company Logo" class="h-16 mb-4 object-contain rounded-lg p-1 bg-white border border-slate-200 shadow-sm" />` : ''}
             <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Daily Progress Report</h1>
-            <p class="text-lg text-slate-600 mt-2 font-medium">${generatedReport.projectName}</p>
+            <p class="text-md text-slate-500 mt-1 font-semibold tracking-wide">${generatedReport.projectName}</p>
           </div>
-          <div class="text-right text-sm text-slate-600 space-y-1">
-            <p><strong>Date:</strong> ${generatedReport.date}</p>
-            <p><strong>Client:</strong> ${generatedReport.clientName}</p>
-            <p><strong>Supervision Consultant:</strong> ${generatedReport.supervisionConsultant || 'N/A'}</p>
-            <p><strong>PMC:</strong> ${generatedReport.pmcName || 'N/A'}</p>
-            <p><strong>Location:</strong> ${generatedReport.location}</p>
-            <p><strong>Report #:</strong> DPR-${generatedReport.date.replace(/-/g, '')}</p>
+          <div class="text-right text-xs text-slate-500 space-y-1.5 font-medium leading-relaxed">
+            <p><strong class="text-slate-800">Date:</strong> ${generatedReport.date}</p>
+            <p><strong class="text-slate-800">Time:</strong> ${generatedReport.time || 'N/A'}</p>
+            <p><strong class="text-slate-800">Client:</strong> ${generatedReport.clientName}</p>
+            <p><strong class="text-slate-800">Supervision Consultant:</strong> ${generatedReport.supervisionConsultant || 'N/A'}</p>
+            <p><strong class="text-slate-800">PMC:</strong> ${generatedReport.pmcName || 'N/A'}</p>
+            <p><strong class="text-slate-800">Location:</strong> ${generatedReport.location}</p>
+            <p class="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-bold uppercase tracking-wider inline-block mt-1">DPR-${generatedReport.date.replace(/-/g, '')}</p>
           </div>
         </div>
 
-        <div class="prose prose-slate max-w-none prose-h1:text-2xl prose-h1:border-b prose-h1:pb-2 prose-h2:text-xl prose-h2:mt-8 prose-h2:mb-4 prose-p:text-slate-700 prose-li:text-slate-700">
+        ${viewersHtml}
+
+        <div class="prose prose-slate max-w-none prose-h1:text-xl prose-h1:font-extrabold prose-h1:text-slate-900 prose-h1:border-b prose-h1:border-slate-100 prose-h1:pb-2 prose-h2:text-lg prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-3 prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600 mt-6">
           ${marked.parse(generatedReport.markdown)}
         </div>
       `;
@@ -1189,10 +1506,10 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
             <div class="grid grid-cols-2 gap-8">
               ${generatedReport.photos.map((photo, i) => `
                 <div class="break-inside-avoid">
-                  ${photo.url ? `<img src="${photo.url}" class="w-full h-64 object-cover border border-slate-300 rounded-sm" alt="Site Progress" />` : `<div class="w-full h-64 border border-slate-300 rounded-sm bg-slate-100 flex items-center justify-center text-slate-400 text-sm">Image permanently archived in text form.</div>`}
-                  <div class="mt-3 text-sm text-slate-700">
-                    <p class="font-bold">Photo ${i + 1} - ${photo.category}</p>
-                    <p class="mt-1 italic">${photo.aiText}</p>
+                  ${photo.url ? `<img src="${photo.url}" class="w-full h-64 object-cover border border-slate-200 rounded-xl shadow-sm" alt="Site Progress" />` : `<div class="w-full h-64 border border-slate-200 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 text-xs font-semibold">Image permanently archived in text form.</div>`}
+                  <div class="mt-3 text-xs text-slate-600 leading-relaxed">
+                    <p class="font-bold text-slate-800 text-sm">Photo ${i + 1} - ${photo.category}</p>
+                    <p class="mt-1.5 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100">${photo.aiText}</p>
                   </div>
                 </div>
               `).join('')}
@@ -1201,22 +1518,284 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         `;
       }
 
+      // Add audit logs directly onto the generated report
+      html += rReviewSection;
+
       html += `
         <div class="mt-16 pt-16 border-t-2 border-slate-800 flex justify-between">
           <div class="w-1/3 text-center">
-            <div class="border-b border-slate-400 h-16 mb-2"></div>
-            <p class="font-bold text-slate-900">Prepared By</p>
-            <p class="text-sm text-slate-500">Hasnat Safdar</p>
+            <div class="border-b border-slate-300 h-16 mb-2"></div>
+            <p class="font-bold text-slate-900 text-sm">Prepared By</p>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">${generatedReport.preparedBy || 'Hasnat Safdar'}</p>
           </div>
           <div class="w-1/3 text-center">
-            <div class="border-b border-slate-400 h-16 mb-2"></div>
-            <p class="font-bold text-slate-900">Reviewed By</p>
-            <p class="text-sm text-slate-500">Project Manager</p>
+            <div class="border-b border-slate-300 h-16 mb-2"></div>
+            <p class="font-bold text-slate-900 text-sm">Reviewed By</p>
+            <p class="text-xs text-slate-400 font-medium mt-0.5">Project Manager</p>
           </div>
         </div>
       `;
 
       paper.innerHTML = html;
+      lucide.createIcons();
+
+      // Render the adjacent interactive review timeline and status sidebar
+      renderReviewPanel();
+    }
+
+    // --- Dynamic Review & Collaboration Sidebar Panel Generator ---
+    function renderReviewPanel() {
+      const panel = document.getElementById('review-collab-panel');
+      if (!panel || !generatedReport) return;
+
+      const status = generatedReport.reviewStatus || 'Open';
+      const remarks = generatedReport.reviewRemarks || '';
+      const actionTaken = generatedReport.reviewActionTaken || '';
+      const comments = generatedReport.reviewComments || [];
+
+      panel.innerHTML = `
+        <!-- Review Status Management -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
+              <i data-lucide="check-square" class="text-indigo-500 w-4 h-4"></i>
+              Audit & Verification
+            </h3>
+            <span id="badge-status" class="px-2.5 py-1 rounded-full text-xs font-bold ${status === 'Closed' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'}">
+              ${status}
+            </span>
+          </div>
+          
+          <div class="space-y-3">
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Set Audit Status</label>
+              <select id="review-status-select" onchange="updateReviewStatusLocally(this.value)" class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 cursor-pointer">
+                <option value="Open" ${status === 'Open' ? 'selected' : ''}>🔴 Open - Action Required</option>
+                <option value="Closed" ${status === 'Closed' ? 'selected' : ''}>🟢 Closed - Resolved</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Supervision Consultant Remarks</label>
+              <textarea id="review-remarks-input" placeholder="Enter formal review or audit remarks..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${remarks}</textarea>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Action Taken / Resolution</label>
+              <textarea id="review-action-input" placeholder="Actions taken to resolve remarks..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${actionTaken}</textarea>
+            </div>
+
+            <button onclick="saveReviewDetails(this)" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
+              <i data-lucide="save" class="w-3.5 h-3.5"></i>
+              Save Status & Remarks
+            </button>
+          </div>
+        </div>
+
+        <!-- Discussion, Feedback & Screenshot Uploads -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
+          <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
+            <i data-lucide="message-square" class="text-indigo-500 w-4 h-4"></i>
+            Clarifications & Feedback
+          </h3>
+
+          <!-- Post Comment Form -->
+          <div class="space-y-3 bg-slate-50/50 p-3 rounded-xl border border-slate-100/60">
+            <p class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Ask Update / Point out issue</p>
+            
+            <textarea id="collab-comment-text" placeholder="Add comment, request update..." class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-white h-16 resize-none"></textarea>
+            
+            <!-- Screenshot Attachment Action -->
+            <div class="flex items-center justify-between gap-2">
+              <div class="relative overflow-hidden flex-1">
+                <input type="file" id="collab-screenshot-input" accept="image/*" onchange="previewCollabScreenshot(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
+                <button class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 py-1.5 px-3 rounded-xl text-[10px] font-bold transition flex items-center justify-center gap-1.5">
+                  <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-400"></i>
+                  <span id="screenshot-btn-label">Add Screenshot</span>
+                </button>
+              </div>
+              <button onclick="postCollabComment(this)" class="bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-4 rounded-xl text-[10px] font-bold transition">Send</button>
+            </div>
+            
+            <!-- Small screenshot preview thumbnail -->
+            <div id="screenshot-preview-container" class="hidden relative w-16 h-16 border border-slate-200 rounded-lg overflow-hidden mt-1.5 bg-white shadow-sm">
+              <img id="screenshot-preview-img" src="" class="w-full h-full object-cover" />
+              <button onclick="clearCollabScreenshot()" class="absolute top-0.5 right-0.5 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Comment History Timeline -->
+          <div id="collab-comments-feed" class="space-y-3.5 max-h-72 overflow-y-auto pr-1">
+            ${comments.length === 0 ? `
+              <p class="text-[11px] text-slate-400 text-center py-4">No comments or screenshots uploaded yet.</p>
+            ` : comments.map(c => `
+              <div class="border-b border-slate-100 pb-3 last:border-0 last:pb-0">
+                <div class="flex items-start justify-between gap-1.5">
+                  <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-lg bg-indigo-50 flex items-center justify-center font-bold text-[9px] text-indigo-600">
+                      ${c.user.split(' ').map(n=>n[0]).join('').toUpperCase()}
+                    </div>
+                    <div>
+                      <p class="text-[11px] font-bold text-slate-700">${c.user}</p>
+                      <p class="text-[9px] text-slate-400 font-medium">${c.role} • ${c.time}</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-xs text-slate-600 mt-2 whitespace-pre-line leading-relaxed bg-slate-50/50 p-2 rounded-lg border border-slate-100">${c.text}</p>
+                ${c.image ? `
+                  <div class="mt-2 rounded-lg border border-slate-200 overflow-hidden bg-slate-50 max-w-[180px] cursor-pointer hover:opacity-90 transition shadow-sm" onclick="openFullscreenImage('${c.image}')" title="Click to view full screenshot">
+                    <img src="${c.image}" class="w-full h-20 object-cover" alt="Review reference" />
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // --- Collaboration Panel Actions Handlers ---
+    window.updateReviewStatusLocally = function(val) {
+      const badge = document.getElementById('badge-status');
+      if(!badge) return;
+      badge.innerText = val;
+      if(val === 'Closed') {
+         badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100";
+      } else {
+         badge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-100";
+      }
+    }
+
+    window.previewCollabScreenshot = function(event) {
+      const file = event.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+         tempScreenshotBase64 = reader.result;
+         document.getElementById('screenshot-preview-img').src = tempScreenshotBase64;
+         document.getElementById('screenshot-preview-container').classList.remove('hidden');
+         document.getElementById('screenshot-btn-label').innerText = "Change Image";
+         lucide.createIcons();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.clearCollabScreenshot = function() {
+      tempScreenshotBase64 = null;
+      const fileInput = document.getElementById('collab-screenshot-input');
+      if (fileInput) fileInput.value = '';
+      document.getElementById('screenshot-preview-container').classList.add('hidden');
+      document.getElementById('screenshot-btn-label').innerText = "Add Screenshot";
+    }
+
+    window.postCollabComment = async function(btn) {
+      const commentInput = document.getElementById('collab-comment-text');
+      const text = commentInput.value.trim();
+      if(!text && !tempScreenshotBase64) {
+         return showCustomAlert("Input Required", "Please enter a comment or attach a screenshot to request an update.");
+      }
+
+      btn.disabled = true;
+      const originalText = btn.innerText;
+      btn.innerText = "...";
+
+      const now = new Date();
+      const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const newComment = {
+         id: Math.random().toString(36).substr(2, 9),
+         user: globalProfile.name,
+         role: globalProfile.role,
+         time: formattedTime,
+         text: text,
+         image: tempScreenshotBase64 
+      };
+
+      if(!generatedReport.reviewComments) generatedReport.reviewComments = [];
+      generatedReport.reviewComments.push(newComment);
+
+      // Sync locally in memory first
+      const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
+      if (cachedReportIndex !== -1) {
+         reportsList[cachedReportIndex].reviewComments = generatedReport.reviewComments;
+      }
+
+      // If connected to Cloud, update Firestore
+      if(db && currentUser && generatedReport.dbId) {
+         try {
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.dbId);
+            await updateDoc(reportRef, {
+               reviewComments: generatedReport.reviewComments
+            });
+            setDbStatus('connected');
+         } catch(e) {
+            console.error("Cloud comment save failure:", e);
+            setDbStatus('error', "Failed to post comment to cloud", e.message);
+         }
+      }
+
+      // Reset forms
+      commentInput.value = '';
+      clearCollabScreenshot();
+      
+      btn.disabled = false;
+      btn.innerText = originalText;
+
+      // Re-render
+      renderReviewPanel();
+      updateReportsTables();
+    }
+
+    window.saveReviewDetails = async function(btn) {
+      if(!generatedReport) return;
+      const status = document.getElementById('review-status-select').value;
+      const remarks = document.getElementById('review-remarks-input').value.trim();
+      const actionTaken = document.getElementById('review-action-input').value.trim();
+
+      btn.disabled = true;
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Saving...';
+      lucide.createIcons();
+
+      generatedReport.reviewStatus = status;
+      generatedReport.reviewRemarks = remarks;
+      generatedReport.reviewActionTaken = actionTaken;
+
+      // Sync locally in memory list
+      const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
+      if (cachedReportIndex !== -1) {
+         reportsList[cachedReportIndex].reviewStatus = status;
+         reportsList[cachedReportIndex].reviewRemarks = remarks;
+         reportsList[cachedReportIndex].reviewActionTaken = actionTaken;
+      }
+
+      if(db && currentUser && generatedReport.dbId) {
+         try {
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.dbId);
+            await updateDoc(reportRef, {
+               reviewStatus: status,
+               reviewRemarks: remarks,
+               reviewActionTaken: actionTaken
+            });
+            setDbStatus('connected');
+         } catch(e) {
+            console.error("Cloud review details save failure:", e);
+            setDbStatus('error', "Failed to sync review details", e.message);
+         }
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = originalHtml;
+      lucide.createIcons();
+
+      // Refresh display
+      renderViewReport(); 
+      renderReviewPanel();
+      updateReportsTables();
+      showCustomAlert("Saved Successfully", "Remarks, corrective actions, and open/closed status updated successfully!");
     }
 
     // --- Settings Profile Lock ---
