@@ -65,12 +65,12 @@
   <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
     <!-- Header Title Area -->
-    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-900 bg-slate-950">
+    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
           <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
         </div>
-        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction Reports</span>
+        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction daily reports</span>
       </div>
       <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
     </div>
@@ -100,7 +100,7 @@
         <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
         <div class="flex-1 min-w-0">
           <p id="sidebar-profile-name" class="text-sm font-semibold truncate text-slate-100">Hasnat Safdar</p>
-          <p id="sidebar-profile-role" class="text-[10px] text-slate-500 font-medium truncate uppercase tracking-wider">Project App Developer</p>
+          <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider font-semibold">Project App Developer</p>
         </div>
       </div>
       <!-- Database Connection Status Display -->
@@ -119,8 +119,8 @@
     <!-- API Key Bar -->
     <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
       <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-sm p-1.5 outline-none border-b border-slate-200 focus:border-indigo-500 w-48 bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-800 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-slate-900 transition flex items-center gap-2">
         Connect
       </button>
     </div>
@@ -138,7 +138,7 @@
           <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-12 max-w-[200px] object-contain hidden rounded-lg border border-slate-200 p-1 bg-white shadow-sm" />
           <div class="relative">
             <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-            <button class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
+            <button class="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
               <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
               <span id="logo-btn-text">Upload Logo</span>
             </button>
@@ -161,7 +161,7 @@
           <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Workforce</p>
-            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 3: Safety Incidents -->
@@ -169,7 +169,7 @@
           <div class="p-3.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Safety Incidents</p>
-            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 4: Days Active -->
@@ -177,7 +177,7 @@
           <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Days Active</p>
-            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 5: Remaining Days -->
@@ -550,12 +550,12 @@
     // Vercel Firebase Fallback Config
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
-      apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
-      authDomain: "daily-reports-a4499.firebaseapp.com",
-      projectId: "daily-reports-a4499",
-      storageBucket: "daily-reports-a4499.firebasestorage.app",
-      messagingSenderId: "5941305654",
-      appId: "1:5941305654:web:c9e883207294032b341397"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
     
     const firebaseConfig = isLocalOrVercel ? fallbackConfig : JSON.parse(__firebase_config);
@@ -827,7 +827,12 @@
         onSnapshot(reportsRef, (snapshot) => {
             reportsList = [];
             snapshot.forEach((doc) => {
-                reportsList.push({ dbId: doc.id, ...doc.data() });
+                const data = doc.data();
+                reportsList.push({ 
+                    ...data,
+                    docId: doc.id,
+                    dbId: data.dbId || doc.id // Align internal ID with the document key securely
+                });
             });
             // Sort by newest first
             reportsList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -835,7 +840,7 @@
             
             // If currently viewing a report, refresh to capture live comment updates from Firestore
             if(currentView === 'view_report' && generatedReport) {
-                const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId);
+                const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
                 if(refreshedReport) {
                     generatedReport = refreshedReport;
                     renderViewReport();
@@ -855,23 +860,33 @@
                 category: p.category,
                 aiText: p.aiText
             }));
-            const reportToSave = { ...reportData, photos: safePhotos, createdAt: reportData.createdAt || Date.now() };
             
-            // FIX: Use setDoc with reportData.dbId instead of addDoc!
-            // This guarantees the Firestore document ID is EXACTLY the same as our local report ID (dbId),
-            // resolving the "No document to update" error and allowing report deletions to work perfectly.
+            // Strip out massive logo base64 which is already saved globally on config/logo
+            const { logo, ...reportWithoutLogo } = reportData;
+            
+            const reportToSave = { 
+                ...reportWithoutLogo, 
+                photos: safePhotos, 
+                createdAt: reportData.createdAt || Date.now() 
+            };
+            
+            // Explicitly set the key as reportData.dbId to align doc key and in-app lookup references
             const reportDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId);
             await setDoc(reportDocRef, reportToSave);
             setDbStatus('connected');
         } catch(e) {
             console.error("Error saving to cloud:", e);
-            setDbStatus('error', "Failed to write report data to Cloud", "If authentication is enabled, make sure Firestore Rules are set to test-mode rules or permit anonymous user writes.");
+            setDbStatus('error', "Failed to write report data to Cloud", e.message);
+            throw e; // Rethrow to halt downstream state transitions on errors
         }
     }
 
     window.deleteReport = async function(dbId) {
         const proceed = await showCustomConfirm("Delete Report", "Are you sure you want to delete this report permanently from your records?");
         if (!proceed) return;
+        
+        const report = reportsList.find(r => r.dbId === dbId);
+        const targetId = (report && report.docId) ? report.docId : dbId;
         
         if (!currentUser || !db) {
             // Local fallback
@@ -880,7 +895,7 @@
             return;
         }
         try {
-            await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', dbId));
+            await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId));
         } catch(e) {
             showCustomAlert("Deletion Failed", "Failed to delete report: " + e.message);
         }
@@ -896,7 +911,8 @@
         // Increment view count in Firebase
         if (db && currentUser) {
           try {
-            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', dbId);
+            const targetId = report.docId || report.dbId;
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId);
             const now = new Date();
             const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const viewerLog = `${globalProfile.name} (${globalProfile.role}) viewed at ${formattedTime}`;
@@ -912,7 +928,7 @@
     };
 
     // --- Interactive Live Demo Pre-population System ---
-    window.loadSampleReport = function() {
+    window.loadSampleReport = async function() {
        const demoReport = {
           dbId: "demo-report-hash-123",
           projectName: "Al-Reem Residential Tower (Saudi Arabia)",
@@ -956,7 +972,7 @@
           updateReportsTables();
           
           if(db && currentUser) {
-             saveReportToCloud(demoReport);
+             await saveReportToCloud(demoReport);
           }
        }
        viewArchivedReport(demoReport.dbId);
@@ -1372,8 +1388,10 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         reportsList.unshift(newReport);
         updateReportsTables();
         
-        // Save to Firebase Cloud
-        if(db) saveReportToCloud(newReport);
+        // Save to Firebase Cloud - Await it so it exists before user views/reviews it
+        if(db) {
+            await saveReportToCloud(newReport);
+        }
 
         renderViewReport();
         switchView('view_report');
@@ -1477,11 +1495,14 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         </div>
       `;
 
+      // Fallback logo handler to prevent empty headers in cloud-restored reports
+      const activeLogo = generatedReport.logo || companyLogoBase64;
+
       let html = `
         <!-- Professional Architecture-Grade Document Header -->
         <div class="border-b-4 border-slate-900 pb-6 mb-8 flex justify-between items-end">
           <div>
-            ${generatedReport.logo ? `<img src="${generatedReport.logo}" alt="Company Logo" class="h-16 mb-4 object-contain rounded-lg p-1 bg-white border border-slate-200 shadow-sm" />` : ''}
+            ${activeLogo ? `<img src="${activeLogo}" alt="Company Logo" class="h-16 mb-4 object-contain rounded-lg p-1 bg-white border border-slate-200 shadow-sm" />` : ''}
             <h1 class="text-3xl font-black text-slate-900 uppercase tracking-tight">Daily Progress Report</h1>
             <p class="text-md text-slate-500 mt-1 font-semibold tracking-wide">${generatedReport.projectName}</p>
           </div>
@@ -1778,16 +1799,17 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
 
       if(db && currentUser && generatedReport.dbId) {
          try {
-            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.dbId);
+            const targetId = generatedReport.docId || generatedReport.dbId;
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId);
             await updateDoc(reportRef, {
                reviewStatus: status,
                reviewRemarks: remarks,
                reviewActionTaken: actionTaken
-            });
-            setDbStatus('connected');
+             });
+             setDbStatus('connected');
          } catch(e) {
-            console.error("Cloud review details save failure:", e);
-            setDbStatus('error', "Failed to sync review details", e.message);
+             console.error("Cloud review details save failure:", e);
+             setDbStatus('error', "Failed to sync review details", e.message);
          }
       }
 
