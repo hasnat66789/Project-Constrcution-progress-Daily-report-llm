@@ -124,7 +124,6 @@
 </head>
 <body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
-  <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
     <div class="p-5 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
@@ -133,7 +132,7 @@
         </div>
         <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Daily Reports</span>
       </div>
-      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-11">by TYA & Associates</span>
+      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-11">by Hasnat Safdar</span>
     </div>
     
     <nav class="flex-1 p-4 space-y-1.5" id="nav-menu">
@@ -156,10 +155,10 @@
     
     <div class="p-4 border-t border-slate-900 bg-slate-950/80">
       <div class="flex items-center gap-3 px-3 py-1">
-        <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">TY</div>
+        <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
         <div class="flex-1 min-w-0">
-          <p id="sidebar-profile-name" class="text-sm font-semibold truncate text-slate-100">TYA & Associates</p>
-          <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider font-semibold">Supervision</p>
+          <p id="sidebar-profile-name" class="text-sm font-semibold truncate text-slate-100">Hasnat Safdar</p>
+          <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider font-semibold">Project App Developer</p>
         </div>
       </div>
       <div class="px-3 pb-1 border-t border-slate-900/50 mt-3 pt-2.5 flex items-center justify-between">
@@ -171,7 +170,6 @@
     </div>
   </aside>
 
-  <!-- Main Content Area -->
   <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
     
     <!-- API Key Bar -->
@@ -183,14 +181,11 @@
       </button>
     </div>
 
-    <!-- VIEWS -->
-    
-    <!-- Dashboard View -->
     <section id="dashboard" class="view-section active pb-24">
       <header class="flex justify-between items-center mb-8 pr-72">
         <div>
           <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Dashboard</h1>
-          <p class="text-slate-500 text-sm mt-0.5">Welcome back, <span class="profile-name-span font-semibold text-indigo-600">TYA & Associates</span>. Here is your site overview.</p>
+          <p class="text-slate-500 text-sm mt-0.5">Welcome back, <span class="profile-name-span font-semibold text-indigo-600">Hasnat Safdar</span>. Here is your site overview.</p>
         </div>
         <div class="flex items-center gap-4">
           <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-12 max-w-[200px] object-contain hidden rounded-lg border border-slate-200 p-1 bg-white shadow-sm" />
@@ -273,7 +268,6 @@
       </div>
     </section>
 
-    <!-- Create Report View -->
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
@@ -563,15 +557,15 @@
             <div class="space-y-4">
               <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
-                <input type="text" id="settings-profile-name" value="TYA & Associates" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                <input type="text" id="settings-profile-name" value="Hasnat Safdar" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Role</label>
-                <input type="text" id="settings-profile-role" value="Supervision" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                <input type="text" id="settings-profile-role" value="Project App Developer" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
               <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Email Address</label>
-                <input type="email" id="settings-profile-email" value="reports@tya.com" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                <input type="email" id="settings-profile-email" value="hasnat@example.com" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
             </div>
             <button onclick="saveProfileToCloud()" class="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md shadow-indigo-100 transition">Save Profile</button>
@@ -635,12 +629,12 @@
 
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
+      authDomain: "daily-reports-a4499.firebaseapp.com",
+      projectId: "daily-reports-a4499",
+      storageBucket: "daily-reports-a4499.firebasestorage.app",
+      messagingSenderId: "5941305654",
+      appId: "1:5941305654:web:c9e883207294032b341397"
     };
     
     const firebaseConfig = isLocalOrVercel ? fallbackConfig : JSON.parse(__firebase_config);
@@ -690,7 +684,7 @@
 
     let dashboardStats = { avgWorkforce: '350', safetyIncidents: '0', daysActive: '245', remainingDays: '120' };
 
-    let globalProfile = { name: 'TYA & Associates', role: 'Supervision', email: 'reports@tya.com' };
+    let globalProfile = { name: 'Hasnat Safdar', role: 'Project App Developer', email: 'hasnat@example.com' };
 
     // --- Modal Logic ---
     let modalResolveCallback = null;
@@ -904,7 +898,7 @@
           reviewRemarks: "Honeycomb structural issue identified at the Lift Core wall joints on Sector B of the 14th Floor. Corrective concrete chipping required.", reviewActionTaken: "Contractor chipped away the loose aggregate and is awaiting inspection.", reviewComments: [],
           markdown: `## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE.\n\n## 5. Look Ahead Tracker\n| No | Zone | Location | Trade | Activity | Target Finish | Status/Remarks |\n|---|---|---|---|---|---|---|\n| 1 | Sec A | Fl 15 | Civil | Shuttering layout | 12/10/2026 | Ongoing |`,
           photos: [{ id: "demo_p1", url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop", category: "Structural Works", aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom." }],
-          views: 1, viewers: ["TYA & Associates (Supervision) viewed at 9:00 AM"]
+          views: 1, viewers: ["Hasnat Safdar (Project App Developer) viewed at 9:00 AM"]
        };
 
        if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
@@ -924,12 +918,12 @@
       tr.className = "border-b border-slate-100 hover:bg-slate-50 transition group";
       tr.innerHTML = `
         <td class="p-2 text-center text-slate-500 font-bold">${lookAheadRowCount}</td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500" placeholder="e.g., A"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500" placeholder="e.g., Lvl 5"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500" placeholder="e.g., MEP"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500" placeholder="e.g., HVAC Ducts"></td>
+        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., A"></td>
+        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., Lvl 5"></td>
+        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., MEP"></td>
+        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., HVAC Ducts"></td>
         <td class="p-2"><input type="date" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-[11px]"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500" placeholder="Ongoing"></td>
+        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="Ongoing"></td>
         <td class="p-2 text-center">
            <button onclick="removeLookAheadRow(this)" class="text-slate-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         </td>
@@ -967,6 +961,8 @@
 
       const now = new Date();
       files.forEach(file => {
+        const fileUrl = URL.createObjectURL(file); // Local blob URL for direct download
+        
         const docObj = {
           dbId: Math.random().toString(36).substr(2, 9),
           date: now.toISOString().split('T')[0],
@@ -975,11 +971,14 @@
           preparedBy: globalProfile.name,
           status: 'Manual Upload',
           isManualDoc: true,
-          fileUrl: URL.createObjectURL(file), // Storing local blob reference
+          fileUrl: fileUrl,
           fileName: file.name,
           fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB'
         };
         reportsList.unshift(docObj);
+        
+        // Push metadata to cloud if connected
+        if(db) saveReportToCloud(docObj);
       });
       
       updateReportsTables();
@@ -1093,7 +1092,7 @@
           location: formData.location || 'Not specified',
           photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
-          preparedBy: globalProfile.name,
+          preparedBy: "TYA & Associates",
           status: 'Generated',
           reviewStatus: 'Open', 
           reviewRemarks: '', reviewActionTaken: '', reviewComments: [],
@@ -1129,7 +1128,7 @@
                 <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
                   <td class="py-4 text-sm text-slate-900 font-semibold">${r.date} <span class="text-slate-400 text-[10px] font-normal ml-1 bg-slate-100 px-1.5 py-0.5 rounded-md">${r.time || ''}</span></td>
                   <td class="py-4 text-sm text-slate-700 font-medium">${r.projectName} <span class="text-xs text-slate-400 block">${r.fileSize}</span></td>
-                  <td class="py-4 text-sm text-slate-500">${r.preparedBy || 'TYA & Associates'}</td>
+                  <td class="py-4 text-sm text-slate-500">${r.preparedBy || 'Hasnat Safdar'}</td>
                   <td class="py-4">
                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center w-max gap-1 border border-slate-200/60 shadow-sm">
                       <i data-lucide="file" class="w-3 h-3"></i> Manual Upload
@@ -1298,8 +1297,6 @@
              content += `<h3>Photo ${i + 1} - ${photo.category}</h3>`;
              content += `<p><em>${photo.aiText}</em></p>`;
              if(photo.url) {
-                // Word will attempt to download the image if it's a URL, or embed if base64. 
-                // Using the inline base64 to ensure it saves within the doc.
                 content += `<img src="${photo.url}" width="400" /><br><br>`;
              }
          });
@@ -1334,7 +1331,7 @@
         
         generatedReport.markdown = res;
         generatedReport.projectName = generatedReport.projectName + " (مترجم)";
-        generatedReport.isArabic = true; // Flips RTL styles on render
+        generatedReport.isArabic = true; 
         
         if(db && currentUser && generatedReport.dbId) {
             await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), {
