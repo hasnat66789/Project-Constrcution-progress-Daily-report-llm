@@ -58,6 +58,50 @@
       border-color: #6366f1;
       box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
     }
+
+    /* Professional vertical rhythm and spacing overrides for report paper */
+    #report-paper h1, #report-paper h2, #report-paper h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      color: #0f172a !important; /* slate-900 */
+      font-weight: 800 !important;
+      line-height: 1.4 !important;
+    }
+    #report-paper h1 {
+      font-size: 1.75rem !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 1.25rem !important;
+      border-bottom: 2px solid #e2e8f0 !important;
+      padding-bottom: 0.65rem !important;
+    }
+    #report-paper h2 {
+      font-size: 1.3rem !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      border-bottom: 1px solid #f1f5f9 !important;
+      padding-bottom: 0.4rem !important;
+    }
+    #report-paper h3 {
+      font-size: 1.125rem !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+    #report-paper p {
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
+      color: #334155 !important; /* slate-700 */
+      margin-bottom: 1.25rem !important;
+    }
+    #report-paper ul, #report-paper ol {
+      margin-bottom: 1.25rem !important;
+      padding-left: 1.5rem !important;
+      list-style-type: disc !important;
+    }
+    #report-paper li {
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
+      color: #475569 !important; /* slate-600 */
+      margin-bottom: 0.5rem !important;
+    }
   </style>
 </head>
 <body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
@@ -70,7 +114,7 @@
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
           <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
         </div>
-        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction daily reports</span>
+        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction Reports</span>
       </div>
       <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
     </div>
@@ -119,8 +163,8 @@
     <!-- API Key Bar -->
     <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
       <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-sm p-1.5 outline-none border-b border-slate-200 focus:border-indigo-500 w-48 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-800 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-slate-900 transition flex items-center gap-2">
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-48 bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-slate-900 transition flex items-center gap-2">
         Connect
       </button>
     </div>
@@ -161,7 +205,7 @@
           <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Workforce</p>
-            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 3: Safety Incidents -->
@@ -169,7 +213,7 @@
           <div class="p-3.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Safety Incidents</p>
-            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 4: Days Active -->
@@ -177,7 +221,7 @@
           <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Days Active</p>
-            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-blue-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
+            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
           </div>
         </div>
         <!-- Card 5: Remaining Days -->
@@ -353,13 +397,99 @@
           </div>
         </div>
 
-        <!-- Generate Action -->
-        <div class="flex justify-end pt-4">
-          <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
-            <i data-lucide="file-text" id="gen-icon" class="w-5 h-5"></i>
-            <span id="gen-text">Generate Daily Report</span>
+        <!-- Step 1: Draft Trigger Action -->
+        <div class="flex justify-end pt-4" id="draft-button-container">
+          <button id="draft-report-btn" onclick="triggerAIDrafting()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
+            <i data-lucide="sparkles" id="draft-icon" class="w-5 h-5"></i>
+            <span id="draft-text">✨ Step 1: Draft Report Sections</span>
           </button>
         </div>
+
+        <!-- Section 4: Manual Review and Configuration Panel (Hidden until drafting is triggered) -->
+        <div id="manual-review-panel" class="hidden bg-white rounded-2xl shadow-sm border-2 border-indigo-100 p-6 space-y-6">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="edit-3" class="text-indigo-600 w-5 h-5"></i> Step 2: Manual Review & Section Configuration
+            </h2>
+            <p class="text-slate-500 text-xs mt-1">Check or uncheck sections to add or remove them from the final PDF. Modify drafted summaries to your preference.</p>
+          </div>
+
+          <!-- Section Checklist (Add / Remove Options) -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Include / Exclude Report Sections</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-summary" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Executive Summary
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-completed" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Completed Activities
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-status" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Progress Status
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-safety" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Safety & Quality
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-resources" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Site Resources
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-delays" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Delays & Issues
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-planned" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Planned Activities
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-photos" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Site Photo Log
+              </label>
+            </div>
+          </div>
+
+          <!-- Editable Draft Summaries -->
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Executive Summary Draft</label>
+                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
+              </div>
+              <textarea id="draft-exec-summary" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Executive Summary..."></textarea>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Activities Completed Today Draft</label>
+                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
+              </div>
+              <textarea id="draft-completed-today" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Activities Completed Today..."></textarea>
+            </div>
+
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Safety & Quality Observations Draft</label>
+                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
+              </div>
+              <textarea id="draft-safety-quality" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Safety Observations..."></textarea>
+            </div>
+          </div>
+
+          <!-- Final Compilation Trigger -->
+          <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+            <span class="text-xs text-slate-400 italic">Verify and edit above parameters before saving permanently.</span>
+            <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
+              <i data-lucide="check" id="gen-icon" class="w-5 h-5"></i>
+              <span id="gen-text">💾 Finalize & Publish Daily Report</span>
+            </button>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -374,7 +504,7 @@
           <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
           <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
             <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
-              <i data-lucide="upload" class="w-7 h-7"></i>
+              <i data-lucide="upload" class="text-blue-600 w-8 h-8"></i>
             </div>
             <div>
               <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
@@ -397,9 +527,9 @@
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Report Archives</h1>
         <p class="text-slate-500 text-sm">Search, filter, and audit all historic dailies saved directly on your cloud Firestore database.</p>
       </header>
-      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 max-w-6xl">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 max-w-6xl">
         <div class="flex justify-between items-center mb-6">
-          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs bg-slate-50/50 premium-input" />
+          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-slate-50/50 premium-input" />
           <button class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition">Export List</button>
         </div>
         <div class="overflow-x-auto">
@@ -430,7 +560,7 @@
       <div class="max-w-3xl space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-            <h2 class="text-base font-bold text-slate-900">Profile Information</h2>
+            <h2 class="text-lg font-bold text-slate-900">Profile Information</h2>
             <button id="lock-profile-btn" onclick="toggleProfileLock(false)" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1.5 hidden">
               <i data-lucide="lock" class="w-4 h-4"></i> Lock Profile
             </button>
@@ -550,12 +680,12 @@
     // Vercel Firebase Fallback Config
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
-      apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
-      authDomain: "daily-reports-a4499.firebaseapp.com",
-      projectId: "daily-reports-a4499",
-      storageBucket: "daily-reports-a4499.firebasestorage.app",
-      messagingSenderId: "5941305654",
-      appId: "1:5941305654:web:c9e883207294032b341397"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
     
     const firebaseConfig = isLocalOrVercel ? fallbackConfig : JSON.parse(__firebase_config);
@@ -658,7 +788,7 @@
     window.showCustomConfirm = function(title, message) {
         return new Promise((resolve) => {
             document.getElementById('custom-modal-title').innerText = title;
-            document.getElementById('custom-modal-message').innerText = message;
+            document.getElementById('custom-modal-message').innerHTML = message;
             
             modalResolveCallback = resolve;
             
@@ -831,7 +961,7 @@
                 reportsList.push({ 
                     ...data,
                     docId: doc.id,
-                    dbId: data.dbId || doc.id // Align internal ID with the document key securely
+                    dbId: data.dbId || doc.id // Align internal ID securely with the document key
                 });
             });
             // Sort by newest first
@@ -857,8 +987,10 @@
         try {
             // Remove massive image base64s to prevent Firebase 1MB document limit crashes
             const safePhotos = reportData.photos.map(p => ({
+                id: p.id,
                 category: p.category,
-                aiText: p.aiText
+                aiText: p.aiText,
+                mimeType: p.mimeType
             }));
             
             // Strip out massive logo base64 which is already saved globally on config/logo
@@ -873,6 +1005,19 @@
             // Explicitly set the key as reportData.dbId to align doc key and in-app lookup references
             const reportDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId);
             await setDoc(reportDocRef, reportToSave);
+
+            // SAVE ORIGINAL HIGH-RES IMAGES SECURELY IN A PHOTOS SUB-COLLECTION TO AVOID SIZE CRASHES
+            for (const p of reportData.photos) {
+               if(p.base64) {
+                   const photoDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id);
+                   await setDoc(photoDocRef, {
+                      base64: p.base64,
+                      mimeType: p.mimeType,
+                      id: p.id
+                   });
+               }
+            }
+
             setDbStatus('connected');
         } catch(e) {
             console.error("Error saving to cloud:", e);
@@ -895,7 +1040,15 @@
             return;
         }
         try {
+            // Delete main doc
             await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId));
+            
+            // Clean up photos sub-collection
+            if(report && report.photos) {
+               for (const p of report.photos) {
+                  await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
+               }
+            }
         } catch(e) {
             showCustomAlert("Deletion Failed", "Failed to delete report: " + e.message);
         }
@@ -904,6 +1057,38 @@
     window.viewArchivedReport = async function(dbId) {
         const report = reportsList.find(r => r.dbId === dbId);
         if(!report) return;
+
+        // Visual overlay loading
+        showCustomAlert("Retrieving Report", "Loading report parameters and fetching original high-resolution site photos from the database...");
+
+        // FETCH ORIGINAL SUB-COLLECTION PHOTOS IF CONNECTED TO CLOUD TO KEEP PICS INTACT ON VIEW
+        if (db && currentUser && report.photos && report.photos.length > 0) {
+           try {
+              const photosColRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', dbId, 'photos');
+              const photosSnapshot = await getDocs(photosColRef);
+              const cloudPhotosMap = {};
+              
+              photosSnapshot.forEach(doc => {
+                 const pData = doc.data();
+                 cloudPhotosMap[doc.id] = pData.base64;
+              });
+
+              // Hydrate base64 image data back to local URL structures
+              report.photos = report.photos.map(p => {
+                 if (cloudPhotosMap[p.id]) {
+                    return {
+                       ...p,
+                       url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudPhotosMap[p.id]}`
+                    };
+                 }
+                 return p;
+              });
+           } catch(err) {
+              console.warn("Failed to load sub-collection high-res images: ", err);
+           }
+        }
+
+        closeCustomModal(); // Close loading status alert
         generatedReport = report; 
         renderViewReport();
         switchView('view_report');
@@ -978,11 +1163,113 @@
        viewArchivedReport(demoReport.dbId);
     }
 
+    // --- STEP 1: AI Drafting Action and Wizard Panel Activator ---
+    window.triggerAIDrafting = async function() {
+       const btn = document.getElementById('draft-report-btn');
+       const icon = document.getElementById('draft-icon');
+       const text = document.getElementById('draft-text');
+
+       btn.disabled = true;
+       btn.classList.add('opacity-70');
+       icon.setAttribute('data-lucide', 'loader-2');
+       icon.classList.add('animate-spin');
+       text.innerText = "Drafting Report Sections...";
+       lucide.createIcons();
+
+       try {
+          // Prepare vision upload summaries to supply to the LLM contextual frame
+          let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'No AI description generated.'}`).join('\n\n');
+
+          const prompt = `You are a professional construction project manager preparing structural drafts for a Daily Progress Report. Based on the site parameters below, write three detailed section drafts.
+
+          PROJECT DETAILS:
+          Project Name: ${formData.projectName || 'Not specified'}
+          Client: ${formData.clientName || 'Not specified'}
+          Supervision Consultant: ${formData.supervisionConsultant || 'Not specified'}
+          PMC Name: ${formData.pmcName || 'Not specified'}
+          Location: ${formData.location || 'Not specified'}
+          Date: ${formData.date}
+          Weather: ${formData.weather}, Temp: ${formData.temperature}°C
+          Shift: ${formData.shift}
+
+          RESOURCES:
+          Workforce: ${formData.workforce || 'Not provided'}
+          Equipment: ${formData.equipment || 'Not provided'}
+          Visitors: ${formData.visitors || 'None'}
+
+          SITE OBSERVATIONS & ISSUES:
+          Delays/Issues: ${formData.delays}
+          Planned Activities Tomorrow: ${formData.plannedTomorrow}
+
+          PHOTO LOG OBSERVATIONS:
+          ${photoContext}
+
+          You must return EXACTLY this format so we can split the sections into individual edit fields:
+
+          [EXECUTIVE_SUMMARY]
+          Write a concise executive summary paragraph detailing overall progress made today.
+
+          [COMPLETED_ACTIVITIES]
+          Write a detailed, bulleted list summarizing the key activities accomplished today.
+
+          [SAFETY_QUALITY]
+          Write a detailed summary of safety and quality control observations on site.`;
+
+          const payload = { contents: [{ parts: [{ text: prompt }] }] };
+          const resultRaw = await callGemini(payload);
+
+          // Extract text sections using bracket indicators
+          let draftedSummary = "Progress successfully recorded for civil and structural works. Site works active.";
+          let draftedCompleted = "* Site mobilizations initiated.\n* Progress checks verified.";
+          let draftedSafety = "General safety checks validated. Laborers observed utilizing high-grade PPE guidelines.";
+
+          const execMatch = resultRaw.match(/\[EXECUTIVE_SUMMARY\]([\s\S]*?)(?=\[COMPLETED_ACTIVITIES\]|$)/i);
+          const completedMatch = resultRaw.match(/\[COMPLETED_ACTIVITIES\]([\s\S]*?)(?=\[SAFETY_QUALITY\]|$)/i);
+          const safetyMatch = resultRaw.match(/\[SAFETY_QUALITY\]([\s\S]*?)$/i);
+
+          if (execMatch) draftedSummary = execMatch[1].trim();
+          if (completedMatch) draftedCompleted = completedMatch[1].trim();
+          if (safetyMatch) draftedSafety = safetyMatch[1].trim();
+
+          // Populate editable textareas for Manual Review prior to compiled saving
+          document.getElementById('draft-exec-summary').value = draftedSummary;
+          document.getElementById('draft-completed-today').value = draftedCompleted;
+          document.getElementById('draft-safety-quality').value = draftedSafety;
+
+          // Activate/reveal Step 2 Manual Review Panel
+          document.getElementById('manual-review-panel').classList.remove('hidden');
+          document.getElementById('draft-button-container').classList.add('hidden');
+          
+          // Scroll cleanly to the editable audit draft
+          document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
+
+       } catch(e) {
+          showCustomAlert("AI Drafting Error", "Failed to compile AI drafts. Please verify your custom Gemini API key or proceed manually:\n\n" + e.message);
+          
+          // Show manual editor so user can write everything manually regardless of API key limits
+          document.getElementById('manual-review-panel').classList.remove('hidden');
+          document.getElementById('draft-button-container').classList.add('hidden');
+       } finally {
+          btn.disabled = false;
+          btn.classList.remove('opacity-70');
+          icon.setAttribute('data-lucide', 'sparkles');
+          icon.classList.remove('animate-spin');
+          text.innerText = "✨ Step 1: Draft Report Sections";
+          lucide.createIcons();
+       }
+    }
+
     // --- Navigation ---
     window.switchView = function(viewName) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(viewName).classList.add('active');
       currentView = viewName;
+
+      // Reset Create form step views on navigating back/forth
+      if(viewName === 'create_report') {
+         document.getElementById('manual-review-panel').classList.add('hidden');
+         document.getElementById('draft-button-container').classList.remove('hidden');
+      }
 
       // Update sidebar styling
       document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -1302,67 +1589,52 @@ Write using professional engineering language suitable for a daily construction 
       lucide.createIcons();
 
       try {
-        let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'No AI description generated.'}`).join('\n\n');
+        // Read reviewed drafts from textareas
+        const reviewedSummary = document.getElementById('draft-exec-summary').value.trim();
+        const reviewedCompleted = document.getElementById('draft-completed-today').value.trim();
+        const reviewedSafety = document.getElementById('draft-safety-quality').value.trim();
 
-        const prompt = `You are a Senior Construction Project Manager. Based on the following inputs, generate a professional Daily Progress Report. 
-Use formal engineering language suitable for submission to clients, consultants, and stakeholders.
+        // Read checkbox visibilities (Add / Remove)
+        const showExec = document.getElementById('cfg-include-summary').checked;
+        const showComp = document.getElementById('cfg-include-completed').checked;
+        const showStatus = document.getElementById('cfg-include-status').checked;
+        const showSafety = document.getElementById('cfg-include-safety').checked;
+        const showResources = document.getElementById('cfg-include-resources').checked;
+        const showDelays = document.getElementById('cfg-include-delays').checked;
+        const showPlanned = document.getElementById('cfg-include-planned').checked;
+        const showPhotos = document.getElementById('cfg-include-photos').checked;
 
-PROJECT DETAILS:
-Project Name: ${formData.projectName || 'Not specified'}
-Client: ${formData.clientName || 'Not specified'}
-Supervision Consultant: ${formData.supervisionConsultant || 'Not specified'}
-PMC Name: ${formData.pmcName || 'Not specified'}
-Location: ${formData.location || 'Not specified'}
-Date: ${formData.date}
-Weather: ${formData.weather}, Temp: ${formData.temperature}°C
-Shift: ${formData.shift}
+        // Dynamically build the Markdown document incorporating ONLY requested sections
+        let markdownBody = `# Daily Progress Report\n**Date:** ${formData.date} | **Project:** ${formData.projectName || 'Untitled Project'}\n\n`;
 
-RESOURCES:
-Workforce Count: ${formData.workforce || 'Not provided'}
-Equipment Count: ${formData.equipment || 'Not provided'}
-Visitors: ${formData.visitors || 'None'}
-
-SITE OBSERVATIONS & ISSUES:
-Delays/Issues: ${formData.delays}
-Planned Activities for Tomorrow: ${formData.plannedTomorrow}
-
-PHOTO & AI OBSERVATIONS:
-${photoContext}
-
-REQUIRED REPORT STRUCTURE (Format in clean Markdown):
-# Daily Progress Report
-**Date:** [Date] | **Project:** [Project Name]
-
-## 1. Executive Summary
-(Summarize the day's overall progress)
-
-## 2. Activities Completed Today
-(Synthesize from the photo observations and resources)
-
-## 3. Progress Status
-(General statement on progress)
-
-## 4. Safety & Quality Observations
-(Combine safety and quality notes from photos)
-
-## 5. Site Resources
-(Summarize workforce and equipment)
-
-## 6. Delays / Constraints
-(List from inputs)
-
-## 7. Planned Activities for Tomorrow
-(List from inputs)`;
-
-        const payload = { contents: [{ parts: [{ text: prompt }] }] };
-        const reportMarkdown = await callGemini(payload);
+        if (showExec) {
+          markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
+        }
+        if (showComp) {
+          markdownBody += `## 2. Activities Completed Today\n${reviewedCompleted}\n\n`;
+        }
+        if (showStatus) {
+          markdownBody += `## 3. Progress Status\nStructural, MEP, and site finishes are advancing in accordance with the project schedule.\n\n`;
+        }
+        if (showSafety) {
+          markdownBody += `## 4. Safety & Quality Observations\n${reviewedSafety}\n\n`;
+        }
+        if (showResources) {
+          markdownBody += `## 5. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n* **Heavy Equipment:** ${formData.equipment || 'Not provided'}\n* **Visitors:** ${formData.visitors || 'None'}\n\n`;
+        }
+        if (showDelays) {
+          markdownBody += `## 6. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        }
+        if (showPlanned) {
+          markdownBody += `## 7. Planned Activities for Tomorrow\n${formData.plannedTomorrow || 'Not specified'}\n\n`;
+        }
 
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        // Build report object with Views & Audit Tracking initialized
+        // Build report structure
         const newReport = {
           dbId: Math.random().toString(36).substr(2, 9), 
-          markdown: reportMarkdown,
+          markdown: markdownBody,
           date: formData.date,
           time: currentLocalTime,
           projectName: formData.projectName || 'Untitled Project',
@@ -1370,11 +1642,11 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
           supervisionConsultant: formData.supervisionConsultant || 'Not specified',
           pmcName: formData.pmcName || 'Not specified',
           location: formData.location || 'Not specified',
-          photos: [...photos],
+          photos: showPhotos ? [...photos] : [], // Include photo log only if checked
           logo: companyLogoBase64,
           preparedBy: globalProfile.name,
           status: 'Generated',
-          reviewStatus: 'Open', // Default review state
+          reviewStatus: 'Open', 
           reviewRemarks: '',
           reviewActionTaken: '',
           reviewComments: [],
@@ -1397,7 +1669,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         switchView('view_report');
 
       } catch (err) {
-        showCustomAlert("Generation Error", "Error generating report: Please verify your API Key connection.");
+        showCustomAlert("Generation Error", "Error compiling final report: Please verify database connections.");
       } finally {
         btn.disabled = false;
         btn.classList.remove('opacity-70');
@@ -1519,7 +1791,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
 
         ${viewersHtml}
 
-        <div class="prose prose-slate max-w-none prose-h1:text-xl prose-h1:font-extrabold prose-h1:text-slate-900 prose-h1:border-b prose-h1:border-slate-100 prose-h1:pb-2 prose-h2:text-lg prose-h2:font-bold prose-h2:mt-6 prose-h2:mb-3 prose-p:text-slate-600 prose-p:leading-relaxed prose-li:text-slate-600 mt-6">
+        <div class="prose prose-slate max-w-none mt-6">
           ${marked.parse(generatedReport.markdown)}
         </div>
       `;
@@ -1527,7 +1799,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
       if (generatedReport.photos && generatedReport.photos.length > 0) {
         html += `
           <div class="mt-12 pt-8 border-t-2 border-slate-200">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b pb-2">Site Photo Log</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-6 border-b pb-2">Site Photo Log</h2>
             <div class="grid grid-cols-2 gap-8">
               ${generatedReport.photos.map((photo, i) => `
                 <div class="break-inside-avoid">
@@ -1547,7 +1819,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
       html += rReviewSection;
 
       html += `
-        <div class="mt-16 pt-16 border-t-2 border-slate-800 flex justify-between">
+        <div class="mt-16 pt-16 border-t-2 border-slate-900 flex justify-between">
           <div class="w-1/3 text-center">
             <div class="border-b border-slate-300 h-16 mb-2"></div>
             <p class="font-bold text-slate-900 text-sm">Prepared By</p>
@@ -1860,7 +2132,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
         return showCustomAlert("Input Empty", 'Please describe a specific delay or issue first to get mitigations.');
       }
 
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Thinking...';
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Thinking...';
       lucide.createIcons();
 
       try {
@@ -1881,7 +2153,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
       
       if(!text.trim()) return showCustomAlert("Input Empty", 'Please enter some text to professionalize.');
 
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Writing...';
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Writing...';
       lucide.createIcons();
 
       try {
@@ -1899,7 +2171,7 @@ REQUIRED REPORT STRUCTURE (Format in clean Markdown):
     window.translateReport = async function(btn) {
       if (!generatedReport) return;
 
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Translating...';
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-4.5 h-4.5 animate-spin"></i> Translating...';
       lucide.createIcons();
 
       try {
