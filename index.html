@@ -50,6 +50,7 @@
     .view-section { display: none; }
     .view-section.active { display: block; }
     
+    /* Elegant input focus ring effect */
     .premium-input {
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -61,47 +62,46 @@
     /* Professional vertical rhythm and spacing overrides for report paper */
     #report-paper h1, #report-paper h2, #report-paper h3 {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
-      color: #0f172a !important; 
+      color: #0f172a !important; /* slate-900 */
       font-weight: 800 !important;
-      line-height: 1.3 !important;
+      line-height: 1.4 !important;
     }
     #report-paper h1 {
-      font-size: 1.5rem !important;
-      margin-top: 1rem !important;
-      margin-bottom: 0.75rem !important;
+      font-size: 1.75rem !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 1.25rem !important;
       border-bottom: 2px solid #e2e8f0 !important;
-      padding-bottom: 0.5rem !important;
+      padding-bottom: 0.65rem !important;
     }
     #report-paper h2 {
-      font-size: 1.15rem !important;
-      margin-top: 1.5rem !important;
-      margin-bottom: 0.75rem !important;
+      font-size: 1.3rem !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
       border-bottom: 1px solid #f1f5f9 !important;
-      padding-bottom: 0.25rem !important;
+      padding-bottom: 0.4rem !important;
     }
     #report-paper h3 {
-      font-size: 1.05rem !important;
-      margin-top: 1rem !important;
-      margin-bottom: 0.5rem !important;
-    }
-    #report-paper p {
-      font-size: 0.9rem !important;
-      line-height: 1.6 !important;
-      color: #334155 !important; 
+      font-size: 1.125rem !important;
+      margin-top: 1.5rem !important;
       margin-bottom: 0.75rem !important;
     }
+    #report-paper p {
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
+      color: #334155 !important; /* slate-700 */
+      margin-bottom: 1.25rem !important;
+    }
     #report-paper ul, #report-paper ol {
-      margin-bottom: 1rem !important;
+      margin-bottom: 1.25rem !important;
       padding-left: 1.5rem !important;
       list-style-type: disc !important;
     }
     #report-paper li {
-      font-size: 0.9rem !important;
-      line-height: 1.6 !important;
-      color: #475569 !important; 
-      margin-bottom: 0.35rem !important;
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
+      color: #475569 !important; /* slate-600 */
+      margin-bottom: 0.5rem !important;
     }
-    /* Look Ahead Table Styling for Markdown Output */
     #report-paper table {
       width: 100%;
       border-collapse: collapse;
@@ -124,15 +124,16 @@
 </head>
 <body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
+  <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
-    <div class="p-5 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
+    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
           <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
         </div>
-        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Daily Reports</span>
+        <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction Reports</span>
       </div>
-      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-11">by Hasnat Safdar</span>
+      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
     </div>
     
     <nav class="flex-1 p-4 space-y-1.5" id="nav-menu">
@@ -170,6 +171,7 @@
     </div>
   </aside>
 
+  <!-- Main Content Area -->
   <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
     
     <!-- API Key Bar -->
@@ -181,6 +183,9 @@
       </button>
     </div>
 
+    <!-- VIEWS -->
+    
+    <!-- Dashboard View -->
     <section id="dashboard" class="view-section active pb-24">
       <header class="flex justify-between items-center mb-8 pr-72">
         <div>
@@ -261,13 +266,14 @@
               </tr>
             </thead>
             <tbody id="dashboard-recent-reports" class="divide-y divide-slate-100 text-sm">
-              <tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet.</td></tr>
+              <tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" or "Load Demo Report" to view.</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
 
+    <!-- Create Report View -->
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
@@ -304,12 +310,12 @@
           </div>
         </div>
 
-        <!-- Site Conditions & Resources -->
+        <!-- Site Conditions -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Variables & Workforce Allocation
+            <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Environmental Variables
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Date</label>
               <input type="date" id="frm-date" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('date', this.value)" />
@@ -324,7 +330,7 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Temp (°C)</label>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Temperature (°C)</label>
               <input type="number" id="frm-temperature" value="32" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('temperature', this.value)" />
             </div>
             <div>
@@ -334,50 +340,59 @@
                 <option>Evening Shift</option>
               </select>
             </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Workforce</label>
-              <input type="text" id="frm-workforce" placeholder="e.g., 150 Staff" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('workforce', this.value)" />
-            </div>
-          </div>
-          
-          <div class="mt-5">
-            <div class="flex justify-between items-center mb-1.5">
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
-              <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
-            </div>
-            <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-20 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
           </div>
         </div>
 
-        <!-- NEW: Look Ahead Tracker Table -->
+        <!-- Resources & Look Ahead Tracker -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <div class="flex justify-between items-center mb-4">
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="calendar" class="text-emerald-500 w-5 h-5"></i> Look Ahead Tracker
-            </h2>
-            <button onclick="addLookAheadRow()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Row
-            </button>
-          </div>
+          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+            <i data-lucide="users" class="text-emerald-500 w-5 h-5"></i> Site Resources & Tracker
+          </h2>
           
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-[700px]">
-              <thead>
-                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                  <th class="p-2 w-12 text-center">No</th>
-                  <th class="p-2 w-24">Zone</th>
-                  <th class="p-2 w-32">Location</th>
-                  <th class="p-2 w-24">Trade</th>
-                  <th class="p-2 min-w-[150px]">Activity</th>
-                  <th class="p-2 w-32">Target Finish</th>
-                  <th class="p-2 w-48">Status/Remarks</th>
-                  <th class="p-2 w-10"></th>
-                </tr>
-              </thead>
-              <tbody id="look-ahead-tbody" class="text-sm">
-                <!-- Rows injected via JS -->
-              </tbody>
-            </table>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Workforce Count</label>
+              <input type="text" id="frm-workforce" placeholder="e.g., 150 Subcontractors, 20 Staff" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('workforce', this.value)" />
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-1.5">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
+                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
+              </div>
+              <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-16 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
+            </div>
+          </div>
+
+          <!-- Look Ahead Tracker Table -->
+          <div class="mt-4 border-t border-slate-100 pt-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="calendar" class="text-indigo-500 w-4 h-4"></i> Look Ahead Tracker
+              </h3>
+              <button onclick="addLookAheadRow()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3 h-3"></i> Add Row
+              </button>
+            </div>
+            
+            <div class="overflow-x-auto rounded-xl border border-slate-200">
+              <table class="w-full text-left border-collapse min-w-[700px]">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
+                    <th class="p-2.5 w-12 text-center">No</th>
+                    <th class="p-2.5 w-24">Zone</th>
+                    <th class="p-2.5 w-32">Location</th>
+                    <th class="p-2.5 w-24">Trade</th>
+                    <th class="p-2.5 min-w-[150px]">Activity</th>
+                    <th class="p-2.5 w-32">Target Finish</th>
+                    <th class="p-2.5 w-48">Status / Remarks</th>
+                    <th class="p-2.5 w-10"></th>
+                  </tr>
+                </thead>
+                <tbody id="look-ahead-tbody" class="text-sm divide-y divide-slate-100">
+                  <!-- Rows injected via JS -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -423,21 +438,46 @@
             <p class="text-slate-500 text-xs mt-1">Check or uncheck sections to add or remove them from the final PDF. Modify drafted summaries to your preference.</p>
           </div>
 
-          <!-- Section Checklist -->
+          <!-- Section Checklist (Add / Remove Options) -->
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
             <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Include / Exclude Report Sections</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-summary" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Executive Summary</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-completed" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Completed Activities</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-status" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Progress Status</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-safety" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Safety & Quality</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-resources" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Site Resources</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-delays" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Delays & Issues</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-lookahead" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Look Ahead Tracker</label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer"><input type="checkbox" id="cfg-include-photos" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />Site Photo Log</label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-summary" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Executive Summary
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-completed" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Completed Activities
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-status" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Progress Status
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-safety" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Safety & Quality
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-resources" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Site Resources
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-delays" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Delays & Issues
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-lookahead" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Look Ahead Tracker
+              </label>
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-photos" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Site Photo Log
+              </label>
             </div>
           </div>
 
+          <!-- Editable Draft Summaries -->
           <div class="space-y-4">
             <div>
               <div class="flex justify-between items-center mb-1">
@@ -446,6 +486,7 @@
               </div>
               <textarea id="draft-exec-summary" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Executive Summary..."></textarea>
             </div>
+
             <div>
               <div class="flex justify-between items-center mb-1">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Activities Completed Today Draft</label>
@@ -453,6 +494,7 @@
               </div>
               <textarea id="draft-completed-today" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Activities Completed Today..."></textarea>
             </div>
+
             <div>
               <div class="flex justify-between items-center mb-1">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Safety & Quality Observations Draft</label>
@@ -462,6 +504,7 @@
             </div>
           </div>
 
+          <!-- Final Compilation Trigger -->
           <div class="flex justify-between items-center pt-4 border-t border-slate-100">
             <span class="text-xs text-slate-400 italic">Verify and edit above parameters before saving permanently.</span>
             <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
@@ -478,7 +521,7 @@
     <section id="upload_documents" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Documents</h1>
-        <p class="text-slate-500 text-sm">Manually upload legacy reports, site plans, and specifications here to log them on the dashboard.</p>
+        <p class="text-slate-500 text-sm">Upload and manage site plans, specifications, drawings, and client letters.</p>
       </header>
       <div class="max-w-5xl space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center relative hover:bg-slate-50/50 transition duration-200 border-dashed border-2">
@@ -489,7 +532,7 @@
             </div>
             <div>
               <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
-              <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX up to 50MB</p>
+              <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
             </div>
           </div>
         </div>
@@ -576,8 +619,10 @@
 
     <!-- View Report (Output) -->
     <section id="view_report" class="view-section py-12">
+      <!-- Container optimized for split layout when viewing a report -->
       <div class="w-full max-w-7xl mx-auto px-4">
         
+        <!-- Controls Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print-hidden">
           <button onclick="switchView('archives')" class="text-slate-500 hover:text-slate-800 font-semibold text-xs flex items-center gap-1.5 transition">
             <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Archives
@@ -618,21 +663,24 @@
       <h3 class="text-base font-bold text-slate-900 mb-2.5" id="custom-modal-title">Notification</h3>
       <div class="text-xs text-slate-500 mb-6 leading-relaxed" id="custom-modal-message"></div>
       <div class="flex justify-end gap-2.5" id="custom-modal-actions">
+        <!-- Injected dynamically -->
       </div>
     </div>
   </div>
 
   <script type="module">
+    // --- Firebase Initialization for Permanent Storage ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+    // Vercel Firebase Fallback Config
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
       apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
       authDomain: "daily-reports-a4499.firebaseapp.com",
       projectId: "daily-reports-a4499",
-      storageBucket: "daily-reports-a4499.firebasestorage.app",
+      storageBucket: "daily-reports-a4499.firebasestorage.appm",
       messagingSenderId: "5941305654",
       appId: "1:5941305654:web:c9e883207294032b341397"
     };
@@ -642,14 +690,19 @@
 
     let app, auth, db, currentUser;
     try {
-       if (firebaseConfig.apiKey === "YOUR_API_KEY" || !firebaseConfig.apiKey) throw new Error("unconfigured");
+       if (firebaseConfig.apiKey === "YOUR_API_KEY" || !firebaseConfig.apiKey) {
+          throw new Error("unconfigured");
+       }
        app = initializeApp(firebaseConfig);
        auth = getAuth(app);
        db = getFirestore(app);
        
        const initAuth = async () => {
-          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
-          else await signInAnonymously(auth);
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
        };
        
        initAuth().then(() => {
@@ -659,14 +712,21 @@
                   setDbStatus('connected');
                   loadConfigFromCloud();
                   loadReportsFromCloud();
-              } else setDbStatus('error', "Authentication failed", "Anonymous login is not enabled.");
-          }, (err) => setDbStatus('error', "Authentication Error", err.message));
-       }).catch(err => setDbStatus('error', "Auth Init failed", err.message));
+              } else {
+                  setDbStatus('error', "Authentication failed", "Anonymous login is not enabled in your Firebase Authentication console.");
+              }
+          }, (authError) => {
+              setDbStatus('error', "Authentication Error", authError.message);
+          });
+       }).catch(authErr => {
+          setDbStatus('error', "Auth Init failed", authErr.message);
+       });
     } catch(e) {
        console.warn("Firebase not configured properly. Reports will not save permanently on Vercel until Firebase Config is added.");
        setDbStatus('fallback');
     }
 
+    // --- Application State ---
     const apiKey = ""; 
     let userApiKey = localStorage.getItem('geminiApiKey') || '';
     let currentView = 'dashboard';
@@ -675,29 +735,51 @@
     let generatedReport = null;
     let companyLogoBase64 = null;
     let tempScreenshotBase64 = null; 
+    let lookAheadRowCount = 0;
     
     let formData = {
-      projectName: '', clientName: '', location: '', supervisionConsultant: '', pmcName: '',
-      date: new Date().toISOString().split('T')[0], weather: 'Sunny', temperature: '32', shift: 'Morning Shift',
-      workforce: '', delays: 'None', plannedTomorrow: ''
+      projectName: '',
+      clientName: '',
+      location: '',
+      supervisionConsultant: '',
+      pmcName: '',
+      date: new Date().toISOString().split('T')[0],
+      weather: 'Sunny',
+      temperature: '32',
+      shift: 'Morning Shift',
+      workforce: '',
+      delays: 'None'
     };
 
-    let dashboardStats = { avgWorkforce: '350', safetyIncidents: '0', daysActive: '245', remainingDays: '120' };
+    let dashboardStats = {
+      avgWorkforce: '350',
+      safetyIncidents: '0',
+      daysActive: '245',
+      remainingDays: '120'
+    };
 
-    let globalProfile = { name: 'Hasnat Safdar', role: 'Project App Developer', email: 'hasnat@example.com' };
+    let globalProfile = {
+      name: 'Hasnat Safdar',
+      role: 'Project App Developer',
+      email: 'hasnat@example.com'
+    };
 
-    // --- Modal Logic ---
+    // --- Custom Modal Script replacements for alert() and confirm() ---
     let modalResolveCallback = null;
+
     window.showCustomAlert = function(title, message) {
         document.getElementById('custom-modal-title').innerText = title;
         document.getElementById('custom-modal-message').innerHTML = message;
-        document.getElementById('custom-modal-actions').innerHTML = `<button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">OK</button>`;
+        document.getElementById('custom-modal-actions').innerHTML = `
+            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">OK</button>
+        `;
         openModalElement();
     }
+
     window.showCustomConfirm = function(title, message) {
         return new Promise((resolve) => {
             document.getElementById('custom-modal-title').innerText = title;
-            document.getElementById('custom-modal-message').innerHTML = message;
+            document.getElementById('custom-modal-message').innerText = message;
             modalResolveCallback = resolve;
             document.getElementById('custom-modal-actions').innerHTML = `
                 <button onclick="closeCustomModal(false)" class="px-4 py-2 bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-100 transition">Cancel</button>
@@ -706,6 +788,7 @@
             openModalElement();
         });
     }
+
     function openModalElement() {
         const modal = document.getElementById('custom-modal');
         const content = document.getElementById('custom-modal-content');
@@ -715,6 +798,7 @@
             content.classList.add('scale-100', 'opacity-100');
         }, 10);
     }
+
     window.closeCustomModal = function(value = null) {
         const modal = document.getElementById('custom-modal');
         const content = document.getElementById('custom-modal-content');
@@ -722,13 +806,19 @@
         content.classList.add('scale-95', 'opacity-0');
         setTimeout(() => {
             modal.classList.add('hidden');
-            if (modalResolveCallback) { modalResolveCallback(value); modalResolveCallback = null; }
+            if (modalResolveCallback) {
+                modalResolveCallback(value);
+                modalResolveCallback = null;
+            }
         }, 200);
     }
+
     window.openFullscreenImage = function(src) {
         document.getElementById('custom-modal-title').innerText = "Site Observation Reference";
         document.getElementById('custom-modal-message').innerHTML = `<img src="${src}" class="w-full max-h-[450px] object-contain rounded-xl border border-slate-100 shadow-inner" />`;
-        document.getElementById('custom-modal-actions').innerHTML = `<button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">Close Preview</button>`;
+        document.getElementById('custom-modal-actions').innerHTML = `
+            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">Close Preview</button>
+        `;
         openModalElement();
     }
 
@@ -737,7 +827,9 @@
         const text = document.getElementById('db-status-text');
         const container = document.getElementById('db-status-container');
         if (!dot || !text || !container) return;
-        container.onclick = null; container.style.cursor = "default";
+        
+        container.onclick = null;
+        container.style.cursor = "default";
         
         if (status === 'connected') {
             dot.className = "w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]";
@@ -755,182 +847,28 @@
         }
     }
 
-    function loadConfigFromCloud() {
-      if (!currentUser || !db) return;
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard'), (docSnap) => {
-        if (docSnap.exists()) {
-          dashboardStats = docSnap.data();
-          document.getElementById('stat-avg-workforce').value = dashboardStats.avgWorkforce || '350';
-          document.getElementById('stat-safety-incidents').value = dashboardStats.safetyIncidents || '0';
-          document.getElementById('stat-days-active').value = dashboardStats.daysActive || '245';
-          document.getElementById('stat-remaining-days').value = dashboardStats.remainingDays || '120';
-        }
-      });
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), (docSnap) => {
-        if (docSnap.exists()) {
-          companyLogoBase64 = docSnap.data().image;
-          const img = document.getElementById('dashboard-logo-img');
-          if (companyLogoBase64 && img) {
-            img.src = companyLogoBase64; img.classList.remove('hidden');
-            document.getElementById('logo-btn-text').innerText = 'Change Logo';
-          }
-        }
-      });
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), (docSnap) => {
-        if (docSnap.exists()) {
-          globalProfile = docSnap.data();
-          updateProfileUI();
-        }
-      });
-    }
-
-    function updateProfileUI() {
-      document.querySelectorAll('.profile-name-span').forEach(span => span.innerText = globalProfile.name);
-      document.getElementById('sidebar-profile-name').innerText = globalProfile.name;
-      document.getElementById('sidebar-profile-role').innerText = globalProfile.role;
-      document.getElementById('sidebar-profile-avatar').innerText = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-    }
-
-    window.saveProfileToCloud = async function() {
-      if (!currentUser || !db) return;
-      globalProfile.name = document.getElementById('settings-profile-name').value.trim();
-      globalProfile.role = document.getElementById('settings-profile-role').value.trim();
-      globalProfile.email = document.getElementById('settings-profile-email').value.trim();
-      try {
-        await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
-        updateProfileUI(); toggleProfileLock(false);
-        showCustomAlert("Success", "Profile updated and synchronized to cloud!");
-      } catch (e) { showCustomAlert("Error", "Failed to save profile: " + e.message); }
-    }
-
-    function loadReportsFromCloud() {
-        if (!currentUser || !db) return;
-        onSnapshot(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports'), (snapshot) => {
-            let newlyFetchedList = [];
-            snapshot.forEach((doc) => newlyFetchedList.push({ ...doc.data(), docId: doc.id, dbId: doc.data().dbId || doc.id }));
-            newlyFetchedList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-            reportsList = newlyFetchedList;
-            updateReportsTables();
-            
-            if(currentView === 'view_report' && generatedReport) {
-                const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
-                if(refreshedReport) {
-                    refreshedReport.photos = generatedReport.photos; 
-                    refreshedReport.logo = generatedReport.logo; 
-                    generatedReport = refreshedReport;
-                    renderViewReport();
-                }
-            }
-        });
-    }
-
-    async function saveReportToCloud(reportData) {
-        if (!currentUser || !db) return;
-        try {
-            const safePhotos = (reportData.photos||[]).map(p => ({ id: p.id, category: p.category, aiText: p.aiText, mimeType: p.mimeType }));
-            const { logo, ...reportWithoutLogo } = reportData;
-            await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId), { ...reportWithoutLogo, photos: safePhotos, createdAt: reportData.createdAt || Date.now() });
-
-            for (const p of (reportData.photos||[])) {
-               if(p.base64) await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id), { base64: p.base64, mimeType: p.mimeType, id: p.id });
-            }
-            setDbStatus('connected');
-        } catch(e) { setDbStatus('error', "Failed to write report data to Cloud", e.message); throw e; }
-    }
-
-    window.deleteReport = async function(dbId) {
-        const proceed = await showCustomConfirm("Delete File", "Are you sure you want to completely delete this file permanently?");
-        if (!proceed) return;
-        
-        const report = reportsList.find(r => r.dbId === dbId);
-        const targetId = (report && report.docId) ? report.docId : dbId;
-        
-        if (!currentUser || !db) {
-            reportsList = reportsList.filter(r => r.dbId !== dbId);
-            updateReportsTables(); return;
-        }
-        try {
-            await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId));
-            if(report && report.photos) {
-               for (const p of report.photos) {
-                  await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
-               }
-            }
-        } catch(e) { showCustomAlert("Deletion Failed", e.message); }
-    };
-
-    window.viewArchivedReport = async function(dbId) {
-        const report = reportsList.find(r => r.dbId === dbId);
-        if(!report) return;
-
-        if (db && currentUser && report.photos && report.photos.length > 0) {
-           showCustomAlert("Retrieving Report", "Loading parameters and fetching high-resolution site photos from the cloud database...");
-           try {
-              const targetId = report.docId || dbId;
-              const photosSnapshot = await getDocs(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos'));
-              const cloudPhotosMap = {};
-              photosSnapshot.forEach(doc => cloudPhotosMap[doc.id] = doc.data().base64);
-              report.photos = report.photos.map(p => cloudPhotosMap[p.id] ? { ...p, base64: cloudPhotosMap[p.id], url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudPhotosMap[p.id]}` } : p);
-           } catch(err) { console.warn("Failed to load sub-collection high-res images: ", err); }
-        }
-
-        closeCustomModal();
-        generatedReport = report; 
-        renderViewReport();
-        switchView('view_report');
-
-        if (db && currentUser) {
-          try {
-            const targetId = report.docId || report.dbId;
-            const now = new Date();
-            const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId), { views: increment(1), viewers: arrayUnion(`${globalProfile.name} (${globalProfile.role}) viewed at ${formattedTime}`) });
-          } catch(e) {}
-        }
-    };
-
-    window.loadSampleReport = async function() {
-       const demoReport = {
-          dbId: "demo-report-hash-123",
-          projectName: "Al-Reem Residential Tower", clientName: "Dar Al Arkan Developers", supervisionConsultant: "TYA & Associates", pmcName: "MAB Consult", location: "Riyadh, Saudi Arabia",
-          date: new Date().toISOString().split('T')[0], time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          preparedBy: "TYA & Associates", status: "Generated", reviewStatus: "Open",
-          reviewRemarks: "Honeycomb structural issue identified at the Lift Core wall joints on Sector B of the 14th Floor. Corrective concrete chipping required.", reviewActionTaken: "Contractor chipped away the loose aggregate and is awaiting inspection.", reviewComments: [],
-          markdown: `## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE.\n\n## 5. Look Ahead Tracker\n| No | Zone | Location | Trade | Activity | Target Finish | Status/Remarks |\n|---|---|---|---|---|---|---|\n| 1 | Sec A | Fl 15 | Civil | Shuttering layout | 12/10/2026 | Ongoing |`,
-          photos: [{ id: "demo_p1", url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop", category: "Structural Works", aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom." }],
-          views: 1, viewers: ["Hasnat Safdar (Project App Developer) viewed at 9:00 AM"]
-       };
-
-       if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
-          reportsList.unshift(demoReport); updateReportsTables();
-          if(db && currentUser) await saveReportToCloud(demoReport);
-       }
-       viewArchivedReport(demoReport.dbId);
-    }
-
     // --- Look Ahead Tracker Logic ---
-    let lookAheadRowCount = 0;
-    
     window.addLookAheadRow = function() {
       lookAheadRowCount++;
       const tbody = document.getElementById('look-ahead-tbody');
       const tr = document.createElement('tr');
-      tr.className = "border-b border-slate-100 hover:bg-slate-50 transition group";
+      tr.className = "group hover:bg-slate-50 transition";
       tr.innerHTML = `
-        <td class="p-2 text-center text-slate-500 font-bold">${lookAheadRowCount}</td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., A"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., Lvl 5"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., MEP"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="e.g., HVAC Ducts"></td>
-        <td class="p-2"><input type="date" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-[11px]"></td>
-        <td class="p-2"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-200 focus:border-indigo-500 text-xs" placeholder="Ongoing"></td>
-        <td class="p-2 text-center">
+        <td class="p-2.5 text-center text-slate-500 font-bold">${lookAheadRowCount}</td>
+        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., A"></td>
+        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Lvl 5"></td>
+        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Civil"></td>
+        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Pour Concrete"></td>
+        <td class="p-2.5"><input type="date" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-[11px]"></td>
+        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="Planned"></td>
+        <td class="p-2.5 text-center">
            <button onclick="removeLookAheadRow(this)" class="text-slate-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
         </td>
       `;
       tbody.appendChild(tr);
       lucide.createIcons();
     }
+    
     window.removeLookAheadRow = function(btn) {
       btn.closest('tr').remove();
     }
@@ -949,41 +887,240 @@
        return md;
     }
 
-    // Initialize 2 empty rows on load
-    document.addEventListener("DOMContentLoaded", () => {
-       addLookAheadRow(); addLookAheadRow();
-    });
+    function loadConfigFromCloud() {
+      if (!currentUser || !db) return;
 
-    // --- Manual File Upload Logic ---
-    window.handleDocumentUpload = function(event) {
-      const files = Array.from(event.target.files);
-      if (!files.length) return;
-
-      const now = new Date();
-      files.forEach(file => {
-        const fileUrl = URL.createObjectURL(file); // Local blob URL for direct download
-        
-        const docObj = {
-          dbId: Math.random().toString(36).substr(2, 9),
-          date: now.toISOString().split('T')[0],
-          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          projectName: file.name,
-          preparedBy: globalProfile.name,
-          status: 'Manual Upload',
-          isManualDoc: true,
-          fileUrl: fileUrl,
-          fileName: file.name,
-          fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB'
-        };
-        reportsList.unshift(docObj);
-        
-        // Push metadata to cloud if connected
-        if(db) saveReportToCloud(docObj);
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard'), (docSnap) => {
+        if (docSnap.exists()) {
+          dashboardStats = docSnap.data();
+          document.getElementById('stat-avg-workforce').value = dashboardStats.avgWorkforce || '350';
+          document.getElementById('stat-safety-incidents').value = dashboardStats.safetyIncidents || '0';
+          document.getElementById('stat-days-active').value = dashboardStats.daysActive || '245';
+          document.getElementById('stat-remaining-days').value = dashboardStats.remainingDays || '120';
+        }
       });
-      
-      updateReportsTables();
-      switchView('archives');
-      showCustomAlert("Files Logged", "Documents successfully uploaded to your dashboard list.");
+
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), (docSnap) => {
+        if (docSnap.exists()) {
+          companyLogoBase64 = docSnap.data().image;
+          const img = document.getElementById('dashboard-logo-img');
+          if (companyLogoBase64 && img) {
+            img.src = companyLogoBase64;
+            img.classList.remove('hidden');
+            document.getElementById('logo-btn-text').innerText = 'Change Logo';
+          }
+        }
+      });
+
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), (docSnap) => {
+        if (docSnap.exists()) {
+          globalProfile = docSnap.data();
+          updateProfileUI();
+        }
+      });
+    }
+
+    function updateProfileUI() {
+      document.querySelectorAll('.profile-name-span').forEach(span => span.innerText = globalProfile.name);
+      document.getElementById('sidebar-profile-name').innerText = globalProfile.name;
+      document.getElementById('sidebar-profile-role').innerText = globalProfile.role;
+      document.getElementById('sidebar-profile-avatar').innerText = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+      const nameInput = document.getElementById('settings-profile-name');
+      const roleInput = document.getElementById('settings-profile-role');
+      const emailInput = document.getElementById('settings-profile-email');
+      if (nameInput) nameInput.value = globalProfile.name;
+      if (roleInput) roleInput.value = globalProfile.role;
+      if (emailInput) emailInput.value = globalProfile.email;
+    }
+
+    window.saveProfileToCloud = async function() {
+      if (!currentUser || !db) return;
+      globalProfile.name = document.getElementById('settings-profile-name').value.trim();
+      globalProfile.role = document.getElementById('settings-profile-role').value.trim();
+      globalProfile.email = document.getElementById('settings-profile-email').value.trim();
+
+      try {
+        await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
+        updateProfileUI();
+        toggleProfileLock(false);
+        showCustomAlert("Success", "Profile updated and synchronized to cloud!");
+      } catch (e) {
+        showCustomAlert("Error", "Failed to save profile: " + e.message);
+      }
+    }
+
+    // --- Cloud Database Handlers ---
+    function loadReportsFromCloud() {
+        if (!currentUser || !db) return;
+        
+        onSnapshot(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports'), (snapshot) => {
+            let newlyFetchedList = [];
+            snapshot.forEach((doc) => {
+                newlyFetchedList.push({ ...doc.data(), docId: doc.id, dbId: doc.data().dbId || doc.id });
+            });
+            
+            newlyFetchedList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+            reportsList = newlyFetchedList;
+            updateReportsTables();
+            
+            if(currentView === 'view_report' && generatedReport) {
+                const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
+                if(refreshedReport) {
+                    refreshedReport.photos = generatedReport.photos; 
+                    refreshedReport.logo = generatedReport.logo; 
+                    generatedReport = refreshedReport;
+                    renderViewReport();
+                }
+            }
+        }, (error) => {
+            console.error("Firestore loading error:", error);
+            setDbStatus('error', "Database permission denied", "Make sure your Firestore Database rules allow reading and writing.");
+        });
+    }
+
+    async function saveReportToCloud(reportData) {
+        if (!currentUser || !db) return;
+        try {
+            const safePhotos = (reportData.photos || []).map(p => ({
+                id: p.id, category: p.category, aiText: p.aiText, mimeType: p.mimeType
+            }));
+            
+            const { logo, ...reportWithoutLogo } = reportData;
+            
+            const reportToSave = { 
+                ...reportWithoutLogo, 
+                photos: safePhotos, 
+                createdAt: reportData.createdAt || Date.now() 
+            };
+            
+            await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId), reportToSave);
+
+            for (const p of (reportData.photos || [])) {
+               if(p.base64) {
+                   await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id), {
+                      base64: p.base64, mimeType: p.mimeType, id: p.id
+                   });
+               }
+            }
+            setDbStatus('connected');
+        } catch(e) {
+            console.error("Error saving to cloud:", e);
+            setDbStatus('error', "Failed to write report data to Cloud", e.message);
+            throw e; 
+        }
+    }
+
+    window.deleteReport = async function(dbId) {
+        const proceed = await showCustomConfirm("Delete Report", "Are you sure you want to delete this report permanently from your records?");
+        if (!proceed) return;
+        
+        const report = reportsList.find(r => r.dbId === dbId);
+        const targetId = (report && report.docId) ? report.docId : dbId;
+        
+        if (!currentUser || !db) {
+            reportsList = reportsList.filter(r => r.dbId !== dbId);
+            updateReportsTables();
+            return;
+        }
+        try {
+            await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId));
+            if(report && report.photos) {
+               for (const p of report.photos) {
+                  await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
+               }
+            }
+        } catch(e) {
+            showCustomAlert("Deletion Failed", "Failed to delete report: " + e.message);
+        }
+    };
+
+    window.viewArchivedReport = async function(dbId) {
+        const report = reportsList.find(r => r.dbId === dbId);
+        if(!report) return;
+
+        if (!report.isManualDoc && db && currentUser && report.photos && report.photos.length > 0) {
+           showCustomAlert("Retrieving Report", "Loading parameters and fetching high-resolution site photos from the cloud database...");
+           try {
+              const targetId = report.docId || dbId;
+              const photosSnapshot = await getDocs(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos'));
+              const cloudPhotosMap = {};
+              
+              photosSnapshot.forEach(doc => { cloudPhotosMap[doc.id] = doc.data().base64; });
+
+              report.photos = report.photos.map(p => {
+                 if (cloudPhotosMap[p.id]) {
+                    return { ...p, base64: cloudPhotosMap[p.id], url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudPhotosMap[p.id]}` };
+                 }
+                 return p;
+              });
+           } catch(err) {
+              console.warn("Failed to load sub-collection high-res images: ", err);
+           }
+        }
+
+        closeCustomModal();
+        generatedReport = report; 
+        renderViewReport();
+        switchView('view_report');
+
+        if (!report.isManualDoc && db && currentUser) {
+          try {
+            const targetId = report.docId || report.dbId;
+            const now = new Date();
+            const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const viewerLog = `${globalProfile.name} (${globalProfile.role}) viewed at ${formattedTime}`;
+            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId), {
+              views: increment(1), viewers: arrayUnion(viewerLog)
+            });
+          } catch(e) {}
+        }
+    };
+
+    window.loadSampleReport = async function() {
+       const demoReport = {
+          dbId: "demo-report-hash-123",
+          projectName: "Al-Reem Residential Tower",
+          clientName: "Dar Al Arkan Developers",
+          supervisionConsultant: "TYA Associates",
+          pmcName: "MAB Consult",
+          location: "Riyadh, Saudi Arabia",
+          date: new Date().toISOString().split('T')[0],
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          preparedBy: "TYA & Associates",
+          status: "Generated",
+          reviewStatus: "Open", 
+          reviewRemarks: "Honeycomb structural issue identified at the Lift Core wall joints on Sector B of the 14th Floor. Corrective concrete chipping and epoxy Sika grout injection required.",
+          reviewActionTaken: "Contractor chipped away the loose aggregate, applied high-grade Sika Grout-214 epoxy, and is awaiting inspection.",
+          reviewComments: [
+             {
+                id: "c1",
+                user: "Supervision Lead (TYA)",
+                role: "Supervision Consultant",
+                time: "10:15 AM",
+                text: "Concrete structural honeycomb visible on sector B joints. Shuttering for the 15th-floor deck cannot proceed until this is certified.",
+                image: "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=600&auto=format&fit=crop"
+             }
+          ],
+          markdown: `## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A. Steel reinforcement inspection and conduit checkouts were completed.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **MEP Works:** Finished cable tray installation and wiring layouts in the service shafts of Floors 10-12.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule with approximately 74% structural concrete completion.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE. Fall protection nets have been re-anchored on the structural perimeter walls. Shuttering inspect on Sector B flagged one honeycomb issue.\n\n## 5. Look Ahead Tracker\n| No | Zone | Location | Trade | Activity | Target Finish Date | Current Status / Remarks |\n|---|---|---|---|---|---|---|\n| 1 | Sec A | Lvl 15 | Civil | Pour Deck | 06/25/2026 | Waiting on rebar signoff |`,
+          photos: [
+             {
+                id: "demo_p1",
+                url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop",
+                category: "Structural Works",
+                aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom. All safety scaffolding intact."
+             }
+          ],
+          views: 3,
+          viewers: ["Hasnat Safdar (App Developer) viewed at 9:00 AM", "Audit Lead (TYA) viewed at 10:15 AM"]
+       };
+
+       if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
+          reportsList.unshift(demoReport);
+          updateReportsTables();
+          if(db && currentUser) await saveReportToCloud(demoReport);
+       }
+       viewArchivedReport(demoReport.dbId);
     }
 
     window.triggerAIDrafting = async function() {
@@ -997,18 +1134,38 @@
 
        try {
           let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'No AI description generated.'}`).join('\n\n');
+          const lookAheadStr = extractLookAheadMarkdown();
 
           const prompt = `You are a professional construction project manager preparing structural drafts for a Daily Progress Report. Based on the site parameters below, write three detailed section drafts.
-          PROJECT DETAILS: ${formData.projectName} | ${formData.clientName} | ${formData.location} | Date: ${formData.date}
-          RESOURCES: Workforce: ${formData.workforce || 'Not provided'}
-          SITE OBSERVATIONS: Delays: ${formData.delays}
-          PHOTO LOG OBSERVATIONS:\n${photoContext}
 
-          Return EXACTLY this format:
+          PROJECT DETAILS:
+          Project Name: ${formData.projectName || 'Not specified'}
+          Client: ${formData.clientName || 'Not specified'}
+          Supervision Consultant: ${formData.supervisionConsultant || 'Not specified'}
+          PMC Name: ${formData.pmcName || 'Not specified'}
+          Location: ${formData.location || 'Not specified'}
+          Date: ${formData.date}
+          Weather: ${formData.weather}, Temp: ${formData.temperature}°C
+          Shift: ${formData.shift}
+
+          RESOURCES:
+          Workforce: ${formData.workforce || 'Not provided'}
+
+          SITE OBSERVATIONS & ISSUES:
+          Delays/Issues: ${formData.delays}
+          Look Ahead Tracker Data:\n${lookAheadStr}
+
+          PHOTO LOG OBSERVATIONS:
+          ${photoContext}
+
+          You must return EXACTLY this format so we can split the sections into individual edit fields:
+
           [EXECUTIVE_SUMMARY]
           Write a concise executive summary paragraph detailing overall progress made today.
+
           [COMPLETED_ACTIVITIES]
           Write a detailed, bulleted list summarizing the key activities accomplished today.
+
           [SAFETY_QUALITY]
           Write a detailed summary of safety and quality control observations on site.`;
 
@@ -1034,8 +1191,9 @@
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
+
        } catch(e) {
-          showCustomAlert("AI Drafting Error", e.message);
+          showCustomAlert("AI Drafting Error", "Failed to compile AI drafts. Please verify your custom Gemini API key or proceed manually:\n\n" + e.message);
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
        } finally {
@@ -1045,6 +1203,249 @@
        }
     }
 
+    window.switchView = function(viewName) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(viewName).classList.add('active');
+      currentView = viewName;
+
+      if(viewName === 'create_report') {
+         document.getElementById('manual-review-panel').classList.add('hidden');
+         document.getElementById('draft-button-container').classList.remove('hidden');
+      }
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if(btn.dataset.target === viewName) {
+          btn.className = 'nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10';
+        } else {
+          btn.className = 'nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm';
+        }
+      });
+      window.scrollTo(0, 0);
+    }
+
+    window.connectApi = function() {
+      const input = document.getElementById('api-key-input').value.trim();
+      const indicator = document.getElementById('api-indicator');
+      const btn = document.getElementById('connect-btn');
+      
+      if (!input) {
+        indicator.className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] bg-red-500 transition-colors duration-300";
+        indicator.title = "API Disconnected";
+        btn.innerText = "Connect";
+        userApiKey = '';
+        localStorage.removeItem('geminiApiKey');
+        return;
+      }
+
+      indicator.className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)] bg-green-500 transition-colors duration-300";
+      indicator.title = "API Connected";
+      userApiKey = input;
+      localStorage.setItem('geminiApiKey', input);
+      btn.innerText = "Connected";
+      
+      setTimeout(() => { if (btn.innerText === "Connected") btn.innerText = "Update Key"; }, 2000);
+    }
+
+    async function callGemini(payload) {
+      const activeKey = userApiKey || apiKey;
+      if (!activeKey) throw new Error("API Key Missing. Please connect your valid Gemini API Key in the top right corner of the dashboard.");
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || "Invalid or empty API key. Please check your key settings.");
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+    }
+
+    window.updateForm = function(field, value) { formData[field] = value; }
+    window.updateStat = async function(field, value) {
+      dashboardStats[field] = value;
+      if (db && currentUser) {
+        try {
+          await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard'), dashboardStats);
+          setDbStatus('connected');
+        } catch (e) { setDbStatus('error', "Failed to sync dashboard stats", e.message); }
+      }
+    }
+
+    window.handleLogoUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        companyLogoBase64 = reader.result;
+        const img = document.getElementById('dashboard-logo-img');
+        img.src = companyLogoBase64;
+        img.classList.remove('hidden');
+        document.getElementById('logo-btn-text').innerText = 'Change Logo';
+
+        if (db && currentUser) {
+          try {
+            await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), { image: companyLogoBase64 });
+            setDbStatus('connected');
+          } catch(e) { setDbStatus('error', "Failed to sync Company Logo to cloud", e.message); }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    window.handlePhotoUpload = function(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+
+      files.forEach(file => {
+        if(photos.length >= 50) return; 
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let scaleSize = 1;
+            if(img.width > MAX_WIDTH) scaleSize = MAX_WIDTH / img.width;
+            canvas.width = img.width * scaleSize;
+            canvas.height = img.height * scaleSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+            const photoId = Math.random().toString(36).substr(2, 9);
+            
+            const newPhoto = {
+              id: photoId,
+              url: URL.createObjectURL(file), 
+              base64: compressedBase64,
+              mimeType: 'image/jpeg',
+              aiText: '',
+              isAnalyzing: false,
+              category: 'General Progress'
+            };
+            
+            photos.push(newPhoto);
+            renderPhotos();
+            window.analyzePhoto(photoId);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    window.removePhoto = function(id) { photos = photos.filter(p => p.id !== id); renderPhotos(); }
+    window.updatePhotoCategory = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.category = val; }
+    window.updatePhotoAiText = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.aiText = val; }
+
+    window.analyzePhoto = async function(id) {
+      const photo = photos.find(p => p.id === id);
+      if (!photo) return;
+      photo.isAnalyzing = true;
+      renderPhotos();
+
+      const prompt = `You are a professional construction project engineer. Analyze the uploaded construction site image and generate a concise report including:
+1. Activity Title
+2. Detailed Site Observation
+3. Work Progress Description
+4. Safety Observation
+5. Quality Observation
+Write using professional engineering language suitable for a daily construction report. Format as a neat text block.`;
+
+      const payload = { contents: [{ role: "user", parts: [{ text: prompt }, { inlineData: { mimeType: photo.mimeType, data: photo.base64 } }] }] };
+
+      try {
+        const resultText = await callGemini(payload);
+        photo.aiText = resultText;
+      } catch (err) {
+        photo.aiText = `Analysis failed. ${err.message}`;
+      } finally {
+        photo.isAnalyzing = false;
+        renderPhotos();
+      }
+    }
+
+    function renderPhotos() {
+      const container = document.getElementById('photo-list-container');
+      if (photos.length === 0) {
+        container.innerHTML = `
+          <div class="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center bg-slate-50/40">
+            <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100"><i data-lucide="camera" class="text-slate-400 w-7 h-7"></i></div>
+            <p class="text-slate-600 font-semibold text-sm">No photos uploaded yet.</p>
+            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Upload site images to automatically generate professional progress descriptions using Vision AI.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      let html = '<div class="space-y-6">';
+      photos.forEach((photo, i) => {
+        html += `
+          <div class="flex flex-col md:flex-row gap-6 p-4 border border-slate-200 rounded-xl bg-slate-50 relative group">
+            <button onclick="removePhoto('${photo.id}')" class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-sm text-red-500 opacity-0 group-hover:opacity-100 transition z-10"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            <div class="w-full md:w-1/3">
+              <img src="${photo.url || ''}" alt="Site upload" class="w-full h-48 object-cover rounded-lg shadow-sm border border-slate-200" />
+              <select onchange="updatePhotoCategory('${photo.id}', this.value)" class="mt-3 w-full p-2 text-sm border border-slate-300 rounded-lg outline-none">
+                <option ${photo.category === 'General Progress' ? 'selected' : ''}>General Progress</option>
+                <option ${photo.category === 'Civil Works' ? 'selected' : ''}>Civil Works</option>
+                <option ${photo.category === 'Structural Works' ? 'selected' : ''}>Structural Works</option>
+                <option ${photo.category === 'Architectural Works' ? 'selected' : ''}>Architectural Works</option>
+                <option ${photo.category === 'MEP Works' ? 'selected' : ''}>MEP Works</option>
+                <option ${photo.category === 'Safety' ? 'selected' : ''}>Safety</option>
+                <option ${photo.category === 'Quality' ? 'selected' : ''}>Quality</option>
+              </select>
+            </div>
+            <div class="w-full md:w-2/3 flex flex-col">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-semibold text-slate-700 uppercase tracking-wider">AI Observation</span>
+                <button onclick="analyzePhoto('${photo.id}')" ${photo.isAnalyzing ? 'disabled' : ''} class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 transition disabled:opacity-50 flex items-center gap-1">
+                  ${photo.isAnalyzing ? '<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Analyzing...' : '<i data-lucide="sparkles" class="w-3 h-3"></i> Spark AI'}
+                </button>
+              </div>
+              <textarea onchange="updatePhotoAiText('${photo.id}', this.value)" placeholder="AI will generate a professional description of the work progress and safety observations here." class="w-full flex-1 p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none min-h-[120px]">${photo.aiText}</textarea>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+      lucide.createIcons();
+    }
+
+    // --- Document Management (Dashboard Manual Uploads) ---
+    window.handleDocumentUpload = function(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+
+      const now = new Date();
+      files.forEach(file => {
+        const fileUrl = URL.createObjectURL(file);
+        
+        const docObj = {
+          dbId: Math.random().toString(36).substr(2, 9),
+          date: now.toISOString().split('T')[0],
+          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          projectName: file.name,
+          preparedBy: globalProfile.name,
+          status: 'Manual Upload',
+          isManualDoc: true,
+          fileUrl: fileUrl,
+          fileName: file.name,
+          fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB'
+        };
+        reportsList.unshift(docObj);
+        if(db) saveReportToCloud(docObj);
+      });
+      
+      updateReportsTables();
+      switchView('archives');
+      showCustomAlert("Files Logged", "Documents successfully uploaded to your dashboard list.");
+    }
+
+    // --- Generate Final Report ---
     window.generateFinalReport = async function() {
       const btn = document.getElementById('generate-report-btn');
       const icon = document.getElementById('gen-icon');
@@ -1065,7 +1466,7 @@
         const showSafety = document.getElementById('cfg-include-safety').checked;
         const showResources = document.getElementById('cfg-include-resources').checked;
         const showDelays = document.getElementById('cfg-include-delays').checked;
-        const showLookAhead = document.getElementById('cfg-include-lookahead').checked;
+        const showPlanned = document.getElementById('cfg-include-planned').checked;
         const showPhotos = document.getElementById('cfg-include-photos').checked;
 
         let markdownBody = ``;
@@ -1075,8 +1476,8 @@
         if (showStatus) markdownBody += `## 3. Progress Status\nStructural, MEP, and site finishes are advancing in accordance with the project schedule.\n\n`;
         if (showSafety && reviewedSafety) markdownBody += `## 4. Safety & Quality Observations\n${reviewedSafety}\n\n`;
         if (showResources) markdownBody += `## 5. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
-        if (showDelays) markdownBody += `## 6. Delays / Roadblocks\n${formData.delays || 'None'}\n\n`;
-        if (showLookAhead) markdownBody += `## 7. Look Ahead Tracker\n${extractLookAheadMarkdown()}\n\n`;
+        if (showDelays) markdownBody += `## 6. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        if (showPlanned) markdownBody += `## 7. Look Ahead Tracker\n${extractLookAheadMarkdown()}\n\n`;
 
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -1108,8 +1509,9 @@
 
         renderViewReport();
         switchView('view_report');
+
       } catch (err) {
-        showCustomAlert("Generation Error", "Error compiling final report: Please verify database connections. " + err.message);
+        showCustomAlert("Generation Error", "Error compiling final report: Please verify database connections.");
       } finally {
         btn.disabled = false; btn.classList.remove('opacity-70');
         icon.setAttribute('data-lucide', 'check'); icon.classList.remove('animate-spin');
@@ -1179,6 +1581,16 @@
       if (!generatedReport) return;
       const paper = document.getElementById('report-paper');
       
+      const viewsCount = generatedReport.views || 0;
+      const viewersList = generatedReport.viewers || [];
+      const viewersHtml = viewersList.length > 0 ? 
+        `<div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 print-hidden">
+           <p class="font-semibold flex items-center gap-1.5 text-slate-800"><i data-lucide="eye" class="w-3.5 h-3.5 text-slate-400"></i> Access & View Log (${viewsCount} views):</p>
+           <ul class="list-disc list-inside mt-1 space-y-0.5 max-h-24 overflow-y-auto">
+             ${viewersList.map(v => `<li>${v}</li>`).join('')}
+           </ul>
+         </div>` : '';
+
       const rStatus = generatedReport.reviewStatus || 'Open';
       const rRemarks = generatedReport.reviewRemarks || '';
       const rActionTaken = generatedReport.reviewActionTaken || '';
@@ -1221,6 +1633,8 @@
             <p class="mt-1 text-slate-800 font-bold uppercase tracking-wider">DPR-${generatedReport.date.replace(/-/g, '')}</p>
           </div>
         </div>
+
+        ${viewersHtml}
 
         <div class="prose prose-slate max-w-none mt-2" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
           ${marked.parse(generatedReport.markdown)}
@@ -1517,9 +1931,14 @@
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
       document.getElementById('frm-date').value = formData.date;
+      
+      // Initialize two empty rows for Look Ahead Tracker
+      addLookAheadRow();
+      addLookAheadRow();
+      
       if(userApiKey) {
         document.getElementById('api-key-input').value = userApiKey;
-        document.getElementById('api-indicator').className = "w-3 h-3 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)] bg-green-500 transition-colors duration-300";
+        document.getElementById('api-indicator').className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)] bg-green-500 transition-colors duration-300";
         document.getElementById('connect-btn').innerText = "Connected";
       }
       if(!db) { setDbStatus('fallback'); updateReportsTables(); }
