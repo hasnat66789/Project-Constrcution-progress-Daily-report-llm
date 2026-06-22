@@ -680,12 +680,12 @@
     // Vercel Firebase Fallback Config
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
+      authDomain: "daily-reports-a4499.firebaseapp.com",
+      projectId: "daily-reports-a4499",
+      storageBucket: "daily-reports-a4499.firebasestorage.app",
+      messagingSenderId: "5941305654",
+      appId: "1:5941305654:web:c9e883207294032b341397"
     };
     
     const firebaseConfig = isLocalOrVercel ? fallbackConfig : JSON.parse(__firebase_config);
@@ -1117,9 +1117,9 @@
        const demoReport = {
           dbId: "demo-report-hash-123",
           projectName: "Al-Reem Residential Tower (Saudi Arabia)",
-          clientName: "Dar Al Arkan Developers",
+          clientName: "XYZ",
           supervisionConsultant: "TYA Associates",
-          pmcName: "MAB Consult",
+          pmcName: "XYZ",
           location: "Riyadh, Saudi Arabia",
           date: new Date().toISOString().split('T')[0],
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
