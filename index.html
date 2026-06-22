@@ -38,13 +38,9 @@
       background: #94a3b8;
     }
 
-    @media print {
-      body { background: white !important; }
-      .print-hidden { display: none !important; }
-      .print-m-0 { margin: 0 !important; }
-      .print-p-0 { padding: 0 !important; }
-      .print-w-full { width: 100% !important; max-width: 100% !important; }
-      .print-shadow-none { box-shadow: none !important; }
+    /* Print Page Margins */
+    @page {
+      margin: 1.5cm;
     }
     
     .view-section { display: none; }
@@ -122,10 +118,10 @@
     }
   </style>
 </head>
-<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
+<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased print:bg-white">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
+  <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 z-40 border-r border-slate-900 shadow-xl print:hidden">
     <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
@@ -172,14 +168,14 @@
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
+  <main class="flex-1 ml-64 p-8 relative print:ml-0 print:p-0 print:w-full">
     
     <!-- API Key Bar -->
-    <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
+    <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print:hidden">
       <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
+      <input type="password" id="api-key-input" placeholder="AI API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors" title="Get a Gemini API Key to enable automatic AI text drafting.">
       <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
-        Connect
+        Connect AI
       </button>
     </div>
 
@@ -277,7 +273,7 @@
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
-        <p class="text-slate-500 text-sm">Input real-time site variables, configure PMC stakeholders, and leverage Vision AI for automated photo logs.</p>
+        <p class="text-slate-500 text-sm">Input real-time site variables, configure PMC stakeholders, and bypass AI if needed.</p>
       </header>
 
       <div class="max-w-5xl space-y-6">
@@ -357,7 +353,6 @@
             <div>
               <div class="flex justify-between items-center mb-1.5">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
-                <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
               </div>
               <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-16 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
             </div>
@@ -429,7 +424,7 @@
           </button>
         </div>
 
-        <!-- Section 4: Manual Review and Configuration Panel (Hidden until drafting is triggered) -->
+        <!-- Section 4: Manual Review and Configuration Panel -->
         <div id="manual-review-panel" class="hidden bg-white rounded-2xl shadow-sm border-2 border-indigo-100 p-6 space-y-6">
           <div class="border-b border-slate-100 pb-4">
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -618,12 +613,12 @@
     </section>
 
     <!-- View Report (Output) -->
-    <section id="view_report" class="view-section py-12">
+    <section id="view_report" class="view-section py-12 print:py-0">
       <!-- Container optimized for split layout when viewing a report -->
-      <div class="w-full max-w-7xl mx-auto px-4">
+      <div class="w-full max-w-7xl mx-auto px-4 print:max-w-none print:px-0">
         
         <!-- Controls Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print-hidden">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print:hidden">
           <button onclick="switchView('archives')" class="text-slate-500 hover:text-slate-800 font-semibold text-xs flex items-center gap-1.5 transition">
             <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Archives
           </button>
@@ -640,14 +635,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex flex-col lg:flex-row gap-8 items-start print:gap-0">
           <!-- Paper Sheet Simulation -->
-          <div id="report-paper" class="bg-white flex-1 p-10 md:p-14 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full">
+          <div id="report-paper" class="bg-white flex-1 p-10 md:p-14 shadow-xl border border-slate-100 rounded-2xl print:shadow-none print:border-none print:m-0 print:p-0 print:w-full">
             <!-- Generated content injected here -->
           </div>
           
           <!-- Interactive Review & Collaboration Panel (Side Column) -->
-          <div id="review-collab-panel" class="w-full lg:w-[380px] space-y-6 print-hidden shrink-0">
+          <div id="review-collab-panel" class="w-full lg:w-[380px] space-y-6 print:hidden shrink-0">
             <!-- Dynamic Review components injected here -->
           </div>
         </div>
@@ -658,7 +653,7 @@
   </main>
 
   <!-- Custom Alert/Confirm Modal Overlay -->
-  <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[9999] hidden print-hidden">
+  <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[9999] hidden print:hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 mx-4 transform transition-all duration-300 scale-95 opacity-0" id="custom-modal-content">
       <h3 class="text-base font-bold text-slate-900 mb-2.5" id="custom-modal-title">Notification</h3>
       <div class="text-xs text-slate-500 mb-6 leading-relaxed" id="custom-modal-message"></div>
@@ -680,7 +675,7 @@
       apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
       authDomain: "daily-reports-a4499.firebaseapp.com",
       projectId: "daily-reports-a4499",
-      storageBucket: "daily-reports-a4499.firebasestorage.appm",
+      storageBucket: "daily-reports-a4499.firebasestorage.app",
       messagingSenderId: "5941305654",
       appId: "1:5941305654:web:c9e883207294032b341397"
     };
@@ -1193,9 +1188,12 @@
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
 
        } catch(e) {
-          showCustomAlert("AI Drafting Error", "Failed to compile AI drafts. Please verify your custom Gemini API key or proceed manually:\n\n" + e.message);
+          // If they don't have an API key, don't crash. Just open the manual box so they can type it.
+          showCustomAlert("AI Disabled", "Gemini AI needs an API Key to automatically write drafts. You can enter one in the top right Settings, or just manually type your notes into the boxes below!");
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
+          document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
+
        } finally {
           btn.disabled = false; btn.classList.remove('opacity-70');
           icon.setAttribute('data-lucide', 'sparkles'); icon.classList.remove('animate-spin');
@@ -1231,7 +1229,7 @@
       if (!input) {
         indicator.className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] bg-red-500 transition-colors duration-300";
         indicator.title = "API Disconnected";
-        btn.innerText = "Connect";
+        btn.innerText = "Connect AI";
         userApiKey = '';
         localStorage.removeItem('geminiApiKey');
         return;
@@ -1360,7 +1358,7 @@ Write using professional engineering language suitable for a daily construction 
         const resultText = await callGemini(payload);
         photo.aiText = resultText;
       } catch (err) {
-        photo.aiText = `Analysis failed. ${err.message}`;
+        photo.aiText = `Analysis failed. API Key needed. You can type observations manually here.`;
       } finally {
         photo.isAnalyzing = false;
         renderPhotos();
@@ -1466,9 +1464,10 @@ Write using professional engineering language suitable for a daily construction 
         const showSafety = document.getElementById('cfg-include-safety').checked;
         const showResources = document.getElementById('cfg-include-resources').checked;
         const showDelays = document.getElementById('cfg-include-delays').checked;
-        const showPlanned = document.getElementById('cfg-include-planned').checked;
+        const showPlanned = document.getElementById('cfg-include-lookahead').checked;
         const showPhotos = document.getElementById('cfg-include-photos').checked;
 
+        // Build the Markdown String NATIVELY. No API key needed for this!
         let markdownBody = ``;
 
         if (showExec && reviewedSummary) markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
@@ -1584,7 +1583,7 @@ Write using professional engineering language suitable for a daily construction 
       const viewsCount = generatedReport.views || 0;
       const viewersList = generatedReport.viewers || [];
       const viewersHtml = viewersList.length > 0 ? 
-        `<div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 print-hidden">
+        `<div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 print:hidden">
            <p class="font-semibold flex items-center gap-1.5 text-slate-800"><i data-lucide="eye" class="w-3.5 h-3.5 text-slate-400"></i> Access & View Log (${viewsCount} views):</p>
            <ul class="list-disc list-inside mt-1 space-y-0.5 max-h-24 overflow-y-auto">
              ${viewersList.map(v => `<li>${v}</li>`).join('')}
@@ -1595,7 +1594,7 @@ Write using professional engineering language suitable for a daily construction 
       const rRemarks = generatedReport.reviewRemarks || '';
       const rActionTaken = generatedReport.reviewActionTaken || '';
       const rReviewSection = `
-        <div class="mt-12 pt-6 border-t-2 border-slate-200 break-inside-avoid">
+        <div class="mt-12 pt-6 border-t-2 border-slate-200 print:break-inside-avoid">
            <div class="flex items-center justify-between border-b pb-2 mb-4">
              <h2 class="text-xl font-bold text-slate-900 !m-0 !border-0">Consultant Review & Action Logs</h2>
              <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${rStatus === 'Closed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}">
@@ -1643,11 +1642,11 @@ Write using professional engineering language suitable for a daily construction 
 
       if (generatedReport.photos && generatedReport.photos.length > 0) {
         html += `
-          <div class="mt-8 pt-6 border-t border-slate-200 break-inside-avoid">
+          <div class="mt-8 pt-6 border-t border-slate-200 print:break-inside-avoid">
             <h2 class="text-lg font-bold text-slate-900 mb-4 border-b pb-2">Site Photo Log</h2>
             <div class="grid grid-cols-2 gap-4">
               ${generatedReport.photos.map((photo, i) => `
-                <div class="break-inside-avoid bg-slate-50 p-2 rounded-lg border border-slate-100">
+                <div class="print:break-inside-avoid bg-slate-50 p-2 rounded-lg border border-slate-100">
                   ${photo.url ? `<img src="${photo.url}" class="w-full h-48 object-cover rounded shadow-sm" alt="Site Progress" />` : `<div class="w-full h-48 border border-slate-200 rounded bg-white flex items-center justify-center text-slate-400 text-xs">Image missing/archived.</div>`}
                   <div class="mt-2 text-xs text-slate-600 leading-relaxed" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
                     <p class="font-bold text-slate-800">Photo ${i + 1} - ${photo.category}</p>
@@ -1663,7 +1662,7 @@ Write using professional engineering language suitable for a daily construction 
       html += rReviewSection;
 
       html += `
-        <div class="mt-12 pt-8 border-t border-slate-800 flex justify-between break-inside-avoid">
+        <div class="mt-12 pt-8 border-t border-slate-800 flex justify-between print:break-inside-avoid">
           <div class="w-1/3 text-center">
             <div class="border-b border-slate-300 h-10 mb-1"></div>
             <p class="font-bold text-slate-900 text-xs">Prepared By</p>
