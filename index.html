@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construction daily reports</title>
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Marked.js for Markdown parsing -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <style>
@@ -106,9 +103,7 @@
 </head>
 <body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
-  <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
-    <!-- Header Title Area -->
     <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
@@ -119,7 +114,6 @@
       <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
     </div>
     
-    <!-- Nav Items -->
     <nav class="flex-1 p-4 space-y-1.5" id="nav-menu">
       <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10" data-target="dashboard">
         <i data-lucide="home" class="w-4.5 h-4.5"></i><span>Dashboard</span>
@@ -138,7 +132,6 @@
       </button>
     </nav>
     
-    <!-- Footer Profile Area -->
     <div class="p-4 border-t border-slate-900 bg-slate-950/80">
       <div class="flex items-center gap-3 px-3 py-1">
         <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
@@ -147,7 +140,6 @@
           <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider font-semibold">Project App Developer</p>
         </div>
       </div>
-      <!-- Database Connection Status Display -->
       <div class="px-3 pb-1 border-t border-slate-900/50 mt-3 pt-2.5 flex items-center justify-between">
         <p class="text-[11px] text-slate-400 flex items-center gap-2" id="db-status-container">
           <span id="db-status-dot" class="w-2 h-2 rounded-full bg-yellow-500"></span> 
@@ -157,21 +149,16 @@
     </div>
   </aside>
 
-  <!-- Main Content Area -->
   <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
     
-    <!-- API Key Bar -->
     <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
       <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-48 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-4 py-1.5 rounded-lg font-medium hover:bg-slate-900 transition flex items-center gap-2">
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
         Connect
       </button>
     </div>
 
-    <!-- VIEWS -->
-    
-    <!-- Dashboard View -->
     <section id="dashboard" class="view-section active pb-24">
       <header class="flex justify-between items-center mb-8 pr-72">
         <div>
@@ -182,7 +169,7 @@
           <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-12 max-w-[200px] object-contain hidden rounded-lg border border-slate-200 p-1 bg-white shadow-sm" />
           <div class="relative">
             <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-            <button class="bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
+            <button class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
               <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
               <span id="logo-btn-text">Upload Logo</span>
             </button>
@@ -190,9 +177,7 @@
         </div>
       </header>
 
-      <!-- 5-Column Metrics Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <!-- Card 1: Total Reports -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-blue-50 text-blue-600"><i data-lucide="file-text" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -200,7 +185,6 @@
             <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-total-reports">0</p>
           </div>
         </div>
-        <!-- Card 2: Avg Workforce -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -208,7 +192,6 @@
             <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <!-- Card 3: Safety Incidents -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -216,7 +199,6 @@
             <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <!-- Card 4: Days Active -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -224,7 +206,6 @@
             <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <!-- Card 5: Remaining Days -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-rose-50 text-rose-600"><i data-lucide="hourglass" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -234,7 +215,6 @@
         </div>
       </div>
 
-      <!-- Recent Reports -->
       <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-base font-bold text-slate-900">Recent Progress Logs</h2>
@@ -264,7 +244,6 @@
       </div>
     </section>
 
-    <!-- Create Report View -->
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
@@ -272,7 +251,6 @@
       </header>
 
       <div class="max-w-5xl space-y-6">
-        <!-- Project Details -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
             <i data-lucide="hard-hat" class="text-amber-500 w-5 h-5"></i> Project Details & PMC Configuration
@@ -301,7 +279,6 @@
           </div>
         </div>
 
-        <!-- Site Conditions -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
             <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Environmental Variables
@@ -334,7 +311,6 @@
           </div>
         </div>
 
-        <!-- Resources & Progress -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
             <i data-lucide="users" class="text-emerald-500 w-5 h-5"></i> Site Resources & Workforce Allocation
@@ -371,7 +347,6 @@
           </div>
         </div>
 
-        <!-- AI Photo Upload -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-5">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
@@ -386,7 +361,6 @@
           </div>
 
           <div id="photo-list-container">
-            <!-- Rendered via JS -->
             <div class="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center bg-slate-50/40">
               <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100">
                 <i data-lucide="camera" class="text-slate-400 w-7 h-7"></i>
@@ -397,7 +371,6 @@
           </div>
         </div>
 
-        <!-- Step 1: Draft Trigger Action -->
         <div class="flex justify-end pt-4" id="draft-button-container">
           <button id="draft-report-btn" onclick="triggerAIDrafting()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
             <i data-lucide="sparkles" id="draft-icon" class="w-5 h-5"></i>
@@ -405,7 +378,6 @@
           </button>
         </div>
 
-        <!-- Section 4: Manual Review and Configuration Panel (Hidden until drafting is triggered) -->
         <div id="manual-review-panel" class="hidden bg-white rounded-2xl shadow-sm border-2 border-indigo-100 p-6 space-y-6">
           <div class="border-b border-slate-100 pb-4">
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -414,7 +386,6 @@
             <p class="text-slate-500 text-xs mt-1">Check or uncheck sections to add or remove them from the final PDF. Modify drafted summaries to your preference.</p>
           </div>
 
-          <!-- Section Checklist (Add / Remove Options) -->
           <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
             <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Include / Exclude Report Sections</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
@@ -453,7 +424,6 @@
             </div>
           </div>
 
-          <!-- Editable Draft Summaries -->
           <div class="space-y-4">
             <div>
               <div class="flex justify-between items-center mb-1">
@@ -480,7 +450,6 @@
             </div>
           </div>
 
-          <!-- Final Compilation Trigger -->
           <div class="flex justify-between items-center pt-4 border-t border-slate-100">
             <span class="text-xs text-slate-400 italic">Verify and edit above parameters before saving permanently.</span>
             <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
@@ -493,7 +462,6 @@
       </div>
     </section>
 
-    <!-- Upload Documents View -->
     <section id="upload_documents" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Documents</h1>
@@ -504,7 +472,7 @@
           <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
           <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
             <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
-              <i data-lucide="upload" class="text-blue-600 w-8 h-8"></i>
+              <i data-lucide="upload" class="w-7 h-7"></i>
             </div>
             <div>
               <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
@@ -521,15 +489,14 @@
       </div>
     </section>
 
-    <!-- Archives View -->
     <section id="archives" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Report Archives</h1>
         <p class="text-slate-500 text-sm">Search, filter, and audit all historic dailies saved directly on your cloud Firestore database.</p>
       </header>
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 max-w-6xl">
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 max-w-6xl">
         <div class="flex justify-between items-center mb-6">
-          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-slate-50/50 premium-input" />
+          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs bg-slate-50/50 premium-input" />
           <button class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition">Export List</button>
         </div>
         <div class="overflow-x-auto">
@@ -551,7 +518,6 @@
       </div>
     </section>
 
-    <!-- Settings View -->
     <section id="settings" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Settings</h1>
@@ -560,7 +526,7 @@
       <div class="max-w-3xl space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-            <h2 class="text-lg font-bold text-slate-900">Profile Information</h2>
+            <h2 class="text-base font-bold text-slate-900">Profile Information</h2>
             <button id="lock-profile-btn" onclick="toggleProfileLock(false)" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1.5 hidden">
               <i data-lucide="lock" class="w-4 h-4"></i> Lock Profile
             </button>
@@ -619,12 +585,9 @@
       </div>
     </section>
 
-    <!-- View Report (Output) -->
     <section id="view_report" class="view-section py-12">
-      <!-- Container optimized for split layout when viewing a report -->
       <div class="w-full max-w-7xl mx-auto px-4">
         
-        <!-- Controls Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print-hidden">
           <button onclick="switchView('archives')" class="text-slate-500 hover:text-slate-800 font-semibold text-xs flex items-center gap-1.5 transition">
             <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Archives
@@ -643,15 +606,11 @@
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 items-start">
-          <!-- Paper Sheet Simulation -->
           <div id="report-paper" class="bg-white flex-1 p-12 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full">
-            <!-- Generated content injected here -->
-          </div>
+            </div>
           
-          <!-- Interactive Review & Collaboration Panel (Side Column) -->
           <div id="review-collab-panel" class="w-full lg:w-[380px] space-y-6 print-hidden shrink-0">
-            <!-- Dynamic Review components injected here -->
-          </div>
+            </div>
         </div>
 
       </div>
@@ -659,18 +618,15 @@
 
   </main>
 
-  <!-- Custom Alert/Confirm Modal Overlay -->
   <div id="custom-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[9999] hidden print-hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 mx-4 transform transition-all duration-300 scale-95 opacity-0" id="custom-modal-content">
       <h3 class="text-base font-bold text-slate-900 mb-2.5" id="custom-modal-title">Notification</h3>
       <div class="text-xs text-slate-500 mb-6 leading-relaxed" id="custom-modal-message"></div>
       <div class="flex justify-end gap-2.5" id="custom-modal-actions">
-        <!-- Injected dynamically -->
-      </div>
+        </div>
     </div>
   </div>
 
-  <!-- Changed to type="module" to support Firebase imports -->
   <script type="module">
     // --- Firebase Initialization for Permanent Storage ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -729,7 +685,6 @@
        setDbStatus('fallback');
     }
 
-
     // --- Application State ---
     const apiKey = ""; // Execution environment provides this at runtime
     let userApiKey = localStorage.getItem('geminiApiKey') || '';
@@ -739,7 +694,7 @@
     let documents = [];
     let generatedReport = null;
     let companyLogoBase64 = null;
-    let tempScreenshotBase64 = null; // Holds the currently attached comment screenshot
+    let tempScreenshotBase64 = null; 
     
     let formData = {
       projectName: '',
@@ -827,7 +782,6 @@
         }, 200);
     }
 
-    // Fullscreen observation/screenshot viewer
     window.openFullscreenImage = function(src) {
         document.getElementById('custom-modal-title').innerText = "Site Observation Reference";
         document.getElementById('custom-modal-message').innerHTML = `<img src="${src}" class="w-full max-h-[450px] object-contain rounded-xl border border-slate-100 shadow-inner" />`;
@@ -870,11 +824,9 @@
         }
     }
 
-    // --- Cloud Config & Logo Handlers ---
     function loadConfigFromCloud() {
       if (!currentUser || !db) return;
 
-      // Listen to Stats
       const statsRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard');
       onSnapshot(statsRef, (docSnap) => {
         if (docSnap.exists()) {
@@ -886,7 +838,6 @@
         }
       });
 
-      // Listen to Logo
       const logoRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo');
       onSnapshot(logoRef, (docSnap) => {
         if (docSnap.exists()) {
@@ -900,7 +851,6 @@
         }
       });
 
-      // Listen to Profile
       const profileRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile');
       onSnapshot(profileRef, (docSnap) => {
         if (docSnap.exists()) {
@@ -911,19 +861,15 @@
     }
 
     function updateProfileUI() {
-      // Update Name Spans on Dashboard Header
       const nameSpans = document.querySelectorAll('.profile-name-span');
       nameSpans.forEach(span => span.innerText = globalProfile.name);
 
-      // Sidebar Profile Info
       document.getElementById('sidebar-profile-name').innerText = globalProfile.name;
       document.getElementById('sidebar-profile-role').innerText = globalProfile.role;
 
-      // Avatar Initials
       const initials = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
       document.getElementById('sidebar-profile-avatar').innerText = initials;
 
-      // Settings Inputs
       const nameInput = document.getElementById('settings-profile-name');
       const roleInput = document.getElementById('settings-profile-role');
       const emailInput = document.getElementById('settings-profile-email');
@@ -955,37 +901,41 @@
         const reportsRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports');
         
         onSnapshot(reportsRef, (snapshot) => {
-            reportsList = [];
+            let newlyFetchedList = [];
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                reportsList.push({ 
+                newlyFetchedList.push({ 
                     ...data,
                     docId: doc.id,
-                    dbId: data.dbId || doc.id // Align internal ID securely with the document key
+                    dbId: data.dbId || doc.id 
                 });
             });
-            // Sort by newest first
-            reportsList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+            
+            newlyFetchedList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+            reportsList = newlyFetchedList;
             updateReportsTables();
             
-            // If currently viewing a report, refresh to capture live comment updates from Firestore
+            // Critical Fix: Do not blindly overwrite the active viewed report. 
+            // Only update review comments and status, otherwise images will be wiped to text.
             if(currentView === 'view_report' && generatedReport) {
                 const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
                 if(refreshedReport) {
+                    refreshedReport.photos = generatedReport.photos; // Maintain local high-res photos
+                    refreshedReport.logo = generatedReport.logo; // Maintain local logo
                     generatedReport = refreshedReport;
                     renderViewReport();
                 }
             }
         }, (error) => {
             console.error("Firestore loading error:", error);
-            setDbStatus('error', "Database permission denied", "Make sure your Firestore Database rules allow reading and writing. Set them to test-mode (allow read, write: if true;) to test your app securely.");
+            setDbStatus('error', "Database permission denied", "Make sure your Firestore Database rules allow reading and writing.");
         });
     }
 
     async function saveReportToCloud(reportData) {
         if (!currentUser || !db) return;
         try {
-            // Remove massive image base64s to prevent Firebase 1MB document limit crashes
+            // Strip high-res photo data before saving the primary document
             const safePhotos = reportData.photos.map(p => ({
                 id: p.id,
                 category: p.category,
@@ -993,7 +943,6 @@
                 mimeType: p.mimeType
             }));
             
-            // Strip out massive logo base64 which is already saved globally on config/logo
             const { logo, ...reportWithoutLogo } = reportData;
             
             const reportToSave = { 
@@ -1002,11 +951,10 @@
                 createdAt: reportData.createdAt || Date.now() 
             };
             
-            // Explicitly set the key as reportData.dbId to align doc key and in-app lookup references
             const reportDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId);
             await setDoc(reportDocRef, reportToSave);
 
-            // SAVE ORIGINAL HIGH-RES IMAGES SECURELY IN A PHOTOS SUB-COLLECTION TO AVOID SIZE CRASHES
+            // Save Original Images inside Sub-collection to avoid 1MB limit crash
             for (const p of reportData.photos) {
                if(p.base64) {
                    const photoDocRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id);
@@ -1017,12 +965,11 @@
                    });
                }
             }
-
             setDbStatus('connected');
         } catch(e) {
             console.error("Error saving to cloud:", e);
             setDbStatus('error', "Failed to write report data to Cloud", e.message);
-            throw e; // Rethrow to halt downstream state transitions on errors
+            throw e; 
         }
     }
 
@@ -1034,16 +981,13 @@
         const targetId = (report && report.docId) ? report.docId : dbId;
         
         if (!currentUser || !db) {
-            // Local fallback
             reportsList = reportsList.filter(r => r.dbId !== dbId);
             updateReportsTables();
             return;
         }
         try {
-            // Delete main doc
             await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId));
             
-            // Clean up photos sub-collection
             if(report && report.photos) {
                for (const p of report.photos) {
                   await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
@@ -1058,13 +1002,11 @@
         const report = reportsList.find(r => r.dbId === dbId);
         if(!report) return;
 
-        // Visual overlay loading
-        showCustomAlert("Retrieving Report", "Loading report parameters and fetching original high-resolution site photos from the database...");
-
-        // FETCH ORIGINAL SUB-COLLECTION PHOTOS IF CONNECTED TO CLOUD TO KEEP PICS INTACT ON VIEW
         if (db && currentUser && report.photos && report.photos.length > 0) {
+           showCustomAlert("Retrieving Report", "Loading parameters and fetching high-resolution site photos from the cloud database...");
            try {
-              const photosColRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', dbId, 'photos');
+              const targetId = report.docId || dbId;
+              const photosColRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos');
               const photosSnapshot = await getDocs(photosColRef);
               const cloudPhotosMap = {};
               
@@ -1073,11 +1015,11 @@
                  cloudPhotosMap[doc.id] = pData.base64;
               });
 
-              // Hydrate base64 image data back to local URL structures
               report.photos = report.photos.map(p => {
                  if (cloudPhotosMap[p.id]) {
                     return {
                        ...p,
+                       base64: cloudPhotosMap[p.id],
                        url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudPhotosMap[p.id]}`
                     };
                  }
@@ -1088,12 +1030,11 @@
            }
         }
 
-        closeCustomModal(); // Close loading status alert
+        closeCustomModal();
         generatedReport = report; 
         renderViewReport();
         switchView('view_report');
 
-        // Increment view count in Firebase
         if (db && currentUser) {
           try {
             const targetId = report.docId || report.dbId;
@@ -1117,9 +1058,9 @@
        const demoReport = {
           dbId: "demo-report-hash-123",
           projectName: "Al-Reem Residential Tower (Saudi Arabia)",
-          clientName: "XYZ",
+          clientName: "Dar Al Arkan Developers",
           supervisionConsultant: "TYA Associates",
-          pmcName: "XYZ",
+          pmcName: "MAB Consult",
           location: "Riyadh, Saudi Arabia",
           date: new Date().toISOString().split('T')[0],
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -1141,7 +1082,7 @@
           markdown: `# Daily Progress Report\n**Date:** ${new Date().toLocaleDateString()} | **Project:** Al-Reem Residential Tower\n\n## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A. Steel reinforcement inspection and conduit checkouts were completed.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **MEP Works:** Finished cable tray installation and wiring layouts in the service shafts of Floors 10-12.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule with approximately 74% structural concrete completion.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE. Fall protection nets have been re-anchored on the structural perimeter walls. Shuttering inspect on Sector B flagged one honeycomb issue.`,
           photos: [
              {
-                id: "p1",
+                id: "demo_p1",
                 url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop",
                 category: "Structural Works",
                 aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom. All safety scaffolding intact."
@@ -1151,7 +1092,6 @@
           viewers: ["Hasnat Safdar (App Developer) viewed at 9:00 AM", "Audit Lead (TYA) viewed at 10:15 AM"]
        };
 
-       // Push to local list if not already there
        if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
           reportsList.unshift(demoReport);
           updateReportsTables();
@@ -1177,7 +1117,6 @@
        lucide.createIcons();
 
        try {
-          // Prepare vision upload summaries to supply to the LLM contextual frame
           let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'No AI description generated.'}`).join('\n\n');
 
           const prompt = `You are a professional construction project manager preparing structural drafts for a Daily Progress Report. Based on the site parameters below, write three detailed section drafts.
@@ -1218,7 +1157,6 @@
           const payload = { contents: [{ parts: [{ text: prompt }] }] };
           const resultRaw = await callGemini(payload);
 
-          // Extract text sections using bracket indicators
           let draftedSummary = "Progress successfully recorded for civil and structural works. Site works active.";
           let draftedCompleted = "* Site mobilizations initiated.\n* Progress checks verified.";
           let draftedSafety = "General safety checks validated. Laborers observed utilizing high-grade PPE guidelines.";
@@ -1231,22 +1169,17 @@
           if (completedMatch) draftedCompleted = completedMatch[1].trim();
           if (safetyMatch) draftedSafety = safetyMatch[1].trim();
 
-          // Populate editable textareas for Manual Review prior to compiled saving
           document.getElementById('draft-exec-summary').value = draftedSummary;
           document.getElementById('draft-completed-today').value = draftedCompleted;
           document.getElementById('draft-safety-quality').value = draftedSafety;
 
-          // Activate/reveal Step 2 Manual Review Panel
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
           
-          // Scroll cleanly to the editable audit draft
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
 
        } catch(e) {
           showCustomAlert("AI Drafting Error", "Failed to compile AI drafts. Please verify your custom Gemini API key or proceed manually:\n\n" + e.message);
-          
-          // Show manual editor so user can write everything manually regardless of API key limits
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
        } finally {
@@ -1265,13 +1198,11 @@
       document.getElementById(viewName).classList.add('active');
       currentView = viewName;
 
-      // Reset Create form step views on navigating back/forth
       if(viewName === 'create_report') {
          document.getElementById('manual-review-panel').classList.add('hidden');
          document.getElementById('draft-button-container').classList.remove('hidden');
       }
 
-      // Update sidebar styling
       document.querySelectorAll('.nav-btn').forEach(btn => {
         if(btn.dataset.target === viewName) {
           btn.className = 'nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10';
@@ -1310,35 +1241,29 @@
 
     async function callGemini(payload) {
       const activeKey = userApiKey || apiKey;
+      
+      if (!activeKey) {
+          throw new Error("API Key Missing. Please connect your valid Gemini API Key in the top right corner of the dashboard.");
+      }
+      
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`;
       
-      let retries = 3;
-      let delay = 1000;
-
-      for (let i = 0; i < retries; i++) {
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-          
-          if (!response.ok) {
-            const err = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, message: ${err}`);
-          }
-          
-          const data = await response.json();
-          return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
-        } catch (e) {
-          if (i === retries - 1) throw e;
-          await new Promise(r => setTimeout(r, delay));
-          delay *= 2;
-        }
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error?.message || "Invalid or empty API key. Please check your key settings.");
       }
+      
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
     }
 
-    // --- State & Form Updating ---
+    // --- Form Updaters ---
     window.updateForm = function(field, value) {
       formData[field] = value;
     }
@@ -1368,7 +1293,6 @@
         img.classList.remove('hidden');
         document.getElementById('logo-btn-text').innerText = 'Change Logo';
 
-        // Sync Logo to cloud config
         if (db && currentUser) {
           try {
             const logoRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo');
@@ -1383,7 +1307,7 @@
       reader.readAsDataURL(file);
     }
 
-    // --- Photo Management ---
+    // --- Photo Compressor & Uploader ---
     window.handlePhotoUpload = function(event) {
       const files = Array.from(event.target.files);
       if (!files.length) return;
@@ -1391,24 +1315,39 @@
       files.forEach(file => {
         if(photos.length >= 50) return; 
         const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64String = reader.result.split(',')[1];
-          const photoId = Math.random().toString(36).substr(2, 9);
-          
-          const newPhoto = {
-            id: photoId,
-            url: URL.createObjectURL(file),
-            base64: base64String,
-            mimeType: file.type,
-            aiText: '',
-            isAnalyzing: false,
-            category: 'General Progress'
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = function() {
+            // Compress Image directly in browser to prevent 1MB crash limit on firebase
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1200;
+            let scaleSize = 1;
+            if(img.width > MAX_WIDTH) {
+               scaleSize = MAX_WIDTH / img.width;
+            }
+            canvas.width = img.width * scaleSize;
+            canvas.height = img.height * scaleSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+            const photoId = Math.random().toString(36).substr(2, 9);
+            
+            const newPhoto = {
+              id: photoId,
+              url: URL.createObjectURL(file), // Local fast viewing
+              base64: compressedBase64,
+              mimeType: 'image/jpeg',
+              aiText: '',
+              isAnalyzing: false,
+              category: 'General Progress'
+            };
+            
+            photos.push(newPhoto);
+            renderPhotos();
+            window.analyzePhoto(photoId);
           };
-          
-          photos.push(newPhoto);
-          renderPhotos();
-          
-          window.analyzePhoto(photoId);
+          img.src = e.target.result;
         };
         reader.readAsDataURL(file);
       });
@@ -1433,7 +1372,6 @@
       const photo = photos.find(p => p.id === id);
       if (!photo) return;
 
-      // Update UI to analyzing state
       photo.isAnalyzing = true;
       renderPhotos();
 
@@ -1459,7 +1397,7 @@ Write using professional engineering language suitable for a daily construction 
         const resultText = await callGemini(payload);
         photo.aiText = resultText;
       } catch (err) {
-        photo.aiText = 'Analysis failed. Please check your API key connection or try again manually.';
+        photo.aiText = `Analysis failed. ${err.message}`;
       } finally {
         photo.isAnalyzing = false;
         renderPhotos();
@@ -1575,7 +1513,7 @@ Write using professional engineering language suitable for a daily construction 
       lucide.createIcons();
     }
 
-    // --- Generate Final Report ---
+    // --- STEP 2: Compile Reviewed Sections & Generate Final PDF Report ---
     window.generateFinalReport = async function() {
       const btn = document.getElementById('generate-report-btn');
       const icon = document.getElementById('gen-icon');
@@ -1589,12 +1527,10 @@ Write using professional engineering language suitable for a daily construction 
       lucide.createIcons();
 
       try {
-        // Read reviewed drafts from textareas
         const reviewedSummary = document.getElementById('draft-exec-summary').value.trim();
         const reviewedCompleted = document.getElementById('draft-completed-today').value.trim();
         const reviewedSafety = document.getElementById('draft-safety-quality').value.trim();
 
-        // Read checkbox visibilities (Add / Remove)
         const showExec = document.getElementById('cfg-include-summary').checked;
         const showComp = document.getElementById('cfg-include-completed').checked;
         const showStatus = document.getElementById('cfg-include-status').checked;
@@ -1604,34 +1540,18 @@ Write using professional engineering language suitable for a daily construction 
         const showPlanned = document.getElementById('cfg-include-planned').checked;
         const showPhotos = document.getElementById('cfg-include-photos').checked;
 
-        // Dynamically build the Markdown document incorporating ONLY requested sections
-        let markdownBody = `# Daily Progress Report\n**Date:** ${formData.date} | **Project:** ${formData.projectName || 'Untitled Project'}\n\n`;
+        let markdownBody = ``;
 
-        if (showExec) {
-          markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
-        }
-        if (showComp) {
-          markdownBody += `## 2. Activities Completed Today\n${reviewedCompleted}\n\n`;
-        }
-        if (showStatus) {
-          markdownBody += `## 3. Progress Status\nStructural, MEP, and site finishes are advancing in accordance with the project schedule.\n\n`;
-        }
-        if (showSafety) {
-          markdownBody += `## 4. Safety & Quality Observations\n${reviewedSafety}\n\n`;
-        }
-        if (showResources) {
-          markdownBody += `## 5. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n* **Heavy Equipment:** ${formData.equipment || 'Not provided'}\n* **Visitors:** ${formData.visitors || 'None'}\n\n`;
-        }
-        if (showDelays) {
-          markdownBody += `## 6. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
-        }
-        if (showPlanned) {
-          markdownBody += `## 7. Planned Activities for Tomorrow\n${formData.plannedTomorrow || 'Not specified'}\n\n`;
-        }
+        if (showExec && reviewedSummary) markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
+        if (showComp && reviewedCompleted) markdownBody += `## 2. Activities Completed Today\n${reviewedCompleted}\n\n`;
+        if (showStatus) markdownBody += `## 3. Progress Status\nStructural, MEP, and site finishes are advancing in accordance with the project schedule.\n\n`;
+        if (showSafety && reviewedSafety) markdownBody += `## 4. Safety & Quality Observations\n${reviewedSafety}\n\n`;
+        if (showResources) markdownBody += `## 5. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n* **Heavy Equipment:** ${formData.equipment || 'Not provided'}\n* **Visitors:** ${formData.visitors || 'None'}\n\n`;
+        if (showDelays) markdownBody += `## 6. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        if (showPlanned) markdownBody += `## 7. Planned Activities for Tomorrow\n${formData.plannedTomorrow || 'Not specified'}\n\n`;
 
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        // Build report structure
         const newReport = {
           dbId: Math.random().toString(36).substr(2, 9), 
           markdown: markdownBody,
@@ -1642,7 +1562,7 @@ Write using professional engineering language suitable for a daily construction 
           supervisionConsultant: formData.supervisionConsultant || 'Not specified',
           pmcName: formData.pmcName || 'Not specified',
           location: formData.location || 'Not specified',
-          photos: showPhotos ? [...photos] : [], // Include photo log only if checked
+          photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
           preparedBy: globalProfile.name,
           status: 'Generated',
@@ -1655,12 +1575,9 @@ Write using professional engineering language suitable for a daily construction 
         };
         
         generatedReport = newReport;
-
-        // Push locally for immediate viewing
         reportsList.unshift(newReport);
         updateReportsTables();
         
-        // Save to Firebase Cloud - Await it so it exists before user views/reviews it
         if(db) {
             await saveReportToCloud(newReport);
         }
@@ -1673,14 +1590,13 @@ Write using professional engineering language suitable for a daily construction 
       } finally {
         btn.disabled = false;
         btn.classList.remove('opacity-70');
-        icon.setAttribute('data-lucide', 'file-text');
+        icon.setAttribute('data-lucide', 'check');
         icon.classList.remove('animate-spin');
-        text.innerText = "Generate Daily Report";
+        text.innerText = "💾 Finalize & Publish Daily Report";
         lucide.createIcons();
       }
     }
 
-    // Render tables in Dashboard and Archives
     function updateReportsTables() {
       document.getElementById('stat-total-reports').innerText = reportsList.length;
       
@@ -1726,12 +1642,10 @@ Write using professional engineering language suitable for a daily construction 
       lucide.createIcons();
     }
 
-    // Render Final Report DOM
     function renderViewReport() {
       if (!generatedReport) return;
       const paper = document.getElementById('report-paper');
       
-      // Access View History details rendered in report
       const viewsCount = generatedReport.views || 0;
       const viewersList = generatedReport.viewers || [];
       const viewersHtml = viewersList.length > 0 ? 
@@ -1742,7 +1656,6 @@ Write using professional engineering language suitable for a daily construction 
            </ul>
          </div>` : '';
 
-      // Review Details to display printed on report
       const rStatus = generatedReport.reviewStatus || 'Open';
       const rRemarks = generatedReport.reviewRemarks || '';
       const rActionTaken = generatedReport.reviewActionTaken || '';
@@ -1767,11 +1680,9 @@ Write using professional engineering language suitable for a daily construction 
         </div>
       `;
 
-      // Fallback logo handler to prevent empty headers in cloud-restored reports
       const activeLogo = generatedReport.logo || companyLogoBase64;
 
       let html = `
-        <!-- Professional Architecture-Grade Document Header -->
         <div class="border-b-4 border-slate-900 pb-6 mb-8 flex justify-between items-end">
           <div>
             ${activeLogo ? `<img src="${activeLogo}" alt="Company Logo" class="h-16 mb-4 object-contain rounded-lg p-1 bg-white border border-slate-200 shadow-sm" />` : ''}
@@ -1815,7 +1726,6 @@ Write using professional engineering language suitable for a daily construction 
         `;
       }
 
-      // Add audit logs directly onto the generated report
       html += rReviewSection;
 
       html += `
@@ -1836,11 +1746,9 @@ Write using professional engineering language suitable for a daily construction 
       paper.innerHTML = html;
       lucide.createIcons();
 
-      // Render the adjacent interactive review timeline and status sidebar
       renderReviewPanel();
     }
 
-    // --- Dynamic Review & Collaboration Sidebar Panel Generator ---
     function renderReviewPanel() {
       const panel = document.getElementById('review-collab-panel');
       if (!panel || !generatedReport) return;
@@ -1851,7 +1759,6 @@ Write using professional engineering language suitable for a daily construction 
       const comments = generatedReport.reviewComments || [];
 
       panel.innerHTML = `
-        <!-- Review Status Management -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
@@ -1889,20 +1796,17 @@ Write using professional engineering language suitable for a daily construction 
           </div>
         </div>
 
-        <!-- Discussion, Feedback & Screenshot Uploads -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
           <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
             <i data-lucide="message-square" class="text-indigo-500 w-4 h-4"></i>
             Clarifications & Feedback
           </h3>
 
-          <!-- Post Comment Form -->
           <div class="space-y-3 bg-slate-50/50 p-3 rounded-xl border border-slate-100/60">
             <p class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Ask Update / Point out issue</p>
             
             <textarea id="collab-comment-text" placeholder="Add comment, request update..." class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-white h-16 resize-none"></textarea>
             
-            <!-- Screenshot Attachment Action -->
             <div class="flex items-center justify-between gap-2">
               <div class="relative overflow-hidden flex-1">
                 <input type="file" id="collab-screenshot-input" accept="image/*" onchange="previewCollabScreenshot(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
@@ -1914,7 +1818,6 @@ Write using professional engineering language suitable for a daily construction 
               <button onclick="postCollabComment(this)" class="bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-4 rounded-xl text-[10px] font-bold transition">Send</button>
             </div>
             
-            <!-- Small screenshot preview thumbnail -->
             <div id="screenshot-preview-container" class="hidden relative w-16 h-16 border border-slate-200 rounded-lg overflow-hidden mt-1.5 bg-white shadow-sm">
               <img id="screenshot-preview-img" src="" class="w-full h-full object-cover" />
               <button onclick="clearCollabScreenshot()" class="absolute top-0.5 right-0.5 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition">
@@ -1923,7 +1826,6 @@ Write using professional engineering language suitable for a daily construction 
             </div>
           </div>
 
-          <!-- Comment History Timeline -->
           <div id="collab-comments-feed" class="space-y-3.5 max-h-72 overflow-y-auto pr-1">
             ${comments.length === 0 ? `
               <p class="text-[11px] text-slate-400 text-center py-4">No comments or screenshots uploaded yet.</p>
@@ -1970,12 +1872,25 @@ Write using professional engineering language suitable for a daily construction 
       const file = event.target.files[0];
       if(!file) return;
       const reader = new FileReader();
-      reader.onloadend = () => {
-         tempScreenshotBase64 = reader.result;
-         document.getElementById('screenshot-preview-img').src = tempScreenshotBase64;
-         document.getElementById('screenshot-preview-container').classList.remove('hidden');
-         document.getElementById('screenshot-btn-label').innerText = "Change Image";
-         lucide.createIcons();
+      reader.onload = (e) => {
+         const img = new Image();
+         img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 800;
+            let scaleSize = 1;
+            if(img.width > MAX_WIDTH) scaleSize = MAX_WIDTH / img.width;
+            canvas.width = img.width * scaleSize;
+            canvas.height = img.height * scaleSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            tempScreenshotBase64 = canvas.toDataURL('image/jpeg', 0.7); 
+            document.getElementById('screenshot-preview-img').src = tempScreenshotBase64;
+            document.getElementById('screenshot-preview-container').classList.remove('hidden');
+            document.getElementById('screenshot-btn-label').innerText = "Change Image";
+            lucide.createIcons();
+         };
+         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
@@ -2014,16 +1929,14 @@ Write using professional engineering language suitable for a daily construction 
       if(!generatedReport.reviewComments) generatedReport.reviewComments = [];
       generatedReport.reviewComments.push(newComment);
 
-      // Sync locally in memory first
       const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
       if (cachedReportIndex !== -1) {
          reportsList[cachedReportIndex].reviewComments = generatedReport.reviewComments;
       }
 
-      // If connected to Cloud, update Firestore
       if(db && currentUser && generatedReport.dbId) {
          try {
-            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.dbId);
+            const reportRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId);
             await updateDoc(reportRef, {
                reviewComments: generatedReport.reviewComments
             });
@@ -2034,14 +1947,12 @@ Write using professional engineering language suitable for a daily construction 
          }
       }
 
-      // Reset forms
       commentInput.value = '';
       clearCollabScreenshot();
       
       btn.disabled = false;
       btn.innerText = originalText;
 
-      // Re-render
       renderReviewPanel();
       updateReportsTables();
     }
@@ -2061,7 +1972,6 @@ Write using professional engineering language suitable for a daily construction 
       generatedReport.reviewRemarks = remarks;
       generatedReport.reviewActionTaken = actionTaken;
 
-      // Sync locally in memory list
       const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
       if (cachedReportIndex !== -1) {
          reportsList[cachedReportIndex].reviewStatus = status;
@@ -2089,116 +1999,10 @@ Write using professional engineering language suitable for a daily construction 
       btn.innerHTML = originalHtml;
       lucide.createIcons();
 
-      // Refresh display
       renderViewReport(); 
       renderReviewPanel();
       updateReportsTables();
       showCustomAlert("Saved Successfully", "Remarks, corrective actions, and open/closed status updated successfully!");
-    }
-
-    // --- Settings Profile Lock ---
-    window.unlockProfile = function() {
-      const pwd = document.getElementById('profile-password').value;
-      if (pwd === 'adminhasnat') {
-        toggleProfileLock(true);
-        document.getElementById('profile-password').value = '';
-      } else {
-        showCustomAlert("Access Denied", "Incorrect password.");
-      }
-    }
-
-    window.toggleProfileLock = function(unlock) {
-      const lockedView = document.getElementById('profile-locked-view');
-      const unlockedView = document.getElementById('profile-unlocked-view');
-      const lockBtn = document.getElementById('lock-profile-btn');
-
-      if (unlock) {
-        lockedView.classList.add('hidden');
-        unlockedView.classList.remove('hidden');
-        lockBtn.classList.remove('hidden');
-      } else {
-        lockedView.classList.remove('hidden');
-        unlockedView.classList.add('hidden');
-        lockBtn.classList.add('hidden');
-      }
-    }
-
-    // --- New Gemini LLM Features ---
-    window.suggestMitigation = async function(btn) {
-      const delayEl = document.getElementById('frm-delays');
-      const delayText = delayEl.value;
-      
-      if(!delayText || delayText.trim().toLowerCase() === 'none') {
-        return showCustomAlert("Input Empty", 'Please describe a specific delay or issue first to get mitigations.');
-      }
-
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Thinking...';
-      lucide.createIcons();
-
-      try {
-        const prompt = `You are a Senior Construction Project Manager. The site is experiencing this delay/issue: "${delayText}". Suggest 2 brief, actionable mitigation strategies to overcome this and recover the schedule.`;
-        const res = await callGemini({ contents: [{ parts: [{ text: prompt }] }] });
-        delayEl.value = delayText + '\n\n**AI Recommended Mitigations:**\n' + res;
-        updateForm('delays', delayEl.value);
-      } catch(e) { 
-        showCustomAlert("AI Service Error", "Error generating mitigations. Check your API key."); 
-      } finally {
-        btn.innerHTML = '✨ Suggest Fixes';
-      }
-    }
-
-    window.professionalizeText = async function(elementId, btn) {
-      const el = document.getElementById(elementId);
-      const text = el.value;
-      
-      if(!text.trim()) return showCustomAlert("Input Empty", 'Please enter some text to professionalize.');
-
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Writing...';
-      lucide.createIcons();
-
-      try {
-        const prompt = `Rewrite the following construction site notes into formal, highly professional engineering language suitable for a client progress report. Keep it concise and direct.\n\nDraft Notes: ${text}`;
-        const res = await callGemini({ contents: [{ parts: [{ text: prompt }] }] });
-        el.value = res;
-        updateForm(elementId.replace('frm-', ''), res);
-      } catch(e) { 
-        showCustomAlert("AI Service Error", "Error rewriting text. Check your API key."); 
-      } finally {
-        btn.innerHTML = '✨ Professionalize';
-      }
-    }
-
-    window.translateReport = async function(btn) {
-      if (!generatedReport) return;
-
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-4.5 h-4.5 animate-spin"></i> Translating...';
-      lucide.createIcons();
-
-      try {
-        const prompt = `Translate the following Construction Daily Progress Report into professional engineering Arabic. Maintain the Markdown formatting exactly as it is.\n\n${generatedReport.markdown}`;
-        const res = await callGemini({ contents: [{ parts: [{ text: prompt }] }] });
-        
-        // Store translated version and re-render
-        generatedReport.markdown = res;
-        generatedReport.projectName = generatedReport.projectName + " (مترجم)";
-        
-        renderViewReport();
-        
-        // Ensure RTL text direction on the markdown container for Arabic
-        setTimeout(() => {
-          const prose = document.querySelector('.prose');
-          if(prose) {
-             prose.style.direction = 'rtl';
-             prose.style.textAlign = 'right';
-          }
-        }, 100);
-
-      } catch(e) { 
-        showCustomAlert("AI Service Error", "Error translating report. Check your API key."); 
-      } finally {
-        btn.innerHTML = '✨ Translated';
-        btn.disabled = true;
-      }
     }
 
   </script>
