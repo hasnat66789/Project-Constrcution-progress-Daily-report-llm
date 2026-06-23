@@ -130,6 +130,23 @@
 </head>
 <body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
+  <!-- Global App Lock Overlay -->
+  <div id="app-lock-overlay" class="fixed inset-0 bg-slate-950 z-[99999] flex flex-col items-center justify-center transition-opacity duration-500">
+    <div class="bg-slate-900 p-8 rounded-3xl shadow-2xl border border-slate-800 w-full max-w-sm text-center relative overflow-hidden mx-4">
+      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+      <div class="w-16 h-16 bg-indigo-500/10 text-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-indigo-500/20">
+        <i data-lucide="lock" class="w-8 h-8"></i>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-2">App Secured</h2>
+      <p class="text-slate-400 text-sm mb-6">Enter the global access password.</p>
+      <input type="password" id="app-lock-input" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 mb-4 text-center tracking-widest shadow-inner" placeholder="••••••••" onkeydown="if(event.key === 'Enter') unlockApp()" />
+      <button onclick="unlockApp()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition duration-200 shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2">
+        <i data-lucide="key" class="w-4 h-4"></i> Unlock App
+      </button>
+      <p id="app-lock-error" class="text-rose-500 text-xs mt-4 hidden font-semibold animate-pulse">Incorrect password.</p>
+    </div>
+  </div>
+
   <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
     <!-- Header Title Area -->
@@ -203,9 +220,9 @@
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10 pointer-events-none"></div>
         <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-contain bg-slate-950 transition-transform duration-[1.5s]" alt="Project Cover" />
         
-        <!-- Cover Upload Button (Made permanently visible) -->
+        <!-- Cover Upload Button -->
         <div class="absolute top-6 right-6 z-30 opacity-90 hover:opacity-100 transition duration-300">
-           <label class="cursor-pointer bg-black/60 backdrop-blur-md hover:bg-black/80 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border border-white/20 shadow-xl relative z-50">
+           <label class="cursor-pointer bg-black/60 backdrop-blur-md hover:bg-black/80 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border border-white/20 shadow-xl">
               <i data-lucide="camera" class="w-4 h-4"></i> Update Cover Photo
               <input type="file" accept="image/*" onchange="handleCoverUpload(event)" class="hidden" />
            </label>
@@ -220,7 +237,7 @@
           <div class="hidden md:flex flex-col items-end gap-3">
             <div class="flex items-center gap-4">
               <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-10 max-w-[150px] object-contain hidden rounded-lg border border-white/20 p-1 bg-white/10 backdrop-blur-md shadow-lg" />
-              <label class="cursor-pointer bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-lg text-[10px] font-semibold transition-all flex items-center gap-1.5 relative z-50">
+              <label class="cursor-pointer bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-lg text-[10px] font-semibold transition-all flex items-center gap-1.5">
                 <i data-lucide="image" class="w-3.5 h-3.5"></i>
                 <span id="logo-btn-text">Upload Logo</span>
                 <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="hidden" />
@@ -320,12 +337,10 @@
               <input type="text" id="frm-clientName" placeholder="e.g., Emaar Properties" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('clientName', this.value)" />
             </div>
             <div>
-              <!-- Defaulted to Yanbu -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Location</label>
               <input type="text" id="frm-location" value="Yanbu, Saudi Arabia" placeholder="e.g., Yanbu, Saudi Arabia" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onkeyup="updateForm('location', this.value)" onchange="updateForm('location', this.value)" />
             </div>
             <div>
-              <!-- Defaulted to TYA -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supervision Consultant</label>
               <input type="text" id="frm-supervisionConsultant" value="TYA & Associates" placeholder="e.g., TYA & Associates" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('supervisionConsultant', this.value)" />
             </div>
@@ -356,7 +371,6 @@
               </select>
             </div>
             <div>
-              <!-- Morning / Evening Shift Restriction -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Shift</label>
               <select id="frm-shift" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" onchange="updateForm('shift', this.value)">
                 <option>Morning Shift</option>
@@ -371,7 +385,6 @@
           <div>
             <div class="flex justify-between items-center mb-1.5">
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
-              <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
             </div>
             <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-20 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
           </div>
@@ -421,17 +434,17 @@
           </div>
         </div>
 
-        <!-- AI Photo Upload -->
+        <!-- Site Photo Log -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-5">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
               <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photo Log
             </h2>
             <div class="relative">
-              <input type="file" multiple accept="image/*" onchange="handlePhotoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-              <button class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shadow-indigo-100/50">
+              <label class="cursor-pointer bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shadow-indigo-100/50">
                 <i data-lucide="image" class="w-4 h-4"></i> Upload Site Photos
-              </button>
+                <input type="file" multiple accept="image/*" onchange="handlePhotoUpload(event)" class="hidden" />
+              </label>
             </div>
           </div>
 
@@ -449,8 +462,8 @@
         <!-- Step 1: Draft Trigger Action -->
         <div class="flex justify-end pt-4" id="draft-button-container">
           <button id="draft-report-btn" onclick="triggerAIDrafting()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
-            <i data-lucide="sparkles" id="draft-icon" class="w-5 h-5"></i>
-            <span id="draft-text">✨ Step 1: Draft Report Sections</span>
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+            <span>✨ Step 1: Draft Report Sections</span>
           </button>
         </div>
 
@@ -530,8 +543,8 @@
           <div class="flex justify-between items-center pt-4 border-t border-slate-100">
             <span class="text-xs text-slate-400 italic">Verify and edit above parameters before saving permanently.</span>
             <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
-              <i data-lucide="check" id="gen-icon" class="w-5 h-5"></i>
-              <span id="gen-text">💾 Finalize & Publish Daily Report</span>
+              <i data-lucide="check" class="w-5 h-5"></i>
+              <span>💾 Finalize & Publish Daily Report</span>
             </button>
           </div>
         </div>
@@ -559,9 +572,9 @@
           </div>
         </div>
         <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-          <h2 class="text-base font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Uploaded Files</h2>
+          <h2 class="text-base font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Uploaded Files Information</h2>
           <div id="documents-list-container">
-            <p class="text-slate-500 text-center py-8 text-sm">No documents uploaded yet.</p>
+            <p class="text-slate-500 text-center py-8 text-sm">Documents are tracked in your Dashboard and Archives tabs directly.</p>
           </div>
         </div>
       </div>
@@ -639,7 +652,25 @@
                 <input type="email" id="settings-profile-email" value="hasnat@example.com" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
               </div>
             </div>
-            <button onclick="saveProfileToCloud()" class="mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md shadow-indigo-100 transition">Save Profile</button>
+            
+            <div class="mt-8 pt-6 border-t border-slate-100">
+               <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                 <i data-lucide="shield" class="text-indigo-500 w-5 h-5"></i> Global App Defaults & Security
+               </h3>
+               <div class="space-y-4">
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Default Project Name (Dashboard Cover)</label>
+                   <input type="text" id="settings-project-name" value="Active Project" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                 </div>
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">App Access Password</label>
+                   <input type="text" id="settings-app-password" value="admin123" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                   <p class="text-[10px] text-slate-400 mt-1">Anyone opening the Vercel link needs this password to view the app. (Default is admin123)</p>
+                 </div>
+               </div>
+            </div>
+
+            <button onclick="saveProfileToCloud()" class="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-md shadow-indigo-100 transition w-full md:w-auto">Save Settings</button>
           </div>
         </div>
       </div>
@@ -670,7 +701,7 @@
 
         <div class="flex flex-col lg:flex-row gap-8 items-start">
           <!-- Paper Sheet Simulation -->
-          <div id="report-paper" class="bg-white flex-1 p-10 sm:p-14 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full relative overflow-hidden">
+          <div id="report-paper" class="bg-white flex-1 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full relative overflow-hidden">
             <!-- Generated content injected here -->
           </div>
           
@@ -702,7 +733,7 @@
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Restore Original Firebase Config Layout
+    // Restore Original Firebase Config Layout perfectly
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
       apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
@@ -758,6 +789,7 @@
     let companyLogoBase64 = null;
     let globalCoverPhotoBase64 = null;
     let showAuditLogsOnReport = true;
+    let globalAppPassword = 'admin123'; // Default app access password
     
     let formData = {
       projectName: '',
@@ -786,7 +818,7 @@
     
     let lookAheadImageBase64 = null;
 
-    // --- STREAMING_CHUNK:Defining Modals & Callbacks... ---
+    // --- Defining Modals & Callbacks ---
     let modalResolveCallback = null;
 
     window.showCustomAlert = function(title, message) {
@@ -835,6 +867,23 @@
         }, 200);
     }
 
+    window.unlockApp = function() {
+        const input = document.getElementById('app-lock-input').value;
+        if (input === globalAppPassword) {
+            sessionStorage.setItem('appUnlocked', 'true');
+            const overlay = document.getElementById('app-lock-overlay');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.getElementById('app-lock-input').value = '';
+            }, 500);
+        } else {
+            const err = document.getElementById('app-lock-error');
+            err.classList.remove('hidden');
+            setTimeout(() => err.classList.add('hidden'), 3000);
+        }
+    }
+
     function setDbStatus(status, message = "", details = "") {
         const dot = document.getElementById('db-status-dot');
         const text = document.getElementById('db-status-text');
@@ -851,7 +900,7 @@
         }
     }
 
-    // --- STREAMING_CHUNK:Configuring Database Cloud Sync... ---
+    // --- Configuring Database Cloud Sync ---
     function loadConfigFromCloud() {
       if (!currentUser || !db) return;
 
@@ -889,6 +938,24 @@
           updateProfileUI();
         }
       });
+
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'appSettings'), (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.projectName) {
+              document.getElementById('hero-project-name').innerText = data.projectName;
+              document.getElementById('settings-project-name').value = data.projectName;
+              if (!formData.projectName) {
+                 formData.projectName = data.projectName;
+                 document.getElementById('frm-projectName').value = data.projectName;
+              }
+          }
+          if (data.appPassword) {
+              globalAppPassword = data.appPassword;
+              document.getElementById('settings-app-password').value = data.appPassword;
+          }
+        }
+      });
     }
 
     function updateProfileUI() {
@@ -902,19 +969,50 @@
       document.getElementById('sidebar-profile-avatar').innerText = initials;
     }
 
+    window.toggleProfileLock = function(forceUnlock) {
+       // Mock settings profile toggle logic
+       const l = document.getElementById('profile-locked-view');
+       const u = document.getElementById('profile-unlocked-view');
+       const b = document.getElementById('lock-profile-btn');
+       if(forceUnlock) {
+           l.classList.add('hidden');
+           u.classList.remove('hidden');
+           b.classList.remove('hidden');
+       } else {
+           l.classList.remove('hidden');
+           u.classList.add('hidden');
+           b.classList.add('hidden');
+       }
+    };
+    
+    window.unlockProfile = function() {
+       toggleProfileLock(true);
+    };
+
     window.saveProfileToCloud = async function() {
       if (!currentUser || !db) return;
       globalProfile.name = document.getElementById('settings-profile-name').value.trim();
       globalProfile.role = document.getElementById('settings-profile-role').value.trim();
       globalProfile.email = document.getElementById('settings-profile-email').value.trim();
 
+      const newProjName = document.getElementById('settings-project-name').value.trim();
+      const newPassword = document.getElementById('settings-app-password').value.trim();
+
       try {
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
+        await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'appSettings'), {
+            projectName: newProjName || 'Active Project',
+            appPassword: newPassword || 'admin123'
+        });
+        
+        document.getElementById('hero-project-name').innerText = newProjName || 'Active Project';
+        globalAppPassword = newPassword || 'admin123';
+
         updateProfileUI();
         toggleProfileLock(false);
-        showCustomAlert("Success", "Profile updated and synchronized to cloud!");
+        showCustomAlert("Success", "Settings, Security, and Profile updated and synchronized to cloud!");
       } catch (e) {
-        showCustomAlert("Error", "Failed to save profile: " + e.message);
+        showCustomAlert("Error", "Failed to save settings: " + e.message);
       }
     }
 
@@ -1042,8 +1140,7 @@
         }
     };
 
-    // --- STREAMING_CHUNK:Initializing Look Ahead Tracker Functions... ---
-    // Look Ahead Tracker Logic
+    // --- Initializing Look Ahead Tracker Functions ---
     window.handleLookAheadUpload = function(event) {
        const file = event.target.files[0];
        if(!file) return;
@@ -1104,21 +1201,33 @@
     }
     
     // Init on load
-    document.addEventListener("DOMContentLoaded", () => renderLookAheadTable());
+    document.addEventListener("DOMContentLoaded", () => {
+        if(sessionStorage.getItem('appUnlocked') === 'true') {
+            document.getElementById('app-lock-overlay').classList.add('hidden');
+        }
+        renderLookAheadTable();
+    });
 
-    // --- STREAMING_CHUNK:Defining AI Drafting Engine... ---
+    // --- Defining AI Drafting Engine ---
     window.triggerAIDrafting = async function() {
        const btn = document.getElementById('draft-report-btn');
+       const activeKey = userApiKey || apiKey;
+
+       // Instant offline fallback if no API key
+       if (!activeKey) {
+          showCustomAlert("Manual Mode Activated", "No API Key detected. Opening manual text editors for you to write the report sections yourself.");
+          document.getElementById('manual-review-panel').classList.remove('hidden');
+          document.getElementById('draft-button-container').classList.add('hidden');
+          document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
+          return;
+       }
 
        btn.disabled = true;
        btn.classList.add('opacity-70');
-       btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> <span>Drafting Sections...</span>';
-       lucide.createIcons();
+       // Completely rewrite HTML to destroy old lucide icon instance and force new spinner
+       btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Drafting Sections...</span>`;
 
        try {
-          const activeKey = userApiKey || apiKey;
-          if (!activeKey) throw new Error("No Key");
-
           let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'None.'}`).join('\n\n');
           let lookAheadContext = lookAheadData.map(r => `Trade: ${r.trade}, Activity: ${r.activity}`).join('; ');
 
@@ -1160,11 +1269,7 @@
           document.getElementById('draft-safety-quality').value = draftedSafety;
 
        } catch(e) {
-          if(e.message === "No Key" || e.message === "Invalid Key") {
-             showCustomAlert("Manual Mode Activated", "No API Key detected. Opening manual text editors for you to write the report sections yourself.");
-          } else {
-             showCustomAlert("Drafting Error", "Failed to compile AI drafts: " + e.message);
-          }
+          showCustomAlert("Drafting Error", "Failed to compile AI drafts: " + e.message);
        } finally {
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
@@ -1172,12 +1277,13 @@
 
           btn.disabled = false;
           btn.classList.remove('opacity-70');
-          btn.innerHTML = '<i data-lucide="sparkles" class="w-5 h-5"></i> <span>✨ Step 1: Draft Report Sections</span>';
+          // Reset HTML completely to restore standard icon
+          btn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i><span>✨ Step 1: Draft Report Sections</span>`;
           lucide.createIcons();
        }
     }
 
-    // --- STREAMING_CHUNK:Configuring Form & Upload Actions... ---
+    // --- Configuring Form & Upload Actions ---
     window.switchView = function(viewName) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(viewName).classList.add('active');
@@ -1329,6 +1435,7 @@
               <i data-lucide="camera" class="text-slate-400 w-7 h-7"></i>
             </div>
             <p class="text-slate-600 font-semibold text-sm">No photos uploaded yet.</p>
+            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Upload site images to automatically generate professional progress descriptions using Vision AI.</p>
           </div>
         `;
         lucide.createIcons();
@@ -1360,14 +1467,12 @@
       lucide.createIcons();
     }
 
-    // --- STREAMING_CHUNK:Executing Final Report Generation Logic... ---
+    // --- Executing Final Report Generation Logic ---
     window.generateFinalReport = async function() {
       const btn = document.getElementById('generate-report-btn');
-      const icon = document.getElementById('gen-icon');
-      const text = document.getElementById('gen-text');
       
       btn.disabled = true;
-      text.innerText = "Compiling Report...";
+      btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Compiling Report...</span>`;
 
       try {
         const reviewedSummary = document.getElementById('draft-exec-summary').value.trim();
@@ -1398,7 +1503,7 @@
             markdownBody += `## 6. Look Ahead Tracker\n`;
             if (lookAheadImageBase64) {
                markdownBody += `<img src="${lookAheadImageBase64}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; background: white;" alt="Look Ahead Tracker Custom Image" />\n\n`;
-            } else if (lookAheadData.length > 0) {
+            } else if (lookAheadData.length > 0 && lookAheadData[0].activity) {
                 markdownBody += `<table class="w-full text-left text-xs mb-8 border-collapse">\n`;
                 markdownBody += `<thead><tr class="bg-slate-100"><th class="border border-slate-300 p-2">No</th><th class="border border-slate-300 p-2">Zone</th><th class="border border-slate-300 p-2">Location</th><th class="border border-slate-300 p-2">Trade</th><th class="border border-slate-300 p-2">Activity</th><th class="border border-slate-300 p-2">Target Finish</th><th class="border border-slate-300 p-2">Remarks</th></tr></thead>\n`;
                 markdownBody += `<tbody>\n`;
@@ -1442,7 +1547,7 @@
         
         if(db) { await saveReportToCloud(newReport); }
 
-        resetReportForm();
+        resetReportForm(); // Fully clears form for next time
 
         renderViewReport();
         switchView('view_report');
@@ -1451,11 +1556,12 @@
         showCustomAlert("Generation Error", "Error compiling final report: " + err.message);
       } finally {
         btn.disabled = false;
-        text.innerText = "💾 Finalize & Publish Daily Report";
+        btn.innerHTML = `<i data-lucide="check" class="w-5 h-5 inline-block"></i> <span>💾 Finalize & Publish Daily Report</span>`;
+        lucide.createIcons();
       }
     }
 
-    // --- STREAMING_CHUNK:Updating Dashboard & Tables Output... ---
+    // --- Updating Dashboard & Tables Output ---
     // Manual Upload Documents logic
     window.handleDocumentUpload = function(event) {
       const files = Array.from(event.target.files);
@@ -1465,7 +1571,7 @@
           const newDoc = {
             dbId: Math.random().toString(36).substr(2, 9),
             name: file.name,
-            projectName: formData.projectName || 'Active Project',
+            projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
             date: new Date().toISOString().split('T')[0],
             shift: 'N/A',
             preparedBy: globalProfile.name,
@@ -1536,13 +1642,14 @@
 
     function resetReportForm() {
         formData = {
-            projectName: '', clientName: '', location: 'Yanbu, Saudi Arabia',
+            projectName: document.getElementById('settings-project-name').value || 'Active Project', 
+            clientName: '', location: 'Yanbu, Saudi Arabia',
             supervisionConsultant: 'TYA & Associates', pmcName: '',
             date: new Date().toISOString().split('T')[0], weather: 'Sunny',
             shift: 'Morning Shift', workforce: '', delays: 'None'
         };
         
-        document.getElementById('frm-projectName').value = '';
+        document.getElementById('frm-projectName').value = formData.projectName;
         document.getElementById('frm-clientName').value = '';
         document.getElementById('frm-location').value = 'Yanbu, Saudi Arabia';
         document.getElementById('frm-supervisionConsultant').value = 'TYA & Associates';
@@ -1568,7 +1675,7 @@
         document.getElementById('draft-button-container').classList.remove('hidden');
     }
 
-    // --- STREAMING_CHUNK:Rendering Final Paper Format Options... ---
+    // --- Rendering Final Paper Format Options ---
     function renderViewReport() {
       if (!generatedReport) return;
       const paper = document.getElementById('report-paper');
@@ -1686,7 +1793,7 @@
       renderReviewPanel();
     }
 
-    // --- STREAMING_CHUNK:Finishing Setup & Utilities... ---
+    // --- Finishing Setup & Utilities ---
     function renderReviewPanel() {
       const panel = document.getElementById('review-collab-panel');
       if (!panel || !generatedReport) return;
@@ -1757,7 +1864,7 @@
       const actionTaken = document.getElementById('review-action-input').value.trim();
 
       btn.disabled = true;
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Saving...';
+      btn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-3.5 w-3.5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
 
       generatedReport.reviewStatus = status;
       generatedReport.reviewRemarks = remarks;
@@ -1780,7 +1887,8 @@
       }
 
       btn.disabled = false;
-      btn.innerHTML = '<i data-lucide="save" class="w-3.5 h-3.5"></i> Save Status';
+      btn.innerHTML = '<i data-lucide="save" class="w-3.5 h-3.5 inline-block"></i> Save Status';
+      lucide.createIcons();
       
       renderViewReport(); 
       updateReportsTables();
@@ -1811,8 +1919,7 @@
       const activeKey = userApiKey || apiKey;
       if (!activeKey) return showCustomAlert("API Required", "Please connect your Gemini API Key to use the translation feature.");
 
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Translating...';
-      lucide.createIcons();
+      btn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-emerald-700 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
 
       try {
         const prompt = `Translate this Construction Daily Progress Report into professional engineering Arabic. Maintain Markdown formatting exactly.\n\n${generatedReport.markdown}`;
