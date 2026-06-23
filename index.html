@@ -220,7 +220,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10 pointer-events-none"></div>
         <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-contain bg-slate-950 transition-transform duration-[1.5s]" alt="Project Cover" />
         
-        <!-- Cover Upload Button -->
+        <!-- Permanent Cover Upload Button -->
         <div class="absolute top-6 right-6 z-30 opacity-90 hover:opacity-100 transition duration-300">
            <label class="cursor-pointer bg-black/60 backdrop-blur-md hover:bg-black/80 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border border-white/20 shadow-xl">
               <i data-lucide="camera" class="w-4 h-4"></i> Update Cover Photo
@@ -436,11 +436,14 @@
 
         <!-- Site Photo Log -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <div class="flex justify-between items-center mb-5">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-5">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
               <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photo Log
             </h2>
-            <div class="relative">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="syncPhotosWithTracker()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm border border-amber-200">
+                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync from Tracker
+              </button>
               <label class="cursor-pointer bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shadow-indigo-100/50">
                 <i data-lucide="image" class="w-4 h-4"></i> Upload Site Photos
                 <input type="file" multiple accept="image/*" onchange="handlePhotoUpload(event)" class="hidden" />
@@ -1210,22 +1213,25 @@
 
     // --- Defining AI Drafting Engine ---
     window.triggerAIDrafting = async function() {
-       const btn = document.getElementById('draft-report-btn');
+       const btnContainer = document.getElementById('draft-button-container');
        const activeKey = userApiKey || apiKey;
 
        // Instant offline fallback if no API key
        if (!activeKey) {
           showCustomAlert("Manual Mode Activated", "No API Key detected. Opening manual text editors for you to write the report sections yourself.");
           document.getElementById('manual-review-panel').classList.remove('hidden');
-          document.getElementById('draft-button-container').classList.add('hidden');
+          btnContainer.classList.add('hidden');
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
           return;
        }
 
-       btn.disabled = true;
-       btn.classList.add('opacity-70');
-       // Completely rewrite HTML to destroy old lucide icon instance and force new spinner
-       btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Drafting Sections...</span>`;
+       // Temporarily replace entire button container to prevent icon ghosting
+       btnContainer.innerHTML = `
+          <button disabled class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm opacity-70 flex items-center gap-2.5">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> 
+            <span>Drafting Sections...</span>
+          </button>
+       `;
 
        try {
           let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'None.'}`).join('\n\n');
@@ -1272,13 +1278,16 @@
           showCustomAlert("Drafting Error", "Failed to compile AI drafts: " + e.message);
        } finally {
           document.getElementById('manual-review-panel').classList.remove('hidden');
-          document.getElementById('draft-button-container').classList.add('hidden');
+          btnContainer.classList.add('hidden');
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
 
-          btn.disabled = false;
-          btn.classList.remove('opacity-70');
-          // Reset HTML completely to restore standard icon
-          btn.innerHTML = `<i data-lucide="sparkles" class="w-5 h-5"></i><span>✨ Step 1: Draft Report Sections</span>`;
+          // Restore button HTML perfectly for the next time form is reset
+          btnContainer.innerHTML = `
+             <button id="draft-report-btn" onclick="triggerAIDrafting()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <span>✨ Step 1: Draft Report Sections</span>
+             </button>
+          `;
           lucide.createIcons();
        }
     }
@@ -1290,6 +1299,7 @@
       currentView = viewName;
 
       if(viewName === 'create_report') {
+         // When opening new report view, make sure button is visible and panel is hidden
          document.getElementById('manual-review-panel').classList.add('hidden');
          document.getElementById('draft-button-container').classList.remove('hidden');
       }
@@ -1327,7 +1337,7 @@
     window.updateForm = function(field, value) {
         formData[field] = value;
         // Bind dynamic dashboard hero title
-        if(field === 'projectName') document.getElementById('hero-project-name').innerText = value || 'Active Project';
+        if(field === 'projectName') document.getElementById('hero-project-name').innerText = value || document.getElementById('settings-project-name').value || 'Active Project';
         if(field === 'location') document.getElementById('hero-location').innerText = value || 'Yanbu, Saudi Arabia';
     }
     
@@ -1394,6 +1404,15 @@
 
       files.forEach(file => {
         if(photos.length >= 50) return; 
+        
+        // --- AUTO-CAPTION LOGIC ---
+        const currentIdx = photos.length;
+        let autoCaption = '';
+        if (lookAheadData[currentIdx] && (lookAheadData[currentIdx].activity || lookAheadData[currentIdx].remarks)) {
+             autoCaption = `${lookAheadData[currentIdx].activity ? lookAheadData[currentIdx].activity + ' - ' : ''}${lookAheadData[currentIdx].remarks || ''}`.trim();
+        }
+        // ------------------------------
+
         const reader = new FileReader();
         reader.onload = (e) => {
           const img = new Image();
@@ -1412,7 +1431,7 @@
             
             photos.push({
               id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
-              mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress'
+              mimeType: 'image/jpeg', aiText: autoCaption, isAnalyzing: false, category: 'General Progress'
             });
             renderPhotos();
           };
@@ -1425,6 +1444,28 @@
     window.removePhoto = function(id) { photos = photos.filter(p => p.id !== id); renderPhotos(); }
     window.updatePhotoCategory = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.category = val; }
     window.updatePhotoAiText = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.aiText = val; }
+
+    window.syncPhotosWithTracker = function() {
+        if(photos.length === 0) return showCustomAlert("No Photos", "Please upload photos first to map them to your activities.");
+        if(lookAheadImageBase64) return showCustomAlert("Image Tracker Uploaded", "You uploaded a custom image for the tracker. We cannot map text from an image directly. Please use the AI 'Step 1' button to analyze it, or type captions manually.");
+
+        let syncedCount = 0;
+        photos.forEach((p, idx) => {
+            if(lookAheadData[idx] && (lookAheadData[idx].activity || lookAheadData[idx].remarks)) {
+                const autoCaption = `${lookAheadData[idx].activity ? lookAheadData[idx].activity + ' - ' : ''}${lookAheadData[idx].remarks || ''}`.trim();
+                if(autoCaption) {
+                    p.aiText = autoCaption;
+                    syncedCount++;
+                }
+            }
+        });
+        renderPhotos();
+        if(syncedCount > 0) {
+            showCustomAlert("Captions Synced", `Successfully auto-filled ${syncedCount} photos with activities from your Look Ahead Tracker.`);
+        } else {
+            showCustomAlert("No Data", "No activities found in the Look Ahead tracker to map.");
+        }
+    }
 
     function renderPhotos() {
       const container = document.getElementById('photo-list-container');
@@ -1524,7 +1565,7 @@
           date: formData.date,
           time: currentLocalTime,
           shift: formData.shift,
-          projectName: formData.projectName || 'Active Project',
+          projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
           clientName: formData.clientName || 'Not specified',
           supervisionConsultant: formData.supervisionConsultant || 'TYA & Associates', // Fixed Default here!
           location: formData.location || 'Yanbu, Saudi Arabia', // Fixed Default here!
