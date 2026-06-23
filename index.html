@@ -199,9 +199,9 @@
     <section id="dashboard" class="view-section active pb-24">
       
       <!-- Premium Hero Project Banner -->
-      <div class="relative w-full h-72 rounded-3xl overflow-hidden mb-8 shadow-[0_20px_50px_rgba(15,23,42,0.2)] group flex items-end">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10"></div>
-        <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" alt="Project Cover" />
+      <div class="relative w-full h-72 rounded-3xl overflow-hidden mb-8 shadow-[0_20px_50px_rgba(15,23,42,0.2)] group flex items-end bg-slate-950">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10 pointer-events-none"></div>
+        <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-contain bg-slate-950 transition-transform duration-[1.5s]" alt="Project Cover" />
         
         <!-- Cover Upload Button (Made permanently visible) -->
         <div class="absolute top-6 right-6 z-30 opacity-90 hover:opacity-100 transition duration-300">
@@ -383,11 +383,24 @@
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
               <i data-lucide="calendar-clock" class="text-emerald-500 w-5 h-5"></i> Look Ahead Tracker
             </h2>
-            <button onclick="addLookAheadRow()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Row
-            </button>
+            <div class="flex gap-2">
+               <label class="cursor-pointer text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> Upload Table Image
+                  <input type="file" accept="image/*" class="hidden" onchange="handleLookAheadUpload(event)" />
+               </label>
+               <button onclick="addLookAheadRow()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+                 <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Row
+               </button>
+            </div>
           </div>
-          <div class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/50">
+          
+          <div id="look-ahead-image-container" class="hidden mb-4 relative border-2 border-dashed border-indigo-200 rounded-xl p-2 bg-indigo-50/30">
+             <button onclick="removeLookAheadImage()" class="absolute top-4 right-4 bg-red-500 text-white p-1.5 rounded-lg shadow hover:bg-red-600 z-10"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+             <img id="look-ahead-preview-img" src="" class="w-full h-auto max-h-80 object-contain rounded-lg shadow-sm bg-white" />
+             <p class="text-center text-xs text-indigo-600 font-semibold mt-2 pb-2">Custom Tracker Image Uploaded (Manual table rows below will be bypassed)</p>
+          </div>
+
+          <div id="look-ahead-table-container" class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/50 transition-opacity">
             <table class="w-full text-left text-xs whitespace-nowrap">
               <thead class="bg-slate-100 text-slate-600 border-b border-slate-200">
                 <tr>
@@ -770,6 +783,8 @@
       role: 'Project App Developer',
       email: 'hasnat@example.com'
     };
+    
+    let lookAheadImageBase64 = null;
 
     // --- STREAMING_CHUNK:Defining Modals & Callbacks... ---
     let modalResolveCallback = null;
@@ -1029,6 +1044,26 @@
 
     // --- STREAMING_CHUNK:Initializing Look Ahead Tracker Functions... ---
     // Look Ahead Tracker Logic
+    window.handleLookAheadUpload = function(event) {
+       const file = event.target.files[0];
+       if(!file) return;
+       const reader = new FileReader();
+       reader.onload = (e) => {
+          lookAheadImageBase64 = e.target.result;
+          document.getElementById('look-ahead-preview-img').src = lookAheadImageBase64;
+          document.getElementById('look-ahead-image-container').classList.remove('hidden');
+          document.getElementById('look-ahead-table-container').classList.add('opacity-40', 'pointer-events-none');
+       };
+       reader.readAsDataURL(file);
+    };
+
+    window.removeLookAheadImage = function() {
+       lookAheadImageBase64 = null;
+       document.getElementById('look-ahead-image-container').classList.add('hidden');
+       document.getElementById('look-ahead-preview-img').src = "";
+       document.getElementById('look-ahead-table-container').classList.remove('opacity-40', 'pointer-events-none');
+    };
+
     window.addLookAheadRow = function() {
         lookAheadData.push({ id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' });
         renderLookAheadTable();
@@ -1359,15 +1394,21 @@
         if (showDelays) markdownBody += `## 5. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
         
         // Inject Look Ahead Tracker Table into Markdown
-        if (showPlanned && lookAheadData.length > 0) {
+        if (showPlanned) {
             markdownBody += `## 6. Look Ahead Tracker\n`;
-            markdownBody += `<table class="w-full text-left text-xs mb-8 border-collapse">\n`;
-            markdownBody += `<thead><tr class="bg-slate-100"><th class="border border-slate-300 p-2">No</th><th class="border border-slate-300 p-2">Zone</th><th class="border border-slate-300 p-2">Location</th><th class="border border-slate-300 p-2">Trade</th><th class="border border-slate-300 p-2">Activity</th><th class="border border-slate-300 p-2">Target Finish</th><th class="border border-slate-300 p-2">Remarks</th></tr></thead>\n`;
-            markdownBody += `<tbody>\n`;
-            lookAheadData.forEach((r, i) => {
-               markdownBody += `<tr><td class="border border-slate-300 p-2">${i+1}</td><td class="border border-slate-300 p-2">${r.zone}</td><td class="border border-slate-300 p-2">${r.location}</td><td class="border border-slate-300 p-2">${r.trade}</td><td class="border border-slate-300 p-2">${r.activity}</td><td class="border border-slate-300 p-2">${r.target}</td><td class="border border-slate-300 p-2">${r.remarks}</td></tr>\n`;
-            });
-            markdownBody += `</tbody></table>\n\n`;
+            if (lookAheadImageBase64) {
+               markdownBody += `<img src="${lookAheadImageBase64}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; background: white;" alt="Look Ahead Tracker Custom Image" />\n\n`;
+            } else if (lookAheadData.length > 0) {
+                markdownBody += `<table class="w-full text-left text-xs mb-8 border-collapse">\n`;
+                markdownBody += `<thead><tr class="bg-slate-100"><th class="border border-slate-300 p-2">No</th><th class="border border-slate-300 p-2">Zone</th><th class="border border-slate-300 p-2">Location</th><th class="border border-slate-300 p-2">Trade</th><th class="border border-slate-300 p-2">Activity</th><th class="border border-slate-300 p-2">Target Finish</th><th class="border border-slate-300 p-2">Remarks</th></tr></thead>\n`;
+                markdownBody += `<tbody>\n`;
+                lookAheadData.forEach((r, i) => {
+                   markdownBody += `<tr><td class="border border-slate-300 p-2">${i+1}</td><td class="border border-slate-300 p-2">${r.zone}</td><td class="border border-slate-300 p-2">${r.location}</td><td class="border border-slate-300 p-2">${r.trade}</td><td class="border border-slate-300 p-2">${r.activity}</td><td class="border border-slate-300 p-2">${r.target}</td><td class="border border-slate-300 p-2">${r.remarks}</td></tr>\n`;
+                });
+                markdownBody += `</tbody></table>\n\n`;
+            } else {
+                markdownBody += `*No planned activities recorded.*\n\n`;
+            }
         }
 
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1400,6 +1441,8 @@
         updateReportsTables();
         
         if(db) { await saveReportToCloud(newReport); }
+
+        resetReportForm();
 
         renderViewReport();
         switchView('view_report');
@@ -1491,6 +1534,40 @@
       lucide.createIcons();
     }
 
+    function resetReportForm() {
+        formData = {
+            projectName: '', clientName: '', location: 'Yanbu, Saudi Arabia',
+            supervisionConsultant: 'TYA & Associates', pmcName: '',
+            date: new Date().toISOString().split('T')[0], weather: 'Sunny',
+            shift: 'Morning Shift', workforce: '', delays: 'None'
+        };
+        
+        document.getElementById('frm-projectName').value = '';
+        document.getElementById('frm-clientName').value = '';
+        document.getElementById('frm-location').value = 'Yanbu, Saudi Arabia';
+        document.getElementById('frm-supervisionConsultant').value = 'TYA & Associates';
+        document.getElementById('frm-pmcName').value = '';
+        document.getElementById('frm-date').value = formData.date;
+        document.getElementById('frm-weather').value = 'Sunny';
+        document.getElementById('frm-shift').value = 'Morning Shift';
+        document.getElementById('frm-workforce').value = '';
+        document.getElementById('frm-delays').value = 'None';
+        
+        lookAheadData = [{ id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' }];
+        renderLookAheadTable();
+        if (window.removeLookAheadImage) window.removeLookAheadImage();
+        
+        photos = [];
+        renderPhotos();
+        
+        document.getElementById('draft-exec-summary').value = '';
+        document.getElementById('draft-completed-today').value = '';
+        document.getElementById('draft-safety-quality').value = '';
+        
+        document.getElementById('manual-review-panel').classList.add('hidden');
+        document.getElementById('draft-button-container').classList.remove('hidden');
+    }
+
     // --- STREAMING_CHUNK:Rendering Final Paper Format Options... ---
     function renderViewReport() {
       if (!generatedReport) return;
@@ -1536,7 +1613,7 @@
 
       let html = `
         <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-slate-200 shadow-sm print-break-inside-avoid print-shadow-none" ${isRTL ? 'dir="rtl"' : ''}>
-            ${activeCover ? `<img src="${activeCover}" class="w-full h-32 sm:h-40 object-cover print:h-32" alt="Project Cover" />` : '<div class="w-full h-4 bg-slate-900 print:h-4"></div>'}
+            ${activeCover ? `<img src="${activeCover}" class="w-full h-48 sm:h-64 object-contain bg-slate-900 print:h-48" alt="Project Cover" />` : '<div class="w-full h-4 bg-slate-900 print:h-4"></div>'}
             
             <div class="px-6 pb-5 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-white relative border-t-4 border-amber-500">
                 ${activeLogo ? `
