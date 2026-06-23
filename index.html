@@ -7,10 +7,8 @@
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
   <!-- Marked.js for Markdown parsing -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -20,6 +18,23 @@
     
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Ticker Animation */
+    .ticker-container {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 100%;
+      position: relative;
+    }
+    .ticker-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker 25s linear infinite;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
     }
 
     /* Custom scrollbars */
@@ -174,6 +189,12 @@
       <button onclick="switchView('archives')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="archives">
         <i data-lucide="file-text" class="w-4.5 h-4.5"></i><span>Archives</span>
       </button>
+      <button onclick="switchView('team_directory')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="team_directory">
+        <i data-lucide="users" class="w-4.5 h-4.5"></i><span>Team Directory</span>
+      </button>
+      <button onclick="switchView('submittals')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="submittals">
+        <i data-lucide="file-spreadsheet" class="w-4.5 h-4.5"></i><span>Eng. Submittals</span>
+      </button>
       <button onclick="switchView('settings')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="settings">
         <i data-lucide="settings" class="w-4.5 h-4.5"></i><span>Settings</span>
       </button>
@@ -246,6 +267,17 @@
             <p class="text-slate-400 text-xs mt-1">Welcome back, <span class="profile-name-span font-bold text-white">Hasnat Safdar</span>.</p>
           </div>
         </div>
+      </div>
+
+      <!-- Global Announcement Ticker -->
+      <div id="announcement-banner" class="hidden mb-8 bg-gradient-to-r from-amber-50 to-orange-50/50 border border-amber-200/60 rounded-2xl p-4 flex items-center gap-4 shadow-sm relative overflow-hidden">
+         <div class="absolute left-0 top-0 w-1.5 h-full bg-amber-500"></div>
+         <div class="p-2.5 bg-amber-100 text-amber-600 rounded-xl animate-pulse shrink-0 shadow-sm border border-amber-200">
+           <i data-lucide="megaphone" class="w-5 h-5"></i>
+         </div>
+         <div class="ticker-container flex-1">
+           <p id="announcement-text" class="ticker-text text-sm font-bold text-amber-900 tracking-wide uppercase"></p>
+         </div>
       </div>
 
       <!-- 4-Column Metrics Grid -->
@@ -348,6 +380,10 @@
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PMC Name</label>
               <input type="text" id="frm-pmcName" placeholder="e.g., MAB Consult" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('pmcName', this.value)" />
             </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Report Reference No.</label>
+              <input type="text" id="frm-referenceNo" placeholder="Leave blank for auto-generate" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('referenceNo', this.value)" />
+            </div>
           </div>
         </div>
 
@@ -393,9 +429,15 @@
         <!-- Look Ahead Tracker Table -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-4">
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="calendar-clock" class="text-emerald-500 w-5 h-5"></i> Look Ahead Tracker
-            </h2>
+            <div class="flex flex-col gap-1">
+              <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="calendar-clock" class="text-emerald-500 w-5 h-5"></i> Look Ahead Tracker
+              </h2>
+              <label class="flex items-center gap-1.5 cursor-pointer text-[10px] font-bold text-slate-500 hover:text-slate-700 transition">
+                  <input type="checkbox" id="lock-lookahead-toggle" class="w-3 h-3 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500" />
+                  <i data-lucide="lock" class="w-3 h-3"></i> Keep Table Data for Next Report
+              </label>
+            </div>
             <div class="flex gap-2">
                <label class="cursor-pointer text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
                   <i data-lucide="image" class="w-3.5 h-3.5"></i> Upload Table Image
@@ -613,6 +655,64 @@
       </div>
     </section>
 
+    <!-- Team Directory View -->
+    <section id="team_directory" class="view-section pb-24">
+      <header class="mb-8 pr-72">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Team Directory</h1>
+        <p class="text-slate-500 text-sm">View the assigned project team members. Roles and names can only be configured in the secure Settings tab.</p>
+      </header>
+      <div class="max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Supervision Team -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col h-full">
+           <h2 class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+             <div class="p-1.5 bg-indigo-50 rounded-lg"><i data-lucide="shield-check" class="text-indigo-600 w-4 h-4"></i></div>
+             Supervision Team
+           </h2>
+           <div id="dir-supervision" class="whitespace-pre-line text-sm text-slate-600 leading-relaxed flex-1">No members added yet.</div>
+        </div>
+        <!-- PMC Team -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col h-full">
+           <h2 class="text-base font-bold text-emerald-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+             <div class="p-1.5 bg-emerald-50 rounded-lg"><i data-lucide="briefcase" class="text-emerald-600 w-4 h-4"></i></div>
+             PMC Team
+           </h2>
+           <div id="dir-pmc" class="whitespace-pre-line text-sm text-slate-600 leading-relaxed flex-1">No members added yet.</div>
+        </div>
+        <!-- Contractor Team -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col h-full">
+           <h2 class="text-base font-bold text-amber-900 mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
+             <div class="p-1.5 bg-amber-50 rounded-lg"><i data-lucide="hard-hat" class="text-amber-600 w-4 h-4"></i></div>
+             Contractor Team
+           </h2>
+           <div id="dir-contractor" class="whitespace-pre-line text-sm text-slate-600 leading-relaxed flex-1">No members added yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Engineering Submittals View -->
+    <section id="submittals" class="view-section pb-24">
+      <header class="mb-8 pr-72">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Engineering Submittal Status</h1>
+        <p class="text-slate-500 text-sm">Access the live, collaborative Excel sheet containing all active submittals, RFIs, and engineering documentation logs.</p>
+      </header>
+      <div class="max-w-6xl">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 flex flex-col items-center justify-center text-center group transition hover:border-indigo-200">
+           <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl mb-6 group-hover:scale-110 transition-transform shadow-sm">
+             <i data-lucide="file-spreadsheet" class="w-8 h-8"></i>
+           </div>
+           <h2 class="text-xl font-bold text-slate-900 mb-3">Live Engineering Logs</h2>
+           <p class="text-sm text-slate-500 max-w-lg mb-8">Click below to open the external spreadsheet tracking all submittals for this project. The link is managed securely in the Settings tab.</p>
+           
+           <div id="dir-submittal-link-container">
+             <a id="dir-submittal-link" href="#" target="_blank" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 transition inline-flex items-center gap-2">
+                Open Live Submittal Log <i data-lucide="arrow-right" class="w-5 h-5"></i>
+             </a>
+             <p id="dir-submittal-empty" class="text-sm font-semibold text-slate-400 italic bg-slate-50 px-6 py-3 rounded-xl border border-slate-100 inline-block">No submittal link configured.</p>
+           </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Settings View -->
     <section id="settings" class="view-section pb-24">
       <header class="mb-8 pr-72">
@@ -666,10 +766,44 @@
                    <input type="text" id="settings-project-name" value="Active Project" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
                  </div>
                  <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Global Announcement Ticker</label>
+                   <input type="text" id="settings-announcement" placeholder="Leave blank to hide banner..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                 </div>
+                 <div>
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">App Access Password</label>
                    <input type="text" id="settings-app-password" value="admin123" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
                    <p class="text-[10px] text-slate-400 mt-1">Anyone opening the Vercel link needs this password to view the app. (Default is admin123)</p>
                  </div>
+               </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-100">
+               <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                 <i data-lucide="users" class="text-indigo-500 w-5 h-5"></i> Team Directory Roster
+               </h3>
+               <div class="space-y-4">
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supervision Team Members</label>
+                   <textarea id="settings-team-supervision" placeholder="Enter names (one per line)..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
+                 </div>
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PMC Team Members</label>
+                   <textarea id="settings-team-pmc" placeholder="Enter names (one per line)..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
+                 </div>
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Contractor Team Members</label>
+                   <textarea id="settings-team-contractor" placeholder="Enter names (one per line)..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
+                 </div>
+               </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-100">
+               <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                 <i data-lucide="link" class="text-indigo-500 w-5 h-5"></i> External Logs Configuration
+               </h3>
+               <div>
+                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Engineering Submittals Link (Excel/Sheets URL)</label>
+                 <input type="url" id="settings-submittal-link" placeholder="https://docs.google.com/spreadsheets/d/..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
                </div>
             </div>
 
@@ -800,6 +934,7 @@
       location: 'Yanbu, Saudi Arabia', // Default Location
       supervisionConsultant: 'TYA & Associates', // Default Consultant
       pmcName: '',
+      referenceNo: '', // Custom Reference Hooked up
       date: new Date().toISOString().split('T')[0],
       weather: 'Sunny',
       shift: 'Morning Shift', // Updated Shift Value
@@ -890,7 +1025,7 @@
     function setDbStatus(status, message = "", details = "") {
         const dot = document.getElementById('db-status-dot');
         const text = document.getElementById('db-status-text');
-        if (!dot || !text) return;
+        if (!dot || text) return;
         if (status === 'connected') {
             dot.className = "w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]";
             text.innerText = "Cloud Synced";
@@ -903,7 +1038,7 @@
         }
     }
 
-    // --- Configuring Database Cloud Sync ---
+    // --- STREAMING_CHUNK:Configuring Cloud State... ---
     function loadConfigFromCloud() {
       if (!currentUser || !db) return;
 
@@ -957,6 +1092,43 @@
               globalAppPassword = data.appPassword;
               document.getElementById('settings-app-password').value = data.appPassword;
           }
+          if (data.teamSupervision !== undefined) {
+              document.getElementById('settings-team-supervision').value = data.teamSupervision;
+              document.getElementById('dir-supervision').innerText = data.teamSupervision || 'No members added yet.';
+          }
+          if (data.teamPmc !== undefined) {
+              document.getElementById('settings-team-pmc').value = data.teamPmc;
+              document.getElementById('dir-pmc').innerText = data.teamPmc || 'No members added yet.';
+          }
+          if (data.teamContractor !== undefined) {
+              document.getElementById('settings-team-contractor').value = data.teamContractor;
+              document.getElementById('dir-contractor').innerText = data.teamContractor || 'No members added yet.';
+          }
+          if (data.submittalLink !== undefined) {
+              document.getElementById('settings-submittal-link').value = data.submittalLink;
+              const linkEl = document.getElementById('dir-submittal-link');
+              const emptyEl = document.getElementById('dir-submittal-empty');
+              if(data.submittalLink) {
+                 linkEl.href = data.submittalLink;
+                 linkEl.classList.remove('hidden');
+                 emptyEl.classList.add('hidden');
+              } else {
+                 linkEl.href = "#";
+                 linkEl.classList.add('hidden');
+                 emptyEl.classList.remove('hidden');
+              }
+          }
+          if (data.announcement !== undefined) {
+              document.getElementById('settings-announcement').value = data.announcement;
+              const banner = document.getElementById('announcement-banner');
+              const bannerText = document.getElementById('announcement-text');
+              if(data.announcement) {
+                  bannerText.innerText = data.announcement;
+                  banner.classList.remove('hidden');
+              } else {
+                  banner.classList.add('hidden');
+              }
+          }
         }
       });
     }
@@ -1001,19 +1173,34 @@
       const newProjName = document.getElementById('settings-project-name').value.trim();
       const newPassword = document.getElementById('settings-app-password').value.trim();
 
+      const newSupervision = document.getElementById('settings-team-supervision').value.trim();
+      const newPmc = document.getElementById('settings-team-pmc').value.trim();
+      const newContractor = document.getElementById('settings-team-contractor').value.trim();
+      const newSubmittalLink = document.getElementById('settings-submittal-link').value.trim();
+      const newAnnouncement = document.getElementById('settings-announcement').value.trim();
+
       try {
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'appSettings'), {
             projectName: newProjName || 'Active Project',
-            appPassword: newPassword || 'admin123'
+            appPassword: newPassword || 'admin123',
+            teamSupervision: newSupervision,
+            teamPmc: newPmc,
+            teamContractor: newContractor,
+            submittalLink: newSubmittalLink,
+            announcement: newAnnouncement
         });
         
         document.getElementById('hero-project-name').innerText = newProjName || 'Active Project';
         globalAppPassword = newPassword || 'admin123';
+        
+        document.getElementById('dir-supervision').innerText = newSupervision || 'No members added yet.';
+        document.getElementById('dir-pmc').innerText = newPmc || 'No members added yet.';
+        document.getElementById('dir-contractor').innerText = newContractor || 'No members added yet.';
 
         updateProfileUI();
         toggleProfileLock(false);
-        showCustomAlert("Success", "Settings, Security, and Profile updated and synchronized to cloud!");
+        showCustomAlert("Success", "Settings, Teams, and Security updated and synchronized to cloud!");
       } catch (e) {
         showCustomAlert("Error", "Failed to save settings: " + e.message);
       }
@@ -1143,6 +1330,7 @@
         }
     };
 
+    // --- STREAMING_CHUNK:Interactive Data Tables... ---
     // --- Initializing Look Ahead Tracker Functions ---
     window.handleLookAheadUpload = function(event) {
        const file = event.target.files[0];
@@ -1179,6 +1367,43 @@
         if(row) row[field] = val;
     }
 
+    // --- PASTE FROM EXCEL FEATURE ---
+    window.handleTablePaste = function(e, startRowId, startColIndex) {
+        e.preventDefault();
+        const clipboardData = e.clipboardData || window.clipboardData;
+        const pastedData = clipboardData.getData('Text');
+        if (!pastedData) return;
+        
+        const rows = pastedData.split(/\r?\n/).map(row => row.split('\t'));
+        const startIndex = lookAheadData.findIndex(r => r.id === startRowId);
+        if (startIndex === -1) return;
+
+        const fields = ['zone', 'location', 'trade', 'activity', 'target', 'remarks'];
+
+        rows.forEach((rowData, i) => {
+            if (rowData.length <= 1 && !rowData[0]) return; // Skip empty rows
+            let rowIndex = startIndex + i;
+            if (rowIndex >= lookAheadData.length) {
+                // Add new row if we run out of space
+                lookAheadData.push({ id: Date.now() + Math.random(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' });
+            }
+            
+            rowData.forEach((cellData, j) => {
+                let colIndex = startColIndex + j;
+                if (colIndex < fields.length) {
+                    let val = cellData.trim();
+                    // Basic date formatting if pasted into the target column
+                    if (fields[colIndex] === 'target') {
+                        const d = new Date(val);
+                        if(!isNaN(d.getTime())) val = d.toISOString().split('T')[0];
+                    }
+                    lookAheadData[rowIndex][fields[colIndex]] = val;
+                }
+            });
+        });
+        renderLookAheadTable();
+    };
+
     function renderLookAheadTable() {
         const tbody = document.getElementById('look-ahead-tbody');
         if(!tbody) return;
@@ -1189,12 +1414,12 @@
         tbody.innerHTML = lookAheadData.map((row, index) => `
             <tr class="hover:bg-slate-50 transition group">
                 <td class="p-2.5 font-semibold text-slate-700">${index + 1}</td>
-                <td class="p-1.5"><input type="text" value="${row.zone}" onchange="updateLookAhead(${row.id}, 'zone', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Zone A" /></td>
-                <td class="p-1.5"><input type="text" value="${row.location}" onchange="updateLookAhead(${row.id}, 'location', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Flr 14" /></td>
-                <td class="p-1.5"><input type="text" value="${row.trade}" onchange="updateLookAhead(${row.id}, 'trade', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. MEP" /></td>
-                <td class="p-1.5"><input type="text" value="${row.activity}" onchange="updateLookAhead(${row.id}, 'activity', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Wiring" /></td>
-                <td class="p-1.5"><input type="date" value="${row.target}" onchange="updateLookAhead(${row.id}, 'target', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" /></td>
-                <td class="p-1.5"><input type="text" value="${row.remarks}" onchange="updateLookAhead(${row.id}, 'remarks', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Pending Insp" /></td>
+                <td class="p-1.5"><input type="text" value="${row.zone}" onchange="updateLookAhead(${row.id}, 'zone', this.value)" onpaste="handleTablePaste(event, ${row.id}, 0)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Zone A" /></td>
+                <td class="p-1.5"><input type="text" value="${row.location}" onchange="updateLookAhead(${row.id}, 'location', this.value)" onpaste="handleTablePaste(event, ${row.id}, 1)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Flr 14" /></td>
+                <td class="p-1.5"><input type="text" value="${row.trade}" onchange="updateLookAhead(${row.id}, 'trade', this.value)" onpaste="handleTablePaste(event, ${row.id}, 2)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. MEP" /></td>
+                <td class="p-1.5"><input type="text" value="${row.activity}" onchange="updateLookAhead(${row.id}, 'activity', this.value)" onpaste="handleTablePaste(event, ${row.id}, 3)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Wiring" /></td>
+                <td class="p-1.5"><input type="date" value="${row.target}" onchange="updateLookAhead(${row.id}, 'target', this.value)" onpaste="handleTablePaste(event, ${row.id}, 4)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" /></td>
+                <td class="p-1.5"><input type="text" value="${row.remarks}" onchange="updateLookAhead(${row.id}, 'remarks', this.value)" onpaste="handleTablePaste(event, ${row.id}, 5)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Pending Insp" /></td>
                 <td class="p-2.5 text-center">
                     <button onclick="removeLookAheadRow(${row.id})" class="text-slate-400 hover:text-red-500 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                 </td>
@@ -1211,6 +1436,7 @@
         renderLookAheadTable();
     });
 
+    // --- STREAMING_CHUNK:AI Generative Workflows... ---
     // --- Defining AI Drafting Engine ---
     window.triggerAIDrafting = async function() {
        const btnContainer = document.getElementById('draft-button-container');
@@ -1292,6 +1518,7 @@
        }
     }
 
+    // --- STREAMING_CHUNK:Photo & Form Management... ---
     // --- Configuring Form & Upload Actions ---
     window.switchView = function(viewName) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
@@ -1484,11 +1711,12 @@
       }
       let html = '<div class="space-y-6">';
       photos.forEach((photo, i) => {
+        // Changed object-cover to object-contain so unprinted preview also doesn't crop
         html += `
           <div class="flex flex-col md:flex-row gap-6 p-4 border border-slate-200 rounded-xl bg-slate-50 relative group">
             <button onclick="removePhoto('${photo.id}')" class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-sm text-red-500 opacity-0 group-hover:opacity-100 transition z-10"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
             <div class="w-full md:w-1/3">
-              <img src="${photo.url || ''}" class="w-full h-48 object-cover rounded-lg shadow-sm border border-slate-200" />
+              <img src="${photo.url || ''}" class="w-full h-48 object-contain bg-slate-100 rounded-lg shadow-sm border border-slate-200" />
               <select onchange="updatePhotoCategory('${photo.id}', this.value)" class="mt-3 w-full p-2 text-sm border border-slate-300 rounded-lg outline-none">
                 <option ${photo.category === 'General Progress' ? 'selected' : ''}>General Progress</option>
                 <option ${photo.category === 'Civil Works' ? 'selected' : ''}>Civil Works</option>
@@ -1508,6 +1736,7 @@
       lucide.createIcons();
     }
 
+    // --- STREAMING_CHUNK:Final PDF Report Generation... ---
     // --- Executing Final Report Generation Logic ---
     window.generateFinalReport = async function() {
       const btn = document.getElementById('generate-report-btn');
@@ -1530,18 +1759,18 @@
         const showAudit = document.getElementById('cfg-include-audit').checked;
         showAuditLogsOnReport = showAudit; // Sync global preference for print
 
-        // Build Markdown Body
+        // Build Markdown Body without numbers
         let markdownBody = ``;
 
-        if (showExec && reviewedSummary) markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
-        if (showComp && reviewedCompleted) markdownBody += `## 2. Activities Completed Today\n${reviewedCompleted}\n\n`;
-        if (showSafety && reviewedSafety) markdownBody += `## 3. Safety & Quality Observations\n${reviewedSafety}\n\n`;
-        if (showResources) markdownBody += `## 4. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
-        if (showDelays) markdownBody += `## 5. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        if (showExec && reviewedSummary) markdownBody += `## Executive Summary\n${reviewedSummary}\n\n`;
+        if (showComp && reviewedCompleted) markdownBody += `## Activities Completed Today\n${reviewedCompleted}\n\n`;
+        if (showSafety && reviewedSafety) markdownBody += `## Safety & Quality Observations\n${reviewedSafety}\n\n`;
+        if (showResources) markdownBody += `## Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
+        if (showDelays) markdownBody += `## Delays / Constraints\n${formData.delays || 'None'}\n\n`;
         
         // Inject Look Ahead Tracker Table into Markdown
         if (showPlanned) {
-            markdownBody += `## 6. Look Ahead Tracker\n`;
+            markdownBody += `## Look Ahead Tracker\n\n`;
             if (lookAheadImageBase64) {
                markdownBody += `<img src="${lookAheadImageBase64}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; background: white;" alt="Look Ahead Tracker Custom Image" />\n\n`;
             } else if (lookAheadData.length > 0 && lookAheadData[0].activity) {
@@ -1569,6 +1798,7 @@
           clientName: formData.clientName || 'Not specified',
           supervisionConsultant: formData.supervisionConsultant || 'TYA & Associates', // Fixed Default here!
           location: formData.location || 'Yanbu, Saudi Arabia', // Fixed Default here!
+          referenceNo: formData.referenceNo || `DPR-${formData.date.replace(/-/g, '')}`, // Fallback to auto-generated if empty
           photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
           coverPhoto: globalCoverPhotoBase64, 
@@ -1682,10 +1912,13 @@
     }
 
     function resetReportForm() {
+        const keepLookAhead = document.getElementById('lock-lookahead-toggle') && document.getElementById('lock-lookahead-toggle').checked;
+
         formData = {
             projectName: document.getElementById('settings-project-name').value || 'Active Project', 
             clientName: '', location: 'Yanbu, Saudi Arabia',
             supervisionConsultant: 'TYA & Associates', pmcName: '',
+            referenceNo: '', // Added clear logic for Custom Reference Number
             date: new Date().toISOString().split('T')[0], weather: 'Sunny',
             shift: 'Morning Shift', workforce: '', delays: 'None'
         };
@@ -1695,15 +1928,18 @@
         document.getElementById('frm-location').value = 'Yanbu, Saudi Arabia';
         document.getElementById('frm-supervisionConsultant').value = 'TYA & Associates';
         document.getElementById('frm-pmcName').value = '';
+        document.getElementById('frm-referenceNo').value = '';
         document.getElementById('frm-date').value = formData.date;
         document.getElementById('frm-weather').value = 'Sunny';
         document.getElementById('frm-shift').value = 'Morning Shift';
         document.getElementById('frm-workforce').value = '';
         document.getElementById('frm-delays').value = 'None';
         
-        lookAheadData = [{ id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' }];
-        renderLookAheadTable();
-        if (window.removeLookAheadImage) window.removeLookAheadImage();
+        if (!keepLookAhead) {
+            lookAheadData = [{ id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' }];
+            renderLookAheadTable();
+            if (window.removeLookAheadImage) window.removeLookAheadImage();
+        }
         
         photos = [];
         renderPhotos();
@@ -1716,6 +1952,7 @@
         document.getElementById('draft-button-container').classList.remove('hidden');
     }
 
+    // --- STREAMING_CHUNK:Final PDF Report UI Rendering... ---
     // --- Rendering Final Paper Format Options ---
     function renderViewReport() {
       if (!generatedReport) return;
@@ -1780,7 +2017,7 @@
                   <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName}</p>
                   <p><strong class="text-slate-900">Supervision Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
                   <p><strong class="text-slate-900">Location:</strong> ${generatedReport.location || 'Yanbu, Saudi Arabia'}</p>
-                  <p class="mt-1 text-white bg-slate-900 font-bold uppercase tracking-widest px-2 py-0.5 rounded text-[9px] inline-block shadow-sm">DPR-${generatedReport.date.replace(/-/g, '')}</p>
+                  <p class="mt-1 text-white bg-slate-900 font-bold uppercase tracking-widest px-2 py-0.5 rounded text-[9px] inline-block shadow-sm">${generatedReport.referenceNo || `DPR-${generatedReport.date.replace(/-/g, '')}`}</p>
                 </div>
             </div>
         </div>
@@ -1797,15 +2034,18 @@
           <div class="mt-10 pt-6 border-t-2 border-slate-200 print-break-inside-avoid" ${isRTL ? 'dir="rtl"' : ''}>
             <h2 class="text-lg font-bold text-slate-900 mb-4">Site Photo Log</h2>
             <div class="grid grid-cols-2 gap-6">
-              ${generatedReport.photos.map((photo, i) => `
-                <div class="print-break-inside-avoid border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                  ${photo.url ? `<img src="${photo.url}" class="w-full h-56 object-cover" />` : `<div class="w-full h-56 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">Image Archived</div>`}
+              ${generatedReport.photos.map((photo, i) => {
+                 const cleanCaption = (photo.aiText || `photo_${i+1}`).substring(0, 30).replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                 return `
+                <div class="print-break-inside-avoid border border-slate-200 rounded-xl overflow-hidden shadow-sm relative group">
+                  ${photo.url ? `<img src="${photo.url}" class="w-full h-64 object-contain bg-slate-50" />` : `<div class="w-full h-64 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">Image Archived</div>`}
+                  ${photo.url ? `<a href="${photo.url}" download="${cleanCaption}.jpg" class="absolute top-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold opacity-0 group-hover:opacity-100 transition z-10 print-hidden flex items-center gap-1.5 backdrop-blur-sm"><i data-lucide="download" class="w-3.5 h-3.5"></i> Save JPG</a>` : ''}
                   <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
                     <p class="font-bold text-slate-900">Photo ${i + 1} - ${photo.category}</p>
                     <p class="mt-1">${photo.aiText}</p>
                   </div>
                 </div>
-              `).join('')}
+              `}).join('')}
             </div>
           </div>
         `;
@@ -1950,8 +2190,42 @@
 
     window.exportWordDoc = function() {
         if(!generatedReport) return;
-        const rawText = document.getElementById('report-paper').innerText;
-        downloadWordDoc(`DPR_${generatedReport.date}`, rawText);
+        
+        const paper = document.getElementById('report-paper');
+        
+        // Setup proper HTML structure for Word embedding so layout and photos stay intact
+        const styles = `
+            <style>
+                body { font-family: 'Arial', sans-serif; color: #1e293b; line-height: 1.6; }
+                h1 { color: #0f172a; border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; font-size: 24px;}
+                h2 { color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 3px; font-size: 18px; margin-top: 20px;}
+                img { max-width: 100%; height: auto; border-radius: 4px; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 12px;}
+                th, td { border: 1px solid #cbd5e1; padding: 6px; text-align: left; }
+                th { background-color: #f1f5f9; font-weight: bold;}
+                .print-hidden { display: none !important; }
+            </style>
+        `;
+        
+        const htmlHeader = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export Document</title>" + styles + "</head><body>";
+        const htmlFooter = "</body></html>";
+        
+        // Clone paper to safely remove icons/buttons before export
+        let clone = paper.cloneNode(true);
+        clone.querySelectorAll('.print-hidden').forEach(el => el.remove());
+        clone.querySelectorAll('svg').forEach(el => el.remove()); 
+        
+        const wordContent = htmlHeader + clone.innerHTML + htmlFooter;
+        
+        const blob = new Blob(['\ufeff', wordContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `DPR_${generatedReport.date.replace(/-/g, '')}.doc`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 
     window.translateReport = async function(btn) {
