@@ -1074,14 +1074,10 @@
     // --- STREAMING_CHUNK:Defining AI Drafting Engine... ---
     window.triggerAIDrafting = async function() {
        const btn = document.getElementById('draft-report-btn');
-       const icon = document.getElementById('draft-icon');
-       const text = document.getElementById('draft-text');
 
        btn.disabled = true;
        btn.classList.add('opacity-70');
-       icon.setAttribute('data-lucide', 'loader-2');
-       icon.classList.add('animate-spin');
-       text.innerText = "Drafting Sections...";
+       btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> <span>Drafting Sections...</span>';
        lucide.createIcons();
 
        try {
@@ -1141,9 +1137,7 @@
 
           btn.disabled = false;
           btn.classList.remove('opacity-70');
-          icon.setAttribute('data-lucide', 'sparkles');
-          icon.classList.remove('animate-spin');
-          text.innerText = "✨ Step 1: Draft Report Sections";
+          btn.innerHTML = '<i data-lucide="sparkles" class="w-5 h-5"></i> <span>✨ Step 1: Draft Report Sections</span>';
           lucide.createIcons();
        }
     }
