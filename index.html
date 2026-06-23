@@ -8,9 +8,6 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Tailwind Typography for Markdown rendering -->
-  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-  
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
@@ -41,13 +38,15 @@
       background: #94a3b8;
     }
 
+    /* Print Optimization CSS */
     @media print {
       body { background: white !important; }
       .print-hidden { display: none !important; }
       .print-m-0 { margin: 0 !important; }
       .print-p-0 { padding: 0 !important; }
       .print-w-full { width: 100% !important; max-width: 100% !important; }
-      .print-shadow-none { box-shadow: none !important; border: none !important; }
+      .print-shadow-none { box-shadow: none !important; }
+      .print-break-inside-avoid { break-inside: avoid !important; }
     }
     
     .view-section { display: none; }
@@ -67,64 +66,73 @@
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       color: #0f172a !important; /* slate-900 */
       font-weight: 800 !important;
-      line-height: 1.3 !important;
+      line-height: 1.4 !important;
     }
     #report-paper h1 {
-      font-size: 1.5rem !important;
-      margin-top: 1rem !important;
-      margin-bottom: 0.75rem !important;
+      font-size: 1.75rem !important;
+      margin-top: 1.5rem !important;
+      margin-bottom: 1.25rem !important;
       border-bottom: 2px solid #e2e8f0 !important;
-      padding-bottom: 0.5rem !important;
+      padding-bottom: 0.65rem !important;
     }
     #report-paper h2 {
-      font-size: 1.15rem !important;
+      font-size: 1.3rem !important;
+      margin-top: 2rem !important;
+      margin-bottom: 1rem !important;
+      border-bottom: 1px solid #f1f5f9 !important;
+      padding-bottom: 0.4rem !important;
+    }
+    #report-paper h3 {
+      font-size: 1.125rem !important;
       margin-top: 1.5rem !important;
       margin-bottom: 0.75rem !important;
-      border-bottom: 1px solid #f1f5f9 !important;
-      padding-bottom: 0.25rem !important;
     }
     #report-paper p {
-      font-size: 0.85rem !important;
-      line-height: 1.6 !important;
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
       color: #334155 !important; /* slate-700 */
-      margin-bottom: 1rem !important;
+      margin-bottom: 1.25rem !important;
     }
-    #report-paper ul {
-      margin-bottom: 1rem !important;
-      padding-left: 1.25rem !important;
+    #report-paper ul, #report-paper ol {
+      margin-bottom: 1.25rem !important;
+      padding-left: 1.5rem !important;
       list-style-type: disc !important;
     }
     #report-paper li {
-      font-size: 0.85rem !important;
-      line-height: 1.6 !important;
+      font-size: 0.95rem !important;
+      line-height: 1.75 !important;
       color: #475569 !important; /* slate-600 */
-      margin-bottom: 0.35rem !important;
+      margin-bottom: 0.5rem !important;
     }
     #report-paper table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 0.75rem;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
     }
     #report-paper th {
       background-color: #f8fafc;
-      font-weight: bold;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #475569;
+      border-bottom: 2px solid #cbd5e1;
+      padding: 0.75rem;
       text-align: left;
-      padding: 0.5rem;
-      border: 1px solid #cbd5e1;
     }
     #report-paper td {
-      padding: 0.5rem;
-      border: 1px solid #e2e8f0;
-      color: #475569;
+      padding: 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+      color: #334155;
     }
   </style>
 </head>
-<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased print:bg-white">
+<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
 
   <!-- Sidebar -->
   <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
+    <!-- Header Title Area -->
     <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
@@ -132,9 +140,10 @@
         </div>
         <span class="text-base font-bold tracking-tight leading-tight text-slate-100">Construction Reports</span>
       </div>
-      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by Hasnat Safdar</span>
+      <span class="text-[10px] uppercase tracking-wider text-slate-500 font-semibold ml-10">by TYA & Associates</span>
     </div>
     
+    <!-- Nav Items -->
     <nav class="flex-1 p-4 space-y-1.5" id="nav-menu">
       <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 bg-indigo-600 text-white font-medium text-sm shadow-lg shadow-indigo-600/10" data-target="dashboard">
         <i data-lucide="home" class="w-4.5 h-4.5"></i><span>Dashboard</span>
@@ -153,6 +162,7 @@
       </button>
     </nav>
     
+    <!-- Footer Profile Area -->
     <div class="p-4 border-t border-slate-900 bg-slate-950/80">
       <div class="flex items-center gap-3 px-3 py-1">
         <div id="sidebar-profile-avatar" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center font-bold text-xs text-white shadow-md">HS</div>
@@ -161,6 +171,7 @@
           <p id="sidebar-profile-role" class="text-[10px] text-slate-400 truncate uppercase tracking-wider font-semibold">Project App Developer</p>
         </div>
       </div>
+      <!-- Database Connection Status Display -->
       <div class="px-3 pb-1 border-t border-slate-900/50 mt-3 pt-2.5 flex items-center justify-between">
         <p class="text-[11px] text-slate-400 flex items-center gap-2" id="db-status-container">
           <span id="db-status-dot" class="w-2 h-2 rounded-full bg-yellow-500"></span> 
@@ -176,9 +187,9 @@
     <!-- API Key Bar -->
     <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
       <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="AI API Key (Optional)" class="text-xs p-1.5 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition flex items-center gap-1.5 shadow-sm">
-        Connect AI
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
+        Connect
       </button>
     </div>
 
@@ -186,25 +197,47 @@
     
     <!-- Dashboard View -->
     <section id="dashboard" class="view-section active pb-24">
-      <header class="flex justify-between items-center mb-8 pr-72">
-        <div>
-          <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Dashboard</h1>
-          <p class="text-slate-500 text-sm mt-0.5">Welcome back, <span class="profile-name-span font-semibold text-indigo-600">Hasnat Safdar</span>. Here is your site overview.</p>
+      
+      <!-- Premium Hero Project Banner -->
+      <div class="relative w-full h-72 rounded-3xl overflow-hidden mb-8 shadow-[0_20px_50px_rgba(15,23,42,0.2)] group flex items-end">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10"></div>
+        <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" alt="Project Cover" />
+        
+        <!-- Cover Upload Button (Made permanently visible) -->
+        <div class="absolute top-6 right-6 z-30 opacity-90 hover:opacity-100 transition duration-300">
+           <div class="relative">
+              <input type="file" accept="image/*" onchange="handleCoverUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+              <button class="bg-black/60 backdrop-blur-md hover:bg-black/80 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border border-white/20 shadow-xl">
+                <i data-lucide="camera" class="w-4 h-4"></i> Update Cover Photo
+              </button>
+           </div>
         </div>
-        <div class="flex items-center gap-4">
-          <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-12 max-w-[200px] object-contain hidden rounded-lg border border-slate-200 p-1 bg-white shadow-sm" />
-          <div class="relative">
-            <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-            <button class="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-all flex items-center gap-2">
-              <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
-              <span id="logo-btn-text">Upload Logo</span>
-            </button>
+
+        <div class="absolute bottom-0 left-0 p-8 z-20 w-full flex justify-between items-end">
+          <div>
+            <span class="px-3.5 py-1.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md mb-4 inline-block shadow-[0_0_15px_rgba(245,158,11,0.2)]">Active Development</span>
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight drop-shadow-lg leading-tight" id="hero-project-name">Active Project</h1>
+            <p class="text-slate-300 mt-2.5 font-medium flex items-center gap-2 text-sm"><i data-lucide="map-pin" class="w-4.5 h-4.5 text-amber-500"></i> <span id="hero-location">Yanbu, Saudi Arabia</span></p>
+          </div>
+          <div class="hidden md:flex flex-col items-end gap-3">
+            <div class="flex items-center gap-4">
+              <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-10 max-w-[150px] object-contain hidden rounded-lg border border-white/20 p-1 bg-white/10 backdrop-blur-md shadow-lg" />
+              <div class="relative">
+                <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <button class="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-lg text-[10px] font-semibold transition-all flex items-center gap-1.5">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                  <span id="logo-btn-text">Upload Logo</span>
+                </button>
+              </div>
+            </div>
+            <p class="text-slate-400 text-xs mt-1">Welcome back, <span class="profile-name-span font-bold text-white">Hasnat Safdar</span>.</p>
           </div>
         </div>
-      </header>
+      </div>
 
-      <!-- 5-Column Metrics Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+      <!-- 4-Column Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Card 1: Total Reports -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-blue-50 text-blue-600"><i data-lucide="file-text" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -212,6 +245,7 @@
             <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-total-reports">0</p>
           </div>
         </div>
+        <!-- Card 2: Avg Workforce -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -219,13 +253,7 @@
             <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
-          <div class="p-3.5 rounded-xl bg-amber-50 text-amber-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
-          <div class="flex-1 min-w-0">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Safety Incidents</p>
-            <input type="text" id="stat-safety-incidents" value="0" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('safetyIncidents', this.value)" title="Click to edit"/>
-          </div>
-        </div>
+        <!-- Card 3: Days Active -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -233,6 +261,7 @@
             <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
           </div>
         </div>
+        <!-- Card 4: Remaining Days -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-rose-50 text-rose-600"><i data-lucide="hourglass" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
@@ -245,27 +274,27 @@
       <!-- Recent Reports -->
       <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-base font-bold text-slate-900">Recent Progress Logs & Manual Uploads</h2>
+          <h2 class="text-base font-bold text-slate-900">Recent Progress Logs & Audits</h2>
           <div class="flex items-center gap-3">
              <button onclick="loadSampleReport()" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1.5">
                 <i data-lucide="sparkles" class="w-3.5 h-3.5 text-indigo-500 animate-pulse"></i> ✨ Load Demo Report
              </button>
-             <button class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold" onclick="switchView('archives')">View All Reports</button>
+             <button class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold" onclick="switchView('archives')">View All Records</button>
           </div>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse min-w-[600px]">
+          <table class="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                <th class="pb-3.5 font-semibold">Date</th>
-                <th class="pb-3.5 font-semibold">Project/File</th>
-                <th class="pb-3.5 font-semibold">Prepared By</th>
-                <th class="pb-3.5 font-semibold">Status</th>
+                <th class="pb-3.5 font-semibold">Date & Shift</th>
+                <th class="pb-3.5 font-semibold">Project</th>
+                <th class="pb-3.5 font-semibold">Author</th>
+                <th class="pb-3.5 font-semibold">Status & Audit</th>
                 <th class="pb-3.5 font-semibold text-right">Action</th>
               </tr>
             </thead>
             <tbody id="dashboard-recent-reports" class="divide-y divide-slate-100 text-sm">
-              <tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" or "Load Demo Report" to view.</td></tr>
+              <tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" to begin.</td></tr>
             </tbody>
           </table>
         </div>
@@ -276,31 +305,33 @@
     <section id="create_report" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Generate Daily Report</h1>
-        <p class="text-slate-500 text-sm">Input real-time site variables, configure PMC stakeholders, and bypass AI if needed.</p>
+        <p class="text-slate-500 text-sm">Input real-time site variables, configure stakeholders, and track look-ahead activities.</p>
       </header>
 
       <div class="max-w-5xl space-y-6">
         <!-- Project Details -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="hard-hat" class="text-amber-500 w-5 h-5"></i> Project Details & PMC Configuration
+            <i data-lucide="hard-hat" class="text-amber-500 w-5 h-5"></i> Project Details & Stakeholders
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Project Name</label>
-              <input type="text" id="frm-projectName" placeholder="e.g., Downtown Commercial Plaza" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('projectName', this.value)" />
+              <input type="text" id="frm-projectName" placeholder="e.g., Kaynuna Beach Escape" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onkeyup="updateForm('projectName', this.value)" onchange="updateForm('projectName', this.value)" />
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Client Name</label>
               <input type="text" id="frm-clientName" placeholder="e.g., Emaar Properties" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('clientName', this.value)" />
             </div>
             <div>
+              <!-- Defaulted to Yanbu -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Location</label>
-              <input type="text" id="frm-location" placeholder="e.g., Dubai, UAE" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('location', this.value)" />
+              <input type="text" id="frm-location" value="Yanbu, Saudi Arabia" placeholder="e.g., Yanbu, Saudi Arabia" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onkeyup="updateForm('location', this.value)" onchange="updateForm('location', this.value)" />
             </div>
             <div>
+              <!-- Defaulted to TYA -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Supervision Consultant</label>
-              <input type="text" id="frm-supervisionConsultant" placeholder="e.g., TYA Associates" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('supervisionConsultant', this.value)" />
+              <input type="text" id="frm-supervisionConsultant" value="TYA & Associates" placeholder="e.g., TYA & Associates" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('supervisionConsultant', this.value)" />
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PMC Name</label>
@@ -309,12 +340,12 @@
           </div>
         </div>
 
-        <!-- Site Conditions -->
+        <!-- Site Conditions & Delays -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Environmental Variables
+            <i data-lucide="thermometer" class="text-indigo-500 w-5 h-5"></i> Site Variables & Workforce
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-5">
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Date</label>
               <input type="date" id="frm-date" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('date', this.value)" />
@@ -329,68 +360,55 @@
               </select>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Temperature (°C)</label>
-              <input type="number" id="frm-temperature" value="32" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('temperature', this.value)" />
-            </div>
-            <div>
+              <!-- Morning / Evening Shift Restriction -->
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Shift</label>
               <select id="frm-shift" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" onchange="updateForm('shift', this.value)">
                 <option>Morning Shift</option>
                 <option>Evening Shift</option>
               </select>
             </div>
-          </div>
-        </div>
-
-        <!-- Resources & Look Ahead Tracker -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i data-lucide="users" class="text-emerald-500 w-5 h-5"></i> Site Resources & Tracker
-          </h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Workforce Count</label>
               <input type="text" id="frm-workforce" placeholder="e.g., 150 Subcontractors, 20 Staff" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" onchange="updateForm('workforce', this.value)" />
             </div>
-            <div>
-              <div class="flex justify-between items-center mb-1.5">
-                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
-              </div>
-              <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-16 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
-            </div>
           </div>
+          <div>
+            <div class="flex justify-between items-center mb-1.5">
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Delays / Roadblocks</label>
+              <button onclick="suggestMitigation(this)" class="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1.5">✨ Suggest AI Fixes</button>
+            </div>
+            <textarea id="frm-delays" placeholder="Describe any roadblocks..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-20 resize-none" onchange="updateForm('delays', this.value)">None</textarea>
+          </div>
+        </div>
 
-          <!-- Look Ahead Tracker Table -->
-          <div class="mt-4 border-t border-slate-100 pt-6">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
-                <i data-lucide="calendar" class="text-indigo-500 w-4 h-4"></i> Look Ahead Tracker
-              </h3>
-              <button onclick="addLookAheadRow()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
-                <i data-lucide="plus" class="w-3 h-3"></i> Add Row
-              </button>
-            </div>
-            
-            <div class="overflow-x-auto rounded-xl border border-slate-200">
-              <table class="w-full text-left border-collapse min-w-[700px]">
-                <thead>
-                  <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-600 uppercase tracking-wider">
-                    <th class="p-2.5 w-12 text-center">No</th>
-                    <th class="p-2.5 w-24">Zone</th>
-                    <th class="p-2.5 w-32">Location</th>
-                    <th class="p-2.5 w-24">Trade</th>
-                    <th class="p-2.5 min-w-[150px]">Activity</th>
-                    <th class="p-2.5 w-32">Target Finish</th>
-                    <th class="p-2.5 w-48">Status / Remarks</th>
-                    <th class="p-2.5 w-10"></th>
-                  </tr>
-                </thead>
-                <tbody id="look-ahead-tbody" class="text-sm divide-y divide-slate-100">
-                  <!-- Rows injected via JS -->
-                </tbody>
-              </table>
-            </div>
+        <!-- Look Ahead Tracker Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="calendar-clock" class="text-emerald-500 w-5 h-5"></i> Look Ahead Tracker
+            </h2>
+            <button onclick="addLookAheadRow()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Row
+            </button>
+          </div>
+          <div class="overflow-x-auto border border-slate-200 rounded-xl bg-slate-50/50">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-slate-100 text-slate-600 border-b border-slate-200">
+                <tr>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">No</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Zone</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Location</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Trade</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Activity</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Target Finish</th>
+                  <th class="p-2.5 font-bold uppercase tracking-wider">Status / Remarks</th>
+                  <th class="p-2.5 font-bold text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="look-ahead-tbody" class="divide-y divide-slate-200 bg-white">
+                 <!-- Rows rendered via JS -->
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -398,7 +416,7 @@
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-5">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photos & Vision AI Analyzer
+              <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photo Log
             </h2>
             <div class="relative">
               <input type="file" multiple accept="image/*" onchange="handlePhotoUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
@@ -427,7 +445,7 @@
           </button>
         </div>
 
-        <!-- Section 4: Manual Review and Configuration Panel -->
+        <!-- Section 4: Manual Review and Configuration Panel (Hidden until triggered) -->
         <div id="manual-review-panel" class="hidden bg-white rounded-2xl shadow-sm border-2 border-indigo-100 p-6 space-y-6">
           <div class="border-b border-slate-100 pb-4">
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -449,10 +467,6 @@
                 Completed Activities
               </label>
               <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
-                <input type="checkbox" id="cfg-include-status" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
-                Progress Status
-              </label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
                 <input type="checkbox" id="cfg-include-safety" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
                 Safety & Quality
               </label>
@@ -465,16 +479,16 @@
                 Delays & Issues
               </label>
               <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
-                <input type="checkbox" id="cfg-include-lookahead" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                <input type="checkbox" id="cfg-include-planned" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
                 Look Ahead Tracker
               </label>
               <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
                 <input type="checkbox" id="cfg-include-photos" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
                 Site Photo Log
               </label>
-              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer col-span-2">
-                <input type="checkbox" id="cfg-include-audit-log" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
-                Consultant Review & Action Logs (Printable)
+              <label class="flex items-center gap-2 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="cfg-include-audit" checked class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                Audit Logs (Print)
               </label>
             </div>
           </div>
@@ -484,25 +498,22 @@
             <div>
               <div class="flex justify-between items-center mb-1">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Executive Summary Draft</label>
-                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
               </div>
-              <textarea id="draft-exec-summary" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Executive Summary..."></textarea>
+              <textarea id="draft-exec-summary" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Enter executive summary..."></textarea>
             </div>
 
             <div>
               <div class="flex justify-between items-center mb-1">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Activities Completed Today Draft</label>
-                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
               </div>
-              <textarea id="draft-completed-today" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Activities Completed Today..."></textarea>
+              <textarea id="draft-completed-today" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Enter completed activities..."></textarea>
             </div>
 
             <div>
               <div class="flex justify-between items-center mb-1">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Review Safety & Quality Observations Draft</label>
-                <span class="text-[10px] text-slate-400 font-semibold italic">Editable</span>
               </div>
-              <textarea id="draft-safety-quality" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Drafting Safety Observations..."></textarea>
+              <textarea id="draft-safety-quality" class="premium-input w-full p-3 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/20 h-28" placeholder="Enter safety observations..."></textarea>
             </div>
           </div>
 
@@ -523,19 +534,25 @@
     <section id="upload_documents" class="view-section pb-24">
       <header class="mb-8 pr-72">
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Project Documents</h1>
-        <p class="text-slate-500 text-sm">Upload and manage site plans, specifications, drawings, and client letters.</p>
+        <p class="text-slate-500 text-sm">Upload site plans, specifications, drawings, and legacy PDF reports. Manually uploaded reports will appear on your Dashboard.</p>
       </header>
       <div class="max-w-5xl space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center relative hover:bg-slate-50/50 transition duration-200 border-dashed border-2">
           <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
           <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
             <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
-              <i data-lucide="upload" class="w-7 h-7"></i>
+              <i data-lucide="upload" class="text-blue-600 w-8 h-8"></i>
             </div>
             <div>
               <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
               <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
             </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-6 border-b border-slate-100 pb-4">Uploaded Files</h2>
+          <div id="documents-list-container">
+            <p class="text-slate-500 text-center py-8 text-sm">No documents uploaded yet.</p>
           </div>
         </div>
       </div>
@@ -547,19 +564,19 @@
         <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Report Archives</h1>
         <p class="text-slate-500 text-sm">Search, filter, and audit all historic dailies saved directly on your cloud Firestore database.</p>
       </header>
-      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 max-w-6xl">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 max-w-6xl">
         <div class="flex justify-between items-center mb-6">
-          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-xs bg-slate-50/50 premium-input" />
+          <input type="text" placeholder="Search reports by project or date..." class="w-1/3 p-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-xs bg-slate-50/50 premium-input" />
           <button class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition">Export List</button>
         </div>
         <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse min-w-[600px]">
+          <table class="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                <th class="pb-3.5 font-semibold">Date</th>
-                <th class="pb-3.5 font-semibold">Project/File</th>
-                <th class="pb-3.5 font-semibold">Prepared By</th>
-                <th class="pb-3.5 font-semibold">Status</th>
+                <th class="pb-3.5 font-semibold">Date & Shift</th>
+                <th class="pb-3.5 font-semibold">Project</th>
+                <th class="pb-3.5 font-semibold">Author</th>
+                <th class="pb-3.5 font-semibold">Status & Audit</th>
                 <th class="pb-3.5 font-semibold text-right">Action</th>
               </tr>
             </thead>
@@ -580,7 +597,7 @@
       <div class="max-w-3xl space-y-6">
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
-            <h2 class="text-base font-bold text-slate-900">Profile Information</h2>
+            <h2 class="text-lg font-bold text-slate-900">Profile Information</h2>
             <button id="lock-profile-btn" onclick="toggleProfileLock(false)" class="text-xs font-semibold text-slate-500 hover:text-slate-800 flex items-center gap-1.5 hidden">
               <i data-lucide="lock" class="w-4 h-4"></i> Lock Profile
             </button>
@@ -620,9 +637,9 @@
     </section>
 
     <!-- View Report (Output) -->
-    <section id="view_report" class="view-section py-8 print:py-0">
+    <section id="view_report" class="view-section py-12">
       <!-- Container optimized for split layout when viewing a report -->
-      <div class="w-full max-w-7xl mx-auto px-4 print:max-w-none print:px-0">
+      <div class="w-full max-w-7xl mx-auto px-4">
         
         <!-- Controls Header -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 print-hidden">
@@ -633,7 +650,7 @@
             <button onclick="translateReport(this)" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm" id="translate-btn">
               ✨ Translate to Arabic
             </button>
-            <button onclick="exportToWord()" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+            <button onclick="exportWordDoc()" class="bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
               <i data-lucide="download" class="w-4 h-4 text-slate-400"></i> Export Word
             </button>
             <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-md shadow-indigo-100">
@@ -642,9 +659,9 @@
           </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8 items-start print:gap-0">
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
           <!-- Paper Sheet Simulation -->
-          <div id="report-paper" class="bg-white flex-1 p-10 md:p-14 shadow-xl border border-slate-200 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full print:border-none">
+          <div id="report-paper" class="bg-white flex-1 p-10 sm:p-14 shadow-xl border border-slate-100 rounded-2xl print-shadow-none print-m-0 print-p-0 print-w-full relative overflow-hidden">
             <!-- Generated content injected here -->
           </div>
           
@@ -671,12 +688,12 @@
   </div>
 
   <script type="module">
-    // --- Firebase Initialization for Permanent Storage ---
+    // --- Firebase Initialization ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Vercel Firebase Fallback Config
+    // Restore Original Firebase Config Layout
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
     const fallbackConfig = {
       apiKey: "AIzaSyAbA14vZYizfw_cqTGr8hsdQZbyb1Hixmw",
@@ -717,48 +734,40 @@
               } else {
                   setDbStatus('error', "Authentication failed", "Anonymous login is not enabled in your Firebase Authentication console.");
               }
-          }, (authError) => {
-              setDbStatus('error', "Authentication Error", authError.message);
           });
-       }).catch(authErr => {
-          setDbStatus('error', "Auth Init failed", authErr.message);
-       });
-    } catch(e) {
-       console.warn("Firebase not configured properly. Reports will not save permanently on Vercel until Firebase Config is added.");
-       setDbStatus('fallback');
-    }
+       }).catch(authErr => { setDbStatus('error', "Auth Init failed", authErr.message); });
+    } catch(e) { setDbStatus('fallback'); }
 
     // --- Application State ---
-    const apiKey = ""; // Execution environment provides this at runtime
+    const apiKey = ""; 
     let userApiKey = localStorage.getItem('geminiApiKey') || '';
     let currentView = 'dashboard';
     let reportsList = [];
     let photos = [];
+    let documents = [];
     let generatedReport = null;
     let companyLogoBase64 = null;
-    let tempScreenshotBase64 = null; 
-    let lookAheadRowCount = 0;
+    let globalCoverPhotoBase64 = null;
+    let showAuditLogsOnReport = true;
     
     let formData = {
       projectName: '',
       clientName: '',
-      location: '',
-      supervisionConsultant: '',
+      location: 'Yanbu, Saudi Arabia', // Default Location
+      supervisionConsultant: 'TYA & Associates', // Default Consultant
       pmcName: '',
       date: new Date().toISOString().split('T')[0],
       weather: 'Sunny',
-      temperature: '32',
-      shift: 'Morning Shift',
+      shift: 'Morning Shift', // Updated Shift Value
       workforce: '',
       delays: 'None'
     };
 
-    let dashboardStats = {
-      avgWorkforce: '350',
-      safetyIncidents: '0',
-      daysActive: '245',
-      remainingDays: '120'
-    };
+    let lookAheadData = [
+       { id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' }
+    ];
+
+    let dashboardStats = { avgWorkforce: '350', daysActive: '245', remainingDays: '120' };
 
     let globalProfile = {
       name: 'Hasnat Safdar',
@@ -766,7 +775,7 @@
       email: 'hasnat@example.com'
     };
 
-    // --- Custom Modal Script replacements for alert() and confirm() ---
+    // --- STREAMING_CHUNK:Defining Modals & Callbacks... ---
     let modalResolveCallback = null;
 
     window.showCustomAlert = function(title, message) {
@@ -781,7 +790,7 @@
     window.showCustomConfirm = function(title, message) {
         return new Promise((resolve) => {
             document.getElementById('custom-modal-title').innerText = title;
-            document.getElementById('custom-modal-message').innerText = message;
+            document.getElementById('custom-modal-message').innerHTML = message;
             modalResolveCallback = resolve;
             document.getElementById('custom-modal-actions').innerHTML = `
                 <button onclick="closeCustomModal(false)" class="px-4 py-2 bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-100 transition">Cancel</button>
@@ -815,80 +824,23 @@
         }, 200);
     }
 
-    window.openFullscreenImage = function(src) {
-        document.getElementById('custom-modal-title').innerText = "Site Observation Reference";
-        document.getElementById('custom-modal-message').innerHTML = `<img src="${src}" class="w-full max-h-[450px] object-contain rounded-xl border border-slate-100 shadow-inner" />`;
-        document.getElementById('custom-modal-actions').innerHTML = `
-            <button onclick="closeCustomModal()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold hover:bg-slate-800 transition">Close Preview</button>
-        `;
-        openModalElement();
-    }
-
     function setDbStatus(status, message = "", details = "") {
         const dot = document.getElementById('db-status-dot');
         const text = document.getElementById('db-status-text');
-        const container = document.getElementById('db-status-container');
-        if (!dot || !text || !container) return;
-        
-        container.onclick = null;
-        container.style.cursor = "default";
-        
+        if (!dot || !text) return;
         if (status === 'connected') {
             dot.className = "w-2 h-2 rounded-full bg-green-500 shadow-[0_0_6px_rgba(34,197,94,0.6)]";
             text.innerText = "Cloud Synced";
         } else if (status === 'error') {
             dot.className = "w-2 h-2 rounded-full bg-red-500 shadow-[0_0_6px_rgba(239,68,68,0.6)] animate-pulse";
             text.innerText = "Cloud Error";
-            container.style.cursor = "pointer";
-            container.onclick = () => showCustomAlert("Firebase Sync Error", `${message}\n${details}`);
         } else if (status === 'fallback') {
             dot.className = "w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_rgba(249,115,22,0.6)]";
             text.innerText = "Local Mode";
-            container.style.cursor = "pointer";
-            container.onclick = () => showCustomAlert("Database Setup Needed", "Paste Firebase Config in app.html to save reports permanently.");
         }
     }
 
-    // --- Look Ahead Tracker Logic ---
-    window.addLookAheadRow = function() {
-      lookAheadRowCount++;
-      const tbody = document.getElementById('look-ahead-tbody');
-      const tr = document.createElement('tr');
-      tr.className = "group hover:bg-slate-50 transition";
-      tr.innerHTML = `
-        <td class="p-2.5 text-center text-slate-500 font-bold">${lookAheadRowCount}</td>
-        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., A"></td>
-        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Lvl 5"></td>
-        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Civil"></td>
-        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="e.g., Pour Concrete"></td>
-        <td class="p-2.5"><input type="date" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-[11px]"></td>
-        <td class="p-2.5"><input type="text" class="w-full bg-transparent outline-none border-b border-dashed border-slate-300 focus:border-indigo-500 text-xs" placeholder="Planned"></td>
-        <td class="p-2.5 text-center">
-           <button onclick="removeLookAheadRow(this)" class="text-slate-300 hover:text-red-500 transition opacity-0 group-hover:opacity-100"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-        </td>
-      `;
-      tbody.appendChild(tr);
-      lucide.createIcons();
-    }
-    
-    window.removeLookAheadRow = function(btn) {
-      btn.closest('tr').remove();
-    }
-    
-    function extractLookAheadMarkdown() {
-       const rows = document.querySelectorAll('#look-ahead-tbody tr');
-       if(rows.length === 0) return "*No upcoming activities recorded.*";
-       
-       let md = `| No | Zone | Location | Trade | Activity | Target Finish Date | Current Status / Remarks |\n`;
-       md += `|---|---|---|---|---|---|---|\n`;
-       
-       rows.forEach((tr, index) => {
-          const inputs = tr.querySelectorAll('input');
-          md += `| ${index + 1} | ${inputs[0].value || '-'} | ${inputs[1].value || '-'} | ${inputs[2].value || '-'} | ${inputs[3].value || '-'} | ${inputs[4].value || '-'} | ${inputs[5].value || '-'} |\n`;
-       });
-       return md;
-    }
-
+    // --- STREAMING_CHUNK:Configuring Database Cloud Sync... ---
     function loadConfigFromCloud() {
       if (!currentUser || !db) return;
 
@@ -896,7 +848,6 @@
         if (docSnap.exists()) {
           dashboardStats = docSnap.data();
           document.getElementById('stat-avg-workforce').value = dashboardStats.avgWorkforce || '350';
-          document.getElementById('stat-safety-incidents').value = dashboardStats.safetyIncidents || '0';
           document.getElementById('stat-days-active').value = dashboardStats.daysActive || '245';
           document.getElementById('stat-remaining-days').value = dashboardStats.remainingDays || '120';
         }
@@ -914,6 +865,13 @@
         }
       });
 
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().image) {
+          globalCoverPhotoBase64 = docSnap.data().image;
+          document.getElementById('dashboard-cover-img').src = globalCoverPhotoBase64;
+        }
+      });
+
       onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), (docSnap) => {
         if (docSnap.exists()) {
           globalProfile = docSnap.data();
@@ -923,17 +881,14 @@
     }
 
     function updateProfileUI() {
-      document.querySelectorAll('.profile-name-span').forEach(span => span.innerText = globalProfile.name);
+      const nameSpans = document.querySelectorAll('.profile-name-span');
+      nameSpans.forEach(span => span.innerText = globalProfile.name);
+
       document.getElementById('sidebar-profile-name').innerText = globalProfile.name;
       document.getElementById('sidebar-profile-role').innerText = globalProfile.role;
-      document.getElementById('sidebar-profile-avatar').innerText = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
-      const nameInput = document.getElementById('settings-profile-name');
-      const roleInput = document.getElementById('settings-profile-role');
-      const emailInput = document.getElementById('settings-profile-email');
-      if (nameInput) nameInput.value = globalProfile.name;
-      if (roleInput) roleInput.value = globalProfile.role;
-      if (emailInput) emailInput.value = globalProfile.email;
+      const initials = globalProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      document.getElementById('sidebar-profile-avatar').innerText = initials;
     }
 
     window.saveProfileToCloud = async function() {
@@ -952,14 +907,15 @@
       }
     }
 
-    // --- Cloud Database Handlers ---
     function loadReportsFromCloud() {
         if (!currentUser || !db) return;
+        const reportsRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports');
         
-        onSnapshot(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports'), (snapshot) => {
+        onSnapshot(reportsRef, (snapshot) => {
             let newlyFetchedList = [];
             snapshot.forEach((doc) => {
-                newlyFetchedList.push({ ...doc.data(), docId: doc.id, dbId: doc.data().dbId || doc.id });
+                const data = doc.data();
+                newlyFetchedList.push({ ...data, docId: doc.id, dbId: data.dbId || doc.id });
             });
             
             newlyFetchedList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
@@ -970,14 +926,12 @@
                 const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
                 if(refreshedReport) {
                     refreshedReport.photos = generatedReport.photos; 
-                    refreshedReport.logo = generatedReport.logo; 
+                    refreshedReport.logo = generatedReport.logo;
+                    refreshedReport.coverPhoto = generatedReport.coverPhoto;
                     generatedReport = refreshedReport;
                     renderViewReport();
                 }
             }
-        }, (error) => {
-            console.error("Firestore loading error:", error);
-            setDbStatus('error', "Database permission denied", "Make sure your Firestore Database rules allow reading and writing.");
         });
     }
 
@@ -987,34 +941,34 @@
             const safePhotos = (reportData.photos || []).map(p => ({
                 id: p.id, category: p.category, aiText: p.aiText, mimeType: p.mimeType
             }));
-            
-            const { logo, ...reportWithoutLogo } = reportData;
+            const { logo, coverPhoto, ...reportWithoutMassiveBase64 } = reportData;
             
             const reportToSave = { 
-                ...reportWithoutLogo, 
+                ...reportWithoutMassiveBase64, 
                 photos: safePhotos, 
                 createdAt: reportData.createdAt || Date.now() 
             };
             
             await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId), reportToSave);
 
-            for (const p of (reportData.photos || [])) {
-               if(p.base64) {
-                   await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id), {
-                      base64: p.base64, mimeType: p.mimeType, id: p.id
-                   });
+            if(reportData.photos) {
+               for (const p of reportData.photos) {
+                  if(p.base64) {
+                      await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', reportData.dbId, 'photos', p.id), {
+                         base64: p.base64, mimeType: p.mimeType, id: p.id
+                      });
+                  }
                }
             }
             setDbStatus('connected');
         } catch(e) {
-            console.error("Error saving to cloud:", e);
-            setDbStatus('error', "Failed to write report data to Cloud", e.message);
-            throw e; 
+            console.error(e);
+            setDbStatus('error', "Failed to write report to Cloud");
         }
     }
 
     window.deleteReport = async function(dbId) {
-        const proceed = await showCustomConfirm("Delete Report", "Are you sure you want to delete this report permanently from your records?");
+        const proceed = await showCustomConfirm("Delete Report", "Are you sure you want to delete this permanently?");
         if (!proceed) return;
         
         const report = reportsList.find(r => r.dbId === dbId);
@@ -1032,33 +986,33 @@
                   await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
                }
             }
-        } catch(e) {
-            showCustomAlert("Deletion Failed", "Failed to delete report: " + e.message);
-        }
+        } catch(e) { showCustomAlert("Deletion Failed", e.message); }
     };
 
     window.viewArchivedReport = async function(dbId) {
         const report = reportsList.find(r => r.dbId === dbId);
         if(!report) return;
 
-        if (!report.isManualDoc && db && currentUser && report.photos && report.photos.length > 0) {
-           showCustomAlert("Retrieving Report", "Loading parameters and fetching high-resolution site photos from the cloud database...");
+        if(report.isManualDoc) {
+             downloadWordDoc(report.name, "Manual PDF Upload Document");
+             return;
+        }
+
+        if (db && currentUser && report.photos && report.photos.length > 0) {
+           showCustomAlert("Retrieving Report", "Loading parameters and fetching high-resolution photos...");
            try {
               const targetId = report.docId || dbId;
               const photosSnapshot = await getDocs(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos'));
-              const cloudPhotosMap = {};
-              
-              photosSnapshot.forEach(doc => { cloudPhotosMap[doc.id] = doc.data().base64; });
+              const cloudMap = {};
+              photosSnapshot.forEach(doc => { cloudMap[doc.id] = doc.data().base64; });
 
               report.photos = report.photos.map(p => {
-                 if (cloudPhotosMap[p.id]) {
-                    return { ...p, base64: cloudPhotosMap[p.id], url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudPhotosMap[p.id]}` };
+                 if (cloudMap[p.id]) {
+                    return { ...p, base64: cloudMap[p.id], url: `data:${p.mimeType || 'image/jpeg'};base64,${cloudMap[p.id]}` };
                  }
                  return p;
               });
-           } catch(err) {
-              console.warn("Failed to load sub-collection high-res images: ", err);
-           }
+           } catch(err) { console.warn(err); }
         }
 
         closeCustomModal();
@@ -1066,123 +1020,105 @@
         renderViewReport();
         switchView('view_report');
 
-        if (!report.isManualDoc && db && currentUser) {
+        if (db && currentUser) {
           try {
-            const targetId = report.docId || report.dbId;
             const now = new Date();
-            const formattedTime = now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const viewerLog = `${globalProfile.name} (${globalProfile.role}) viewed at ${formattedTime}`;
-            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId), {
+            const viewerLog = `${globalProfile.name} (${globalProfile.role}) viewed at ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', report.docId || report.dbId), {
               views: increment(1), viewers: arrayUnion(viewerLog)
             });
           } catch(e) {}
         }
     };
 
-    window.loadSampleReport = async function() {
-       const demoReport = {
-          dbId: "demo-report-hash-123",
-          projectName: "Al-Reem Residential Tower",
-          clientName: "Dar Al Arkan Developers",
-          supervisionConsultant: "TYA Associates",
-          pmcName: "MAB Consult",
-          location: "Riyadh, Saudi Arabia",
-          date: new Date().toISOString().split('T')[0],
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          preparedBy: "TYA & Associates",
-          status: "Generated",
-          reviewStatus: "Open", 
-          showAudit: true,
-          reviewRemarks: "Honeycomb structural issue identified at the Lift Core wall joints on Sector B of the 14th Floor. Corrective concrete chipping and epoxy Sika grout injection required.",
-          reviewActionTaken: "Contractor chipped away the loose aggregate, applied high-grade Sika Grout-214 epoxy, and is awaiting inspection.",
-          reviewComments: [
-             {
-                id: "c1",
-                user: "Supervision Lead (TYA)",
-                role: "Supervision Consultant",
-                time: "10:15 AM",
-                text: "Concrete structural honeycomb visible on sector B joints. Shuttering for the 15th-floor deck cannot proceed until this is certified.",
-                image: "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=600&auto=format&fit=crop"
-             }
-          ],
-          markdown: `## 1. Executive Summary\nThe primary site work focused on concrete structural casting for the 14th-floor slab, Zone A. Steel reinforcement inspection and conduit checkouts were completed.\n\n## 2. Activities Completed Today\n* **Civil/Structural:** Successfully poured 340m³ of Grade 40 concrete on the 14th-floor deck, Zone A.\n* **MEP Works:** Finished cable tray installation and wiring layouts in the service shafts of Floors 10-12.\n* **Finishes:** Drywall framing layouts initiated in residential Sector C, Floor 4.\n\n## 3. Progress Status\nThe overall structural phase is on schedule with approximately 74% structural concrete completion.\n\n## 4. Safety & Quality Observations\nAll site laborers verified using full Class-A PPE. Fall protection nets have been re-anchored on the structural perimeter walls. Shuttering inspect on Sector B flagged one honeycomb issue.\n\n## 5. Look Ahead Tracker\n| No | Zone | Location | Trade | Activity | Target Finish Date | Current Status / Remarks |\n|---|---|---|---|---|---|---|\n| 1 | Sec A | Lvl 15 | Civil | Pour Deck | 06/25/2026 | Waiting on rebar signoff |`,
-          photos: [
-             {
-                id: "demo_p1",
-                url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&auto=format&fit=crop",
-                category: "Structural Works",
-                aiText: "Active casting operations on the 14th floor slab using high-pressure concrete pump boom. All safety scaffolding intact."
-             }
-          ],
-          views: 3,
-          viewers: ["Hasnat Safdar (App Developer) viewed at 9:00 AM", "Audit Lead (TYA) viewed at 10:15 AM"]
-       };
-
-       if(!reportsList.some(r => r.dbId === demoReport.dbId)) {
-          reportsList.unshift(demoReport);
-          updateReportsTables();
-          if(db && currentUser) await saveReportToCloud(demoReport);
-       }
-       viewArchivedReport(demoReport.dbId);
+    // --- STREAMING_CHUNK:Initializing Look Ahead Tracker Functions... ---
+    // Look Ahead Tracker Logic
+    window.addLookAheadRow = function() {
+        lookAheadData.push({ id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' });
+        renderLookAheadTable();
+    }
+    
+    window.removeLookAheadRow = function(id) {
+        lookAheadData = lookAheadData.filter(r => r.id !== id);
+        renderLookAheadTable();
     }
 
+    window.updateLookAhead = function(id, field, val) {
+        const row = lookAheadData.find(r => r.id === id);
+        if(row) row[field] = val;
+    }
+
+    function renderLookAheadTable() {
+        const tbody = document.getElementById('look-ahead-tbody');
+        if(!tbody) return;
+        if(lookAheadData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400 italic">No tasks added. Click "Add Row" to start tracking.</td></tr>`;
+            return;
+        }
+        tbody.innerHTML = lookAheadData.map((row, index) => `
+            <tr class="hover:bg-slate-50 transition group">
+                <td class="p-2.5 font-semibold text-slate-700">${index + 1}</td>
+                <td class="p-1.5"><input type="text" value="${row.zone}" onchange="updateLookAhead(${row.id}, 'zone', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Zone A" /></td>
+                <td class="p-1.5"><input type="text" value="${row.location}" onchange="updateLookAhead(${row.id}, 'location', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Flr 14" /></td>
+                <td class="p-1.5"><input type="text" value="${row.trade}" onchange="updateLookAhead(${row.id}, 'trade', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. MEP" /></td>
+                <td class="p-1.5"><input type="text" value="${row.activity}" onchange="updateLookAhead(${row.id}, 'activity', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Wiring" /></td>
+                <td class="p-1.5"><input type="date" value="${row.target}" onchange="updateLookAhead(${row.id}, 'target', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" /></td>
+                <td class="p-1.5"><input type="text" value="${row.remarks}" onchange="updateLookAhead(${row.id}, 'remarks', this.value)" class="w-full p-2 border border-slate-200 rounded text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-emerald-500 outline-none" placeholder="e.g. Pending Insp" /></td>
+                <td class="p-2.5 text-center">
+                    <button onclick="removeLookAheadRow(${row.id})" class="text-slate-400 hover:text-red-500 transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+    
+    // Init on load
+    document.addEventListener("DOMContentLoaded", () => renderLookAheadTable());
+
+    // --- STREAMING_CHUNK:Defining AI Drafting Engine... ---
     window.triggerAIDrafting = async function() {
        const btn = document.getElementById('draft-report-btn');
        const icon = document.getElementById('draft-icon');
        const text = document.getElementById('draft-text');
 
-       btn.disabled = true; btn.classList.add('opacity-70');
-       icon.setAttribute('data-lucide', 'loader-2'); icon.classList.add('animate-spin');
-       text.innerText = "Drafting Report Sections..."; lucide.createIcons();
+       btn.disabled = true;
+       btn.classList.add('opacity-70');
+       icon.setAttribute('data-lucide', 'loader-2');
+       icon.classList.add('animate-spin');
+       text.innerText = "Drafting Sections...";
+       lucide.createIcons();
 
        try {
           const activeKey = userApiKey || apiKey;
-          if (!activeKey || activeKey.trim() === '') {
-             throw new Error("No Gemini API Key found.");
-          }
+          if (!activeKey) throw new Error("No Key");
 
-          let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'No AI description generated.'}`).join('\n\n');
-          const lookAheadStr = extractLookAheadMarkdown();
+          let photoContext = photos.map((p, idx) => `Photo ${idx + 1} (${p.category}):\n${p.aiText || 'None.'}`).join('\n\n');
+          let lookAheadContext = lookAheadData.map(r => `Trade: ${r.trade}, Activity: ${r.activity}`).join('; ');
 
-          const prompt = `You are a professional construction project manager preparing structural drafts for a Daily Progress Report. Based on the site parameters below, write three detailed section drafts.
-
-          PROJECT DETAILS:
-          Project Name: ${formData.projectName || 'Not specified'}
-          Client: ${formData.clientName || 'Not specified'}
-          Supervision Consultant: ${formData.supervisionConsultant || 'Not specified'}
-          PMC Name: ${formData.pmcName || 'Not specified'}
-          Location: ${formData.location || 'Not specified'}
-          Date: ${formData.date}
-          Weather: ${formData.weather}, Temp: ${formData.temperature}°C
+          const prompt = `Write structural drafts for a Daily Progress Report based on:
+          Project: ${formData.projectName}
           Shift: ${formData.shift}
+          Delays: ${formData.delays}
+          Look Ahead Tasks: ${lookAheadContext}
+          Photos: ${photoContext}
 
-          RESOURCES:
-          Workforce: ${formData.workforce || 'Not provided'}
+          Return EXACTLY:
+          [EXECUTIVE_SUMMARY] Write brief summary.
+          [COMPLETED_ACTIVITIES] Write bulleted list.
+          [SAFETY_QUALITY] Write safety notes.`;
 
-          SITE OBSERVATIONS & ISSUES:
-          Delays/Issues: ${formData.delays}
-          Look Ahead Tracker Data:\n${lookAheadStr}
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error("Invalid Key");
+          
+          const resultRaw = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
-          PHOTO LOG OBSERVATIONS:
-          ${photoContext}
-
-          You must return EXACTLY this format so we can split the sections into individual edit fields:
-
-          [EXECUTIVE_SUMMARY]
-          Write a concise executive summary paragraph detailing overall progress made today.
-
-          [COMPLETED_ACTIVITIES]
-          Write a detailed, bulleted list summarizing the key activities accomplished today.
-
-          [SAFETY_QUALITY]
-          Write a detailed summary of safety and quality control observations on site.`;
-
-          const payload = { contents: [{ parts: [{ text: prompt }] }] };
-          const resultRaw = await callGemini(payload);
-
-          let draftedSummary = "Progress successfully recorded for civil and structural works. Site works active.";
-          let draftedCompleted = "* Site mobilizations initiated.\n* Progress checks verified.";
-          let draftedSafety = "General safety checks validated. Laborers observed utilizing high-grade PPE guidelines.";
+          let draftedSummary = "Progress recorded.";
+          let draftedCompleted = "* Activities verified.";
+          let draftedSafety = "General safety validated.";
 
           const execMatch = resultRaw.match(/\[EXECUTIVE_SUMMARY\]([\s\S]*?)(?=\[COMPLETED_ACTIVITIES\]|$)/i);
           const completedMatch = resultRaw.match(/\[COMPLETED_ACTIVITIES\]([\s\S]*?)(?=\[SAFETY_QUALITY\]|$)/i);
@@ -1197,22 +1133,26 @@
           document.getElementById('draft-safety-quality').value = draftedSafety;
 
        } catch(e) {
-          if (e.message.includes("No Gemini API Key found")) {
-             showCustomAlert("AI Drafting Disabled", "No Gemini API Key found. Opening the manual editor so you can directly type your notes.");
+          if(e.message === "No Key" || e.message === "Invalid Key") {
+             showCustomAlert("Manual Mode Activated", "No API Key detected. Opening manual text editors for you to write the report sections yourself.");
           } else {
-             showCustomAlert("AI Error", "Failed to compile AI drafts. Opening manual editor...\nDetails: " + e.message);
+             showCustomAlert("Drafting Error", "Failed to compile AI drafts: " + e.message);
           }
        } finally {
-          btn.disabled = false; btn.classList.remove('opacity-70');
-          icon.setAttribute('data-lucide', 'sparkles'); icon.classList.remove('animate-spin');
-          text.innerText = "✨ Step 1: Draft Report Sections"; lucide.createIcons();
-
           document.getElementById('manual-review-panel').classList.remove('hidden');
           document.getElementById('draft-button-container').classList.add('hidden');
           document.getElementById('manual-review-panel').scrollIntoView({ behavior: 'smooth' });
+
+          btn.disabled = false;
+          btn.classList.remove('opacity-70');
+          icon.setAttribute('data-lucide', 'sparkles');
+          icon.classList.remove('animate-spin');
+          text.innerText = "✨ Step 1: Draft Report Sections";
+          lucide.createIcons();
        }
     }
 
+    // --- STREAMING_CHUNK:Configuring Form & Upload Actions... ---
     window.switchView = function(viewName) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(viewName).classList.add('active');
@@ -1239,48 +1179,64 @@
       const btn = document.getElementById('connect-btn');
       
       if (!input) {
-        indicator.className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)] bg-red-500 transition-colors duration-300";
+        indicator.className = "w-3 h-3 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.8)] bg-red-500 transition-colors duration-300";
         indicator.title = "API Disconnected";
-        btn.innerText = "Connect AI";
+        btn.innerText = "Connect";
         userApiKey = '';
         localStorage.removeItem('geminiApiKey');
         return;
       }
-
-      indicator.className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)] bg-green-500 transition-colors duration-300";
-      indicator.title = "API Connected";
+      indicator.className = "w-3 h-3 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)] bg-green-500 transition-colors duration-300";
       userApiKey = input;
       localStorage.setItem('geminiApiKey', input);
       btn.innerText = "Connected";
-      
       setTimeout(() => { if (btn.innerText === "Connected") btn.innerText = "Update Key"; }, 2000);
     }
 
-    async function callGemini(payload) {
-      const activeKey = userApiKey || apiKey;
-      if (!activeKey) throw new Error("API Key Missing.");
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`;
-      
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error?.message || "Invalid or empty API key. Please check your key settings.");
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+    window.updateForm = function(field, value) {
+        formData[field] = value;
+        // Bind dynamic dashboard hero title
+        if(field === 'projectName') document.getElementById('hero-project-name').innerText = value || 'Active Project';
+        if(field === 'location') document.getElementById('hero-location').innerText = value || 'Yanbu, Saudi Arabia';
     }
-
-    window.updateForm = function(field, value) { formData[field] = value; }
+    
     window.updateStat = async function(field, value) {
       dashboardStats[field] = value;
       if (db && currentUser) {
         try {
-          await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard'), dashboardStats);
+          const statsRef = doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard');
+          await setDoc(statsRef, dashboardStats);
           setDbStatus('connected');
-        } catch (e) { setDbStatus('error', "Failed to sync dashboard stats", e.message); }
+        } catch (e) { }
       }
+    }
+
+    window.handleCoverUpload = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+         const img = new Image();
+         img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1920;
+            let scaleSize = 1;
+            if(img.width > MAX_WIDTH) scaleSize = MAX_WIDTH / img.width;
+            canvas.width = img.width * scaleSize;
+            canvas.height = img.height * scaleSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            globalCoverPhotoBase64 = canvas.toDataURL('image/jpeg', 0.8);
+            document.getElementById('dashboard-cover-img').src = globalCoverPhotoBase64;
+            
+            if (db && currentUser) {
+               setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), { image: globalCoverPhotoBase64 });
+            }
+         };
+         img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     window.handleLogoUpload = function(event) {
@@ -1295,10 +1251,7 @@
         document.getElementById('logo-btn-text').innerText = 'Change Logo';
 
         if (db && currentUser) {
-          try {
-            await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), { image: companyLogoBase64 });
-            setDbStatus('connected');
-          } catch(e) { setDbStatus('error', "Failed to sync Company Logo to cloud", e.message); }
+          setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), { image: companyLogoBase64 });
         }
       };
       reader.readAsDataURL(file);
@@ -1326,19 +1279,11 @@
             const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
             const photoId = Math.random().toString(36).substr(2, 9);
             
-            const newPhoto = {
-              id: photoId,
-              url: URL.createObjectURL(file), 
-              base64: compressedBase64,
-              mimeType: 'image/jpeg',
-              aiText: '',
-              isAnalyzing: false,
-              category: 'General Progress'
-            };
-            
-            photos.push(newPhoto);
+            photos.push({
+              id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
+              mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress'
+            });
             renderPhotos();
-            window.analyzePhoto(photoId);
           };
           img.src = e.target.result;
         };
@@ -1350,72 +1295,37 @@
     window.updatePhotoCategory = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.category = val; }
     window.updatePhotoAiText = function(id, val) { const p = photos.find(x => x.id === id); if(p) p.aiText = val; }
 
-    window.analyzePhoto = async function(id) {
-      const photo = photos.find(p => p.id === id);
-      if (!photo) return;
-      photo.isAnalyzing = true;
-      renderPhotos();
-
-      const prompt = `You are a professional construction project engineer. Analyze the uploaded construction site image and generate a concise report including:
-1. Activity Title
-2. Detailed Site Observation
-3. Work Progress Description
-4. Safety Observation
-5. Quality Observation
-Write using professional engineering language suitable for a daily construction report. Format as a neat text block.`;
-
-      const payload = { contents: [{ role: "user", parts: [{ text: prompt }, { inlineData: { mimeType: photo.mimeType, data: photo.base64 } }] }] };
-
-      try {
-        const resultText = await callGemini(payload);
-        photo.aiText = resultText;
-      } catch (err) {
-        photo.aiText = `Analysis failed. API Key needed. You can type observations manually here.`;
-      } finally {
-        photo.isAnalyzing = false;
-        renderPhotos();
-      }
-    }
-
     function renderPhotos() {
       const container = document.getElementById('photo-list-container');
       if (photos.length === 0) {
         container.innerHTML = `
           <div class="border-2 border-dashed border-slate-200 rounded-2xl p-12 text-center bg-slate-50/40">
-            <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100"><i data-lucide="camera" class="text-slate-400 w-7 h-7"></i></div>
+            <div class="p-4 bg-white rounded-2xl shadow-sm w-max mx-auto mb-4 border border-slate-100">
+              <i data-lucide="camera" class="text-slate-400 w-7 h-7"></i>
+            </div>
             <p class="text-slate-600 font-semibold text-sm">No photos uploaded yet.</p>
-            <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">Upload site images to automatically generate professional progress descriptions using Vision AI.</p>
           </div>
         `;
         lucide.createIcons();
         return;
       }
-
       let html = '<div class="space-y-6">';
       photos.forEach((photo, i) => {
         html += `
           <div class="flex flex-col md:flex-row gap-6 p-4 border border-slate-200 rounded-xl bg-slate-50 relative group">
             <button onclick="removePhoto('${photo.id}')" class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-sm text-red-500 opacity-0 group-hover:opacity-100 transition z-10"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
             <div class="w-full md:w-1/3">
-              <img src="${photo.url || ''}" alt="Site upload" class="w-full h-48 object-cover rounded-lg shadow-sm border border-slate-200" />
+              <img src="${photo.url || ''}" class="w-full h-48 object-cover rounded-lg shadow-sm border border-slate-200" />
               <select onchange="updatePhotoCategory('${photo.id}', this.value)" class="mt-3 w-full p-2 text-sm border border-slate-300 rounded-lg outline-none">
                 <option ${photo.category === 'General Progress' ? 'selected' : ''}>General Progress</option>
                 <option ${photo.category === 'Civil Works' ? 'selected' : ''}>Civil Works</option>
-                <option ${photo.category === 'Structural Works' ? 'selected' : ''}>Structural Works</option>
-                <option ${photo.category === 'Architectural Works' ? 'selected' : ''}>Architectural Works</option>
                 <option ${photo.category === 'MEP Works' ? 'selected' : ''}>MEP Works</option>
                 <option ${photo.category === 'Safety' ? 'selected' : ''}>Safety</option>
-                <option ${photo.category === 'Quality' ? 'selected' : ''}>Quality</option>
               </select>
             </div>
             <div class="w-full md:w-2/3 flex flex-col">
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-semibold text-slate-700 uppercase tracking-wider">AI Observation</span>
-                <button onclick="analyzePhoto('${photo.id}')" ${photo.isAnalyzing ? 'disabled' : ''} class="text-xs bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 transition disabled:opacity-50 flex items-center gap-1">
-                  ${photo.isAnalyzing ? '<i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Analyzing...' : '<i data-lucide="sparkles" class="w-3 h-3"></i> Spark AI'}
-                </button>
-              </div>
-              <textarea onchange="updatePhotoAiText('${photo.id}', this.value)" placeholder="AI will generate a professional description of the work progress and safety observations here." class="w-full flex-1 p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none min-h-[120px]">${photo.aiText}</textarea>
+              <span class="text-sm font-semibold text-slate-700 uppercase tracking-wider mb-2">Observation Notes</span>
+              <textarea onchange="updatePhotoAiText('${photo.id}', this.value)" placeholder="Enter description of work progress and observations here..." class="w-full flex-1 p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none resize-none min-h-[120px]">${photo.aiText}</textarea>
             </div>
           </div>
         `;
@@ -1425,45 +1335,14 @@ Write using professional engineering language suitable for a daily construction 
       lucide.createIcons();
     }
 
-    // --- Document Management (Dashboard Manual Uploads) ---
-    window.handleDocumentUpload = function(event) {
-      const files = Array.from(event.target.files);
-      if (!files.length) return;
-
-      const now = new Date();
-      files.forEach(file => {
-        const fileUrl = URL.createObjectURL(file);
-        
-        const docObj = {
-          dbId: Math.random().toString(36).substr(2, 9),
-          date: now.toISOString().split('T')[0],
-          time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          projectName: file.name,
-          preparedBy: globalProfile.name,
-          status: 'Manual Upload',
-          isManualDoc: true,
-          fileUrl: fileUrl,
-          fileName: file.name,
-          fileSize: (file.size / 1024 / 1024).toFixed(2) + ' MB'
-        };
-        reportsList.unshift(docObj);
-        if(db) saveReportToCloud(docObj);
-      });
-      
-      updateReportsTables();
-      switchView('archives');
-      showCustomAlert("Files Logged", "Documents successfully uploaded to your dashboard list.");
-    }
-
-    // --- Generate Final Report ---
+    // --- STREAMING_CHUNK:Executing Final Report Generation Logic... ---
     window.generateFinalReport = async function() {
       const btn = document.getElementById('generate-report-btn');
       const icon = document.getElementById('gen-icon');
       const text = document.getElementById('gen-text');
       
-      btn.disabled = true; btn.classList.add('opacity-70');
-      icon.setAttribute('data-lucide', 'loader-2'); icon.classList.add('animate-spin');
-      text.innerText = "Compiling Report..."; lucide.createIcons();
+      btn.disabled = true;
+      text.innerText = "Compiling Report...";
 
       try {
         const reviewedSummary = document.getElementById('draft-exec-summary').value.trim();
@@ -1472,24 +1351,34 @@ Write using professional engineering language suitable for a daily construction 
 
         const showExec = document.getElementById('cfg-include-summary').checked;
         const showComp = document.getElementById('cfg-include-completed').checked;
-        const showStatus = document.getElementById('cfg-include-status').checked;
         const showSafety = document.getElementById('cfg-include-safety').checked;
         const showResources = document.getElementById('cfg-include-resources').checked;
         const showDelays = document.getElementById('cfg-include-delays').checked;
-        const showPlanned = document.getElementById('cfg-include-lookahead').checked;
+        const showPlanned = document.getElementById('cfg-include-planned').checked;
         const showPhotos = document.getElementById('cfg-include-photos').checked;
-        const showAudit = document.getElementById('cfg-include-audit-log').checked;
+        const showAudit = document.getElementById('cfg-include-audit').checked;
+        showAuditLogsOnReport = showAudit; // Sync global preference for print
 
-        // Build the Markdown String NATIVELY. No API key needed for this!
+        // Build Markdown Body
         let markdownBody = ``;
 
         if (showExec && reviewedSummary) markdownBody += `## 1. Executive Summary\n${reviewedSummary}\n\n`;
         if (showComp && reviewedCompleted) markdownBody += `## 2. Activities Completed Today\n${reviewedCompleted}\n\n`;
-        if (showStatus) markdownBody += `## 3. Progress Status\nStructural, MEP, and site finishes are advancing in accordance with the project schedule.\n\n`;
-        if (showSafety && reviewedSafety) markdownBody += `## 4. Safety & Quality Observations\n${reviewedSafety}\n\n`;
-        if (showResources) markdownBody += `## 5. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
-        if (showDelays) markdownBody += `## 6. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
-        if (showPlanned) markdownBody += `## 7. Look Ahead Tracker\n${extractLookAheadMarkdown()}\n\n`;
+        if (showSafety && reviewedSafety) markdownBody += `## 3. Safety & Quality Observations\n${reviewedSafety}\n\n`;
+        if (showResources) markdownBody += `## 4. Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
+        if (showDelays) markdownBody += `## 5. Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        
+        // Inject Look Ahead Tracker Table into Markdown
+        if (showPlanned && lookAheadData.length > 0) {
+            markdownBody += `## 6. Look Ahead Tracker\n`;
+            markdownBody += `<table class="w-full text-left text-xs mb-8 border-collapse">\n`;
+            markdownBody += `<thead><tr class="bg-slate-100"><th class="border border-slate-300 p-2">No</th><th class="border border-slate-300 p-2">Zone</th><th class="border border-slate-300 p-2">Location</th><th class="border border-slate-300 p-2">Trade</th><th class="border border-slate-300 p-2">Activity</th><th class="border border-slate-300 p-2">Target Finish</th><th class="border border-slate-300 p-2">Remarks</th></tr></thead>\n`;
+            markdownBody += `<tbody>\n`;
+            lookAheadData.forEach((r, i) => {
+               markdownBody += `<tr><td class="border border-slate-300 p-2">${i+1}</td><td class="border border-slate-300 p-2">${r.zone}</td><td class="border border-slate-300 p-2">${r.location}</td><td class="border border-slate-300 p-2">${r.trade}</td><td class="border border-slate-300 p-2">${r.activity}</td><td class="border border-slate-300 p-2">${r.target}</td><td class="border border-slate-300 p-2">${r.remarks}</td></tr>\n`;
+            });
+            markdownBody += `</tbody></table>\n\n`;
+        }
 
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -1498,98 +1387,121 @@ Write using professional engineering language suitable for a daily construction 
           markdown: markdownBody,
           date: formData.date,
           time: currentLocalTime,
-          projectName: formData.projectName || 'Untitled Project',
+          shift: formData.shift,
+          projectName: formData.projectName || 'Active Project',
           clientName: formData.clientName || 'Not specified',
-          supervisionConsultant: formData.supervisionConsultant || 'Not specified',
-          pmcName: formData.pmcName || 'Not specified',
-          location: formData.location || 'Not specified',
+          supervisionConsultant: formData.supervisionConsultant || 'TYA & Associates', // Fixed Default here!
+          location: formData.location || 'Yanbu, Saudi Arabia', // Fixed Default here!
           photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
+          coverPhoto: globalCoverPhotoBase64, 
           preparedBy: "TYA & Associates",
           status: 'Generated',
-          showAudit: showAudit,
           reviewStatus: 'Open', 
-          reviewRemarks: '', reviewActionTaken: '', reviewComments: [],
+          reviewRemarks: '',
+          reviewActionTaken: '',
+          reviewComments: [],
           views: 1, 
-          viewers: [`${globalProfile.name} (${globalProfile.role}) created and viewed at ${new Date().toLocaleDateString()} ${currentLocalTime}`]
+          viewers: [`${globalProfile.name} (${globalProfile.role}) created and viewed at ${new Date().toLocaleDateString()}`]
         };
         
         generatedReport = newReport;
         reportsList.unshift(newReport);
         updateReportsTables();
         
-        if(db) await saveReportToCloud(newReport);
+        if(db) { await saveReportToCloud(newReport); }
 
         renderViewReport();
         switchView('view_report');
 
       } catch (err) {
-        showCustomAlert("Generation Error", "Error compiling final report: Please verify database connections.");
+        showCustomAlert("Generation Error", "Error compiling final report: " + err.message);
       } finally {
-        btn.disabled = false; btn.classList.remove('opacity-70');
-        icon.setAttribute('data-lucide', 'check'); icon.classList.remove('animate-spin');
-        text.innerText = "💾 Finalize & Publish Daily Report"; lucide.createIcons();
+        btn.disabled = false;
+        text.innerText = "💾 Finalize & Publish Daily Report";
       }
+    }
+
+    // --- STREAMING_CHUNK:Updating Dashboard & Tables Output... ---
+    // Manual Upload Documents logic
+    window.handleDocumentUpload = function(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+
+      files.forEach(file => {
+          const newDoc = {
+            dbId: Math.random().toString(36).substr(2, 9),
+            name: file.name,
+            projectName: formData.projectName || 'Active Project',
+            date: new Date().toISOString().split('T')[0],
+            shift: 'N/A',
+            preparedBy: globalProfile.name,
+            status: 'Manual Upload',
+            isManualDoc: true
+          };
+          reportsList.unshift(newDoc); // add to main dashboard table
+      });
+      
+      updateReportsTables();
+      switchView('dashboard');
     }
 
     function updateReportsTables() {
       document.getElementById('stat-total-reports').innerText = reportsList.length;
       
       const renderTableHtml = () => {
-        if (reportsList.length === 0) return `<tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" or "Load Demo Report" to view.</td></tr>`;
+        if (reportsList.length === 0) {
+          return `<tr><td colspan="5" class="py-12 text-center text-slate-400">No reports generated yet. Click "New Report" to view.</td></tr>`;
+        }
         return reportsList.map(r => {
-          if (r.isManualDoc) {
-              return `
-                <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
-                  <td class="py-4 text-sm text-slate-900 font-semibold">${r.date} <span class="text-slate-400 text-[10px] font-normal ml-1 bg-slate-100 px-1.5 py-0.5 rounded-md">${r.time || ''}</span></td>
-                  <td class="py-4 text-sm text-slate-700 font-medium">${r.projectName} <span class="text-xs text-slate-400 block">${r.fileSize}</span></td>
-                  <td class="py-4 text-sm text-slate-500">${r.preparedBy || 'Hasnat Safdar'}</td>
-                  <td class="py-4">
-                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 flex items-center w-max gap-1 border border-slate-200/60 shadow-sm">
-                      <i data-lucide="file" class="w-3 h-3"></i> Manual Upload
-                    </span>
-                  </td>
-                  <td class="py-4 text-right flex justify-end gap-2.5">
-                     <button class="p-2 hover:bg-red-50 text-red-400 hover:text-red-600 rounded-lg transition" title="Delete File" onclick="deleteReport('${r.dbId}')"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                     <a href="${r.fileUrl}" download="${r.fileName}" class="text-indigo-600 hover:text-indigo-800 text-xs font-bold bg-indigo-50/50 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition flex items-center gap-1"><i data-lucide="download" class="w-3.5 h-3.5"></i> Download</a>
-                  </td>
-                </tr>
-              `;
-          }
-          
           const rStatus = r.status || 'Generated';
           const rReviewStatus = r.reviewStatus || 'Open';
+          
+          let actionButtons = '';
+          if(r.isManualDoc) {
+             actionButtons = `<button class="text-blue-600 hover:text-blue-800 text-xs font-bold bg-blue-50 px-3 py-1.5 rounded-lg transition" onclick="downloadWordDoc('${r.name}', 'Manual Upload')">Download Doc</button>
+             <button class="p-2 hover:bg-red-50 text-red-400 rounded-lg transition" onclick="deleteReport('${r.dbId}')"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
+          } else {
+             actionButtons = `<button class="p-2 hover:bg-slate-100 text-slate-400 rounded-lg transition" title="Download Word Doc" onclick="exportWordDoc('${r.dbId}')"><i data-lucide="download" class="w-4 h-4"></i></button>
+                 <button class="p-2 hover:bg-red-50 text-red-400 rounded-lg transition" onclick="deleteReport('${r.dbId}')"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                 <button class="text-indigo-600 hover:text-indigo-800 text-xs font-bold bg-indigo-50/50 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition" onclick="viewArchivedReport('${r.dbId}')">View PDF</button>`;
+          }
+
+          let auditBadge = '';
+          if(!r.isManualDoc) {
+             auditBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center w-max gap-1 ${rReviewStatus === 'Closed' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100/60' : 'bg-rose-50 text-rose-700 border border-rose-100/60 animate-pulse'}">
+                <i data-lucide="${rReviewStatus === 'Closed' ? 'check-square' : 'alert-circle'}" class="w-3 h-3"></i> ${rReviewStatus === 'Closed' ? 'Audit Resolved' : 'Action Required'}
+              </span>`;
+          }
+
           return `
             <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
-              <td class="py-4 text-sm text-slate-900 font-semibold">${r.date} <span class="text-slate-400 text-[10px] font-normal ml-1 bg-slate-100 px-1.5 py-0.5 rounded-md">${r.time || ''}</span></td>
-              <td class="py-4 text-sm text-slate-700 font-medium">${r.projectName}</td>
+              <td class="py-4 text-sm text-slate-900 font-semibold">${r.date} <span class="text-slate-500 text-[10px] ml-1 bg-slate-100 px-1.5 py-0.5 rounded-md">${r.shift || ''}</span></td>
+              <td class="py-4 text-sm text-slate-700 font-medium">${r.projectName || r.name}</td>
               <td class="py-4 text-sm text-slate-500">${r.preparedBy || 'TYA & Associates'}</td>
               <td class="py-4">
                 <div class="flex flex-wrap gap-1.5">
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 flex items-center w-max gap-1 border border-emerald-100/60 shadow-sm">
-                    <i data-lucide="check-circle" class="w-3 h-3"></i> ${rStatus}
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-50 text-indigo-700 flex items-center w-max gap-1 border border-indigo-100/60">
+                    <i data-lucide="${r.isManualDoc ? 'file' : 'check-circle'}" class="w-3 h-3"></i> ${rStatus}
                   </span>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center w-max gap-1 ${rReviewStatus === 'Closed' ? 'bg-indigo-50 text-indigo-700 border border-indigo-100/60 shadow-sm' : 'bg-rose-50 text-rose-700 border border-rose-100/60 shadow-sm'}">
-                    <i data-lucide="${rReviewStatus === 'Closed' ? 'check-square' : 'alert-circle'}" class="w-3 h-3"></i> Audit: ${rReviewStatus}
-                  </span>
+                  ${auditBadge}
                 </div>
               </td>
               <td class="py-4 text-right flex justify-end gap-2.5">
-                 <button class="p-2 hover:bg-red-50 text-red-400 hover:text-red-600 rounded-lg transition" title="Delete Report" onclick="deleteReport('${r.dbId}')">
-                   <i data-lucide="trash-2" class="w-4 h-4"></i>
-                 </button>
-                 <button class="text-indigo-600 hover:text-indigo-800 text-xs font-bold bg-indigo-50/50 hover:bg-indigo-50 px-3 py-1.5 rounded-lg transition" onclick="viewArchivedReport('${r.dbId}')">View PDF</button>
+                 ${actionButtons}
               </td>
             </tr>
           `;
         }).join('');
       };
 
-      document.getElementById('dashboard-recent-reports').innerHTML = renderTableHtml();
-      document.getElementById('archives-list').innerHTML = renderTableHtml();
+      const html = renderTableHtml();
+      document.getElementById('dashboard-recent-reports').innerHTML = html;
+      document.getElementById('archives-list').innerHTML = html;
       lucide.createIcons();
     }
 
+    // --- STREAMING_CHUNK:Rendering Final Paper Format Options... ---
     function renderViewReport() {
       if (!generatedReport) return;
       const paper = document.getElementById('report-paper');
@@ -1597,11 +1509,9 @@ Write using professional engineering language suitable for a daily construction 
       const viewsCount = generatedReport.views || 0;
       const viewersList = generatedReport.viewers || [];
       const viewersHtml = viewersList.length > 0 ? 
-        `<div class="mt-4 p-3 bg-slate-50 border border-slate-200 rounded text-xs text-slate-600 print-hidden">
-           <p class="font-semibold flex items-center gap-1.5 text-slate-800"><i data-lucide="eye" class="w-3.5 h-3.5 text-slate-400"></i> Access & View Log (${viewsCount} views):</p>
-           <ul class="list-disc list-inside mt-1 space-y-0.5 max-h-24 overflow-y-auto">
-             ${viewersList.map(v => `<li>${v}</li>`).join('')}
-           </ul>
+        `<div class="mt-2 p-3 bg-slate-50 border border-slate-200 rounded-lg text-[10px] text-slate-500 print-hidden">
+           <p class="font-bold flex items-center gap-1.5 mb-1"><i data-lucide="eye" class="w-3 h-3"></i> Access Log (${viewsCount} views):</p>
+           <ul class="list-disc list-inside h-12 overflow-y-auto">${viewersList.map(v => `<li>${v}</li>`).join('')}</ul>
          </div>` : '';
 
       const rStatus = generatedReport.reviewStatus || 'Open';
@@ -1609,66 +1519,68 @@ Write using professional engineering language suitable for a daily construction 
       const rActionTaken = generatedReport.reviewActionTaken || '';
       
       let rReviewSection = '';
-      if (generatedReport.showAudit !== false) {
-         rReviewSection = `
-           <div class="mt-12 pt-6 border-t-2 border-slate-200 break-inside-avoid">
-              <div class="flex items-center justify-between border-b pb-2 mb-4">
-                <h2 class="text-xl font-bold text-slate-900 !m-0 !border-0">Consultant Review & Action Logs</h2>
-                <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${rStatus === 'Closed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}">
-                  Status: ${rStatus}
-                </span>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
-                  <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="edit-3" class="w-4 h-4 text-slate-500"></i> Supervision Consultant Remarks:</p>
-                  <p class="text-slate-600 italic whitespace-pre-line text-xs">${rRemarks || 'No remarks recorded.'}</p>
-                </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
-                  <p class="font-bold text-slate-800 mb-1.5 flex items-center gap-1.5"><i data-lucide="check-square" class="w-4 h-4 text-slate-500"></i> Corrective Action Taken:</p>
-                  <p class="text-slate-600 italic whitespace-pre-line text-xs">${rActionTaken || 'No corrective action recorded.'}</p>
-                </div>
-              </div>
-           </div>
-         `;
+      if(showAuditLogsOnReport) {
+        rReviewSection = `
+          <div class="mt-12 pt-8 border-t-2 border-slate-200 print-break-inside-avoid">
+             <div class="flex items-center justify-between border-b pb-2 mb-4">
+               <h2 class="text-xl font-bold text-slate-900">Consultant Review & Action Logs</h2>
+               <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${rStatus === 'Closed' ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-rose-100 text-rose-800 border border-rose-200'}">Status: ${rStatus}</span>
+             </div>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+               <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                 <p class="font-bold text-slate-800 mb-1.5">Consultant Remarks:</p>
+                 <p class="text-slate-600 italic whitespace-pre-line">${rRemarks || 'None recorded.'}</p>
+               </div>
+               <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                 <p class="font-bold text-slate-800 mb-1.5">Corrective Action Taken:</p>
+                 <p class="text-slate-600 italic whitespace-pre-line">${rActionTaken || 'None recorded.'}</p>
+               </div>
+             </div>
+          </div>
+        `;
       }
 
       const activeLogo = generatedReport.logo || companyLogoBase64;
+      const activeCover = generatedReport.coverPhoto || globalCoverPhotoBase64;
       const isRTL = generatedReport.isArabic || false;
 
       let html = `
-        <div class="border-b-2 border-slate-800 pb-4 mb-4 flex justify-between items-start" ${isRTL ? 'dir="rtl"' : ''}>
+        ${activeCover ? `<img src="${activeCover}" class="w-full h-48 object-cover rounded-xl mb-6 shadow-sm border border-slate-200" alt="Project Cover" />` : ''}
+        
+        <div class="border-b-[3px] border-slate-900 pb-5 mb-6 flex justify-between items-start" ${isRTL ? 'dir="rtl"' : ''}>
           <div>
-            ${activeLogo ? `<img src="${activeLogo}" alt="Company Logo" class="h-10 mb-2 object-contain rounded p-0.5 bg-white border border-slate-200 shadow-sm" />` : ''}
-            <h1 class="!text-xl font-black text-slate-900 uppercase tracking-tight !m-0 !p-0 !border-0">Daily Progress Report</h1>
-            <p class="text-xs text-slate-500 font-bold tracking-wide mt-1">${generatedReport.projectName}</p>
+            ${activeLogo ? `<img src="${activeLogo}" alt="Company Logo" class="h-12 mb-3 object-contain rounded p-1 bg-white border border-slate-200 shadow-sm" />` : ''}
+            <h1 class="!text-3xl font-black text-slate-900 uppercase tracking-tighter !m-0 !p-0 !border-0 leading-none">Daily Progress Report</h1>
+            <p class="text-sm text-indigo-700 font-bold tracking-wide mt-1.5 uppercase">${generatedReport.projectName}</p>
           </div>
-          <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-500 space-y-1 font-medium bg-slate-50 p-2 rounded-lg border border-slate-100">
-            <p><strong class="text-slate-800">Date:</strong> ${generatedReport.date}</p>
-            <p><strong class="text-slate-800">Client:</strong> ${generatedReport.clientName}</p>
-            <p><strong class="text-slate-800">PMC:</strong> ${generatedReport.pmcName || 'N/A'}</p>
-            <p><strong class="text-slate-800">Location:</strong> ${generatedReport.location}</p>
-            <p class="mt-1 text-slate-800 font-bold uppercase tracking-wider">DPR-${generatedReport.date.replace(/-/g, '')}</p>
+          <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-600 space-y-1 font-semibold bg-slate-50 p-3 rounded-xl border border-slate-200 shadow-sm">
+            <p><strong class="text-slate-900">Date:</strong> ${generatedReport.date}</p>
+            <p><strong class="text-slate-900">Shift:</strong> <span class="bg-indigo-100 text-indigo-800 px-1.5 py-0.5 rounded font-bold">${generatedReport.shift || 'Morning Shift'}</span></p>
+            <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName}</p>
+            <p><strong class="text-slate-900">Supervision Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
+            <p><strong class="text-slate-900">Location:</strong> ${generatedReport.location || 'Yanbu, Saudi Arabia'}</p>
+            <p class="mt-2 text-white bg-slate-900 font-black uppercase tracking-widest px-2 py-1 rounded inline-block shadow-md">DPR-${generatedReport.date.replace(/-/g, '')}</p>
           </div>
         </div>
 
         ${viewersHtml}
 
-        <div class="prose prose-slate max-w-none mt-2" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
+        <div class="prose prose-slate max-w-none mt-6 text-sm" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
           ${marked.parse(generatedReport.markdown)}
         </div>
       `;
 
       if (generatedReport.photos && generatedReport.photos.length > 0) {
         html += `
-          <div class="mt-8 pt-6 border-t border-slate-200 break-inside-avoid">
-            <h2 class="text-lg font-bold text-slate-900 mb-4 border-b pb-2">Site Photo Log</h2>
-            <div class="grid grid-cols-2 gap-4">
+          <div class="mt-10 pt-6 border-t-2 border-slate-200 print-break-inside-avoid" ${isRTL ? 'dir="rtl"' : ''}>
+            <h2 class="text-lg font-bold text-slate-900 mb-4">Site Photo Log</h2>
+            <div class="grid grid-cols-2 gap-6">
               ${generatedReport.photos.map((photo, i) => `
-                <div class="break-inside-avoid bg-slate-50 p-2 rounded-lg border border-slate-100">
-                  ${photo.url ? `<img src="${photo.url}" class="w-full h-48 object-cover rounded shadow-sm" alt="Site Progress" />` : `<div class="w-full h-48 border border-slate-200 rounded bg-white flex items-center justify-center text-slate-400 text-xs">Image missing/archived.</div>`}
-                  <div class="mt-2 text-xs text-slate-600 leading-relaxed" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
-                    <p class="font-bold text-slate-800">Photo ${i + 1} - ${photo.category}</p>
-                    <p class="mt-1 italic">${photo.aiText}</p>
+                <div class="print-break-inside-avoid border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  ${photo.url ? `<img src="${photo.url}" class="w-full h-56 object-cover" />` : `<div class="w-full h-56 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">Image Archived</div>`}
+                  <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
+                    <p class="font-bold text-slate-900">Photo ${i + 1} - ${photo.category}</p>
+                    <p class="mt-1">${photo.aiText}</p>
                   </div>
                 </div>
               `).join('')}
@@ -1680,121 +1592,27 @@ Write using professional engineering language suitable for a daily construction 
       html += rReviewSection;
 
       html += `
-        <div class="mt-12 pt-8 border-t border-slate-800 flex justify-between break-inside-avoid">
+        <div class="mt-16 pt-8 border-t-2 border-slate-900 flex justify-between print-break-inside-avoid" ${isRTL ? 'dir="rtl"' : ''}>
           <div class="w-1/3 text-center">
-            <div class="border-b border-slate-300 h-10 mb-1"></div>
-            <p class="font-bold text-slate-900 text-xs">Prepared By</p>
-            <p class="text-[10px] text-slate-400 font-medium">${generatedReport.preparedBy || 'TYA & Associates'}</p>
+            <div class="border-b border-slate-300 h-12 mb-2"></div>
+            <p class="font-bold text-slate-900 text-sm">Prepared By</p>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">${generatedReport.preparedBy || 'TYA & Associates'}</p>
           </div>
           <div class="w-1/3 text-center">
-            <div class="border-b border-slate-300 h-10 mb-1"></div>
-            <p class="font-bold text-slate-900 text-xs">Reviewed By</p>
-            <p class="text-[10px] text-slate-400 font-medium">Project Manager / Client</p>
+            <div class="border-b border-slate-300 h-12 mb-2"></div>
+            <p class="font-bold text-slate-900 text-sm">Reviewed By</p>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">Project Manager</p>
           </div>
         </div>
       `;
 
       paper.innerHTML = html;
       lucide.createIcons();
+
       renderReviewPanel();
     }
 
-    window.toggleAuditVisibility = async function(checked) {
-       if(!generatedReport) return;
-       generatedReport.showAudit = checked;
-       
-       const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
-       if (cachedReportIndex !== -1) reportsList[cachedReportIndex].showAudit = checked;
-
-       if(db && currentUser && generatedReport.dbId) {
-          try {
-             await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), { showAudit: checked });
-          } catch(e) {}
-       }
-       renderViewReport();
-    }
-
-    // --- Export Word Document Functionality ---
-    window.exportToWord = function() {
-      if (!generatedReport) return showCustomAlert("Error", "No report generated to export.");
-      
-      const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-      <head><meta charset='utf-8'><title>Daily Progress Report</title>
-      <style>
-        body { font-family: 'Arial', sans-serif; font-size: 11pt; } 
-        h1 { font-size: 16pt; text-align: center; border-bottom: 1px solid #000; padding-bottom: 5px; }
-        h2 { font-size: 13pt; margin-top: 15px; color: #333; }
-        table { border-collapse: collapse; width: 100%; margin-top: 10px; margin-bottom: 15px;} 
-        th, td { border: 1px solid #000; padding: 5px; text-align: left; font-size: 10pt; } 
-        th { background-color: #f2f2f2; font-weight: bold; }
-        .meta-box { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; background: #f9f9f9; }
-      </style></head><body ${generatedReport.isArabic ? 'dir="rtl"' : ''}>`;
-      
-      let content = `<h1>Daily Progress Report</h1>`;
-      content += `<div class="meta-box"><p><strong>Project:</strong> ${generatedReport.projectName}</p>`;
-      content += `<p><strong>Date:</strong> ${generatedReport.date}</p>`;
-      content += `<p><strong>Prepared By:</strong> ${generatedReport.preparedBy || 'TYA & Associates'}</p></div>`;
-      
-      content += marked.parse(generatedReport.markdown);
-      
-      if (generatedReport.photos && generatedReport.photos.length > 0) {
-         content += `<h2>Site Photo Log</h2>`;
-         generatedReport.photos.forEach((photo, i) => {
-             content += `<h3>Photo ${i + 1} - ${photo.category}</h3>`;
-             content += `<p><em>${photo.aiText}</em></p>`;
-             if(photo.url) {
-                content += `<img src="${photo.url}" width="400" /><br><br>`;
-             }
-         });
-      }
-      
-      const footer = "</body></html>";
-      const sourceHTML = header + content + footer;
-      
-      const blob = new Blob(['\ufeff', sourceHTML], { type: 'application/msword' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `DPR_${generatedReport.date}_${generatedReport.projectName.replace(/\s+/g, '_')}.doc`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    }
-
-    // --- Translate to Arabic Functionality ---
-    window.translateReport = async function(btn) {
-      if (!generatedReport) return;
-
-      btn.disabled = true;
-      const oldHtml = btn.innerHTML;
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Translating...';
-      lucide.createIcons();
-
-      try {
-        const prompt = `Translate the following Construction Daily Progress Report into professional engineering Arabic. Maintain the Markdown formatting (headings, lists, tables) exactly as it is.\n\n${generatedReport.markdown}`;
-        const res = await callGemini({ contents: [{ parts: [{ text: prompt }] }] });
-        
-        generatedReport.markdown = res;
-        generatedReport.projectName = generatedReport.projectName + " (مترجم)";
-        generatedReport.isArabic = true; 
-        
-        if(db && currentUser && generatedReport.dbId) {
-            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), {
-                markdown: generatedReport.markdown,
-                projectName: generatedReport.projectName,
-                isArabic: true
-            });
-        }
-        renderViewReport();
-      } catch(e) { 
-        showCustomAlert("AI Service Error", "Error translating report. " + e.message); 
-      } finally {
-        btn.innerHTML = '✨ Translated to Arabic';
-        lucide.createIcons();
-      }
-    }
-
+    // --- STREAMING_CHUNK:Finishing Setup & Utilities... ---
     function renderReviewPanel() {
       const panel = document.getElementById('review-collab-panel');
       if (!panel || !generatedReport) return;
@@ -1802,22 +1620,21 @@ Write using professional engineering language suitable for a daily construction 
       const status = generatedReport.reviewStatus || 'Open';
       const remarks = generatedReport.reviewRemarks || '';
       const actionTaken = generatedReport.reviewActionTaken || '';
-      const comments = generatedReport.reviewComments || [];
 
       panel.innerHTML = `
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
-              <i data-lucide="check-square" class="text-indigo-500 w-4 h-4"></i> Audit & Verification
-            </h3>
-            <span id="badge-status" class="px-2.5 py-1 rounded-full text-xs font-bold ${status === 'Closed' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-rose-50 text-rose-700 border border-rose-100'}">${status}</span>
-          </div>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-5 space-y-4 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 ${status === 'Closed' ? 'bg-emerald-500' : 'bg-rose-500'}"></div>
           
-          <label class="flex items-center gap-2 mt-2 cursor-pointer text-[10px] font-bold text-slate-500">
-             <input type="checkbox" ${generatedReport.showAudit !== false ? 'checked' : ''} onchange="toggleAuditVisibility(this.checked)" class="rounded border-slate-300">
-             Show Audit Logs on Printed Report
-          </label>
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-4 h-4 text-slate-400"></i> Audit Tracker</h3>
+            <span id="badge-status" class="px-2 py-1 rounded-md text-[10px] font-bold ${status === 'Closed' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-rose-50 text-rose-700 border border-rose-200 animate-pulse'}">${status}</span>
+          </div>
 
+          <label class="flex items-center gap-2 p-2 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+            <input type="checkbox" id="toggle-audit-print" onchange="toggleAuditPrintVisibility(this.checked)" ${showAuditLogsOnReport ? 'checked' : ''} class="w-3.5 h-3.5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+            <span class="text-[10px] font-bold text-slate-600">Show Audit on Final PDF Report</span>
+          </label>
+          
           <div class="space-y-3">
             <div>
               <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Set Audit Status</label>
@@ -1827,117 +1644,36 @@ Write using professional engineering language suitable for a daily construction 
               </select>
             </div>
             <div>
-              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Supervision Remarks</label>
-              <textarea id="review-remarks-input" placeholder="Enter formal review or audit remarks..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${remarks}</textarea>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Consultant Remarks</label>
+              <textarea id="review-remarks-input" placeholder="Enter remarks..." class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${remarks}</textarea>
             </div>
             <div>
-              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Action Taken</label>
-              <textarea id="review-action-input" placeholder="Actions taken to resolve remarks..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${actionTaken}</textarea>
+              <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Action Taken / Resolution</label>
+              <textarea id="review-action-input" placeholder="Actions taken..." class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-slate-50/50 h-20 resize-none">${actionTaken}</textarea>
             </div>
             <button onclick="saveReviewDetails(this)" class="w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm">
-              <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Status & Remarks
+              <i data-lucide="save" class="w-3.5 h-3.5"></i> Save Status
             </button>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-4">
-          <h3 class="font-bold text-slate-900 text-xs flex items-center gap-1.5 uppercase tracking-wider text-slate-400">
-            <i data-lucide="message-square" class="text-indigo-500 w-4 h-4"></i> Clarifications
-          </h3>
-          <div class="space-y-3 bg-slate-50/50 p-3 rounded-xl border border-slate-100/60">
-            <textarea id="collab-comment-text" placeholder="Add comment, request update..." class="premium-input w-full p-2 border border-slate-200 rounded-xl text-xs outline-none bg-white h-16 resize-none"></textarea>
-            <div class="flex items-center justify-between gap-2">
-              <div class="relative overflow-hidden flex-1">
-                <input type="file" id="collab-screenshot-input" accept="image/*" onchange="previewCollabScreenshot(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
-                <button class="w-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 py-1.5 px-3 rounded-xl text-[10px] font-bold transition flex items-center justify-center gap-1.5">
-                  <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-400"></i><span id="screenshot-btn-label">Add Screenshot</span>
-                </button>
-              </div>
-              <button onclick="postCollabComment(this)" class="bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-4 rounded-xl text-[10px] font-bold transition">Send</button>
-            </div>
-            <div id="screenshot-preview-container" class="hidden relative w-16 h-16 border border-slate-200 rounded-lg overflow-hidden mt-1.5 bg-white shadow-sm">
-              <img id="screenshot-preview-img" src="" class="w-full h-full object-cover" />
-              <button onclick="clearCollabScreenshot()" class="absolute top-0.5 right-0.5 p-0.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
-            </div>
-          </div>
-          <div id="collab-comments-feed" class="space-y-3.5 max-h-72 overflow-y-auto pr-1">
-            ${comments.length === 0 ? `<p class="text-[11px] text-slate-400 text-center py-4">No comments or screenshots uploaded yet.</p>` : comments.map(c => `
-              <div class="border-b border-slate-100 pb-3 last:border-0 last:pb-0">
-                <div class="flex items-start justify-between gap-1.5">
-                  <div class="flex items-center gap-2">
-                    <div class="w-6 h-6 rounded-lg bg-indigo-50 flex items-center justify-center font-bold text-[9px] text-indigo-600">${c.user.split(' ').map(n=>n[0]).join('').toUpperCase()}</div>
-                    <div><p class="text-[11px] font-bold text-slate-700">${c.user}</p><p class="text-[9px] text-slate-400 font-medium">${c.role} • ${c.time}</p></div>
-                  </div>
-                </div>
-                <p class="text-xs text-slate-600 mt-2 whitespace-pre-line leading-relaxed bg-slate-50/50 p-2 rounded-lg border border-slate-100">${c.text}</p>
-                ${c.image ? `<div class="mt-2 rounded-lg border border-slate-200 overflow-hidden bg-slate-50 max-w-[180px] cursor-pointer hover:opacity-90 transition shadow-sm" onclick="openFullscreenImage('${c.image}')"><img src="${c.image}" class="w-full h-20 object-cover" /></div>` : ''}
-              </div>
-            `).join('')}
           </div>
         </div>
       `;
       lucide.createIcons();
     }
 
+    window.toggleAuditPrintVisibility = function(isChecked) {
+      showAuditLogsOnReport = isChecked;
+      renderViewReport(); 
+    }
+
     window.updateReviewStatusLocally = function(val) {
       const badge = document.getElementById('badge-status');
       if(!badge) return;
       badge.innerText = val;
-      badge.className = val === 'Closed' ? "px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100" : "px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-100";
-    }
-
-    window.previewCollabScreenshot = function(event) {
-      const file = event.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-         const img = new Image();
-         img.onload = function() {
-            const canvas = document.createElement('canvas');
-            let scaleSize = img.width > 800 ? 800 / img.width : 1;
-            canvas.width = img.width * scaleSize; canvas.height = img.height * scaleSize;
-            canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-            tempScreenshotBase64 = canvas.toDataURL('image/jpeg', 0.7); 
-            document.getElementById('screenshot-preview-img').src = tempScreenshotBase64;
-            document.getElementById('screenshot-preview-container').classList.remove('hidden');
-            document.getElementById('screenshot-btn-label').innerText = "Change Image";
-         };
-         img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    window.clearCollabScreenshot = function() {
-      tempScreenshotBase64 = null;
-      document.getElementById('collab-screenshot-input').value = '';
-      document.getElementById('screenshot-preview-container').classList.add('hidden');
-      document.getElementById('screenshot-btn-label').innerText = "Add Screenshot";
-    }
-
-    window.postCollabComment = async function(btn) {
-      const commentInput = document.getElementById('collab-comment-text');
-      const text = commentInput.value.trim();
-      if(!text && !tempScreenshotBase64) return showCustomAlert("Input Required", "Please enter a comment or attach a screenshot.");
-
-      btn.disabled = true; const originalText = btn.innerText; btn.innerText = "...";
-      const now = new Date();
-      const newComment = { id: Math.random().toString(36).substr(2, 9), user: globalProfile.name, role: globalProfile.role, time: now.toLocaleDateString() + " " + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), text: text, image: tempScreenshotBase64 };
-
-      if(!generatedReport.reviewComments) generatedReport.reviewComments = [];
-      generatedReport.reviewComments.push(newComment);
-
-      const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
-      if (cachedReportIndex !== -1) reportsList[cachedReportIndex].reviewComments = generatedReport.reviewComments;
-
-      if(db && currentUser && generatedReport.dbId) {
-         try {
-            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), { reviewComments: generatedReport.reviewComments });
-         } catch(e) { showCustomAlert("Error", e.message); }
+      if(val === 'Closed') {
+         badge.className = "px-2 py-1 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+      } else {
+         badge.className = "px-2 py-1 rounded-md text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 animate-pulse";
       }
-
-      commentInput.value = ''; clearCollabScreenshot();
-      btn.disabled = false; btn.innerText = originalText;
-      renderReviewPanel(); updateReportsTables();
     }
 
     window.saveReviewDetails = async function(btn) {
@@ -1946,42 +1682,87 @@ Write using professional engineering language suitable for a daily construction 
       const remarks = document.getElementById('review-remarks-input').value.trim();
       const actionTaken = document.getElementById('review-action-input').value.trim();
 
-      btn.disabled = true; const originalHtml = btn.innerHTML;
-      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Saving...'; lucide.createIcons();
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Saving...';
 
-      generatedReport.reviewStatus = status; generatedReport.reviewRemarks = remarks; generatedReport.reviewActionTaken = actionTaken;
+      generatedReport.reviewStatus = status;
+      generatedReport.reviewRemarks = remarks;
+      generatedReport.reviewActionTaken = actionTaken;
+
       const cachedReportIndex = reportsList.findIndex(r => r.dbId === generatedReport.dbId);
       if (cachedReportIndex !== -1) {
-         reportsList[cachedReportIndex].reviewStatus = status; reportsList[cachedReportIndex].reviewRemarks = remarks; reportsList[cachedReportIndex].reviewActionTaken = actionTaken;
+         reportsList[cachedReportIndex].reviewStatus = status;
+         reportsList[cachedReportIndex].reviewRemarks = remarks;
+         reportsList[cachedReportIndex].reviewActionTaken = actionTaken;
       }
 
       if(db && currentUser && generatedReport.dbId) {
          try {
-            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), { reviewStatus: status, reviewRemarks: remarks, reviewActionTaken: actionTaken });
-         } catch(e) {}
+            await updateDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', generatedReport.docId || generatedReport.dbId), {
+               reviewStatus: status, reviewRemarks: remarks, reviewActionTaken: actionTaken
+             });
+             setDbStatus('connected');
+         } catch(e) { }
       }
 
-      btn.disabled = false; btn.innerHTML = originalHtml; lucide.createIcons();
-      renderViewReport(); updateReportsTables(); showCustomAlert("Saved Successfully", "Remarks and status updated!");
+      btn.disabled = false;
+      btn.innerHTML = '<i data-lucide="save" class="w-3.5 h-3.5"></i> Save Status';
+      
+      renderViewReport(); 
+      updateReportsTables();
+      showCustomAlert("Saved Successfully", "Audit status updated successfully!");
     }
 
-    // Init App
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-      document.getElementById('frm-date').value = formData.date;
-      
-      // Initialize two empty rows for Look Ahead Tracker
-      addLookAheadRow();
-      addLookAheadRow();
-      
-      if(userApiKey) {
-        document.getElementById('api-key-input').value = userApiKey;
-        document.getElementById('api-indicator').className = "w-2.5 h-2.5 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)] bg-green-500 transition-colors duration-300";
-        document.getElementById('connect-btn').innerText = "Connected";
-      }
-      if(!db) { setDbStatus('fallback'); updateReportsTables(); }
-    });
+    // Offline File Generators
+    window.downloadWordDoc = function(filename, contentStr) {
+      const blob = new Blob(['\ufeff', contentStr || "Legacy Document Content Placeholder"], { type: 'application/msword' });
+      const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(contentStr || "Legacy Document Content Placeholder");
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = (filename || 'Document') + '.doc';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
 
+    window.exportWordDoc = function() {
+        if(!generatedReport) return;
+        const rawText = document.getElementById('report-paper').innerText;
+        downloadWordDoc(`DPR_${generatedReport.date}`, rawText);
+    }
+
+    window.translateReport = async function(btn) {
+      if (!generatedReport) return;
+      
+      const activeKey = userApiKey || apiKey;
+      if (!activeKey) return showCustomAlert("API Required", "Please connect your Gemini API Key to use the translation feature.");
+
+      btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Translating...';
+      lucide.createIcons();
+
+      try {
+        const prompt = `Translate this Construction Daily Progress Report into professional engineering Arabic. Maintain Markdown formatting exactly.\n\n${generatedReport.markdown}`;
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${activeKey}`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        const data = await response.json();
+        const res = data.candidates?.[0]?.content?.parts?.[0]?.text || "Translation Failed";
+        
+        generatedReport.markdown = res;
+        generatedReport.isArabic = true; 
+        generatedReport.projectName = generatedReport.projectName + " (مترجم)";
+        
+        renderViewReport();
+      } catch(e) { 
+        showCustomAlert("AI Service Error", "Error translating report: " + e.message); 
+      } finally {
+        btn.innerHTML = '✨ Translated';
+        btn.disabled = true;
+      }
+    }
+
+    lucide.createIcons();
   </script>
 </body>
 </html>
