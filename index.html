@@ -833,6 +833,15 @@
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Global Announcement Ticker (Multiple rows allowed)</label>
                    <textarea id="settings-announcement" placeholder="Enter announcements (one per line). Leave blank to hide banner..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
                  </div>
+                 <div class="flex items-center p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                   <label class="flex items-center gap-3 cursor-pointer">
+                     <input type="checkbox" id="settings-auto-backup" class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                     <div>
+                       <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Auto-Save Camera Captures to Phone Device</span>
+                       <span class="text-[10px] text-slate-400 block mt-0.5">Automatically downloads a backup of photos taken in 'Field Capture' to your phone's memory.</span>
+                     </div>
+                   </label>
+                 </div>
                  <div>
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">App Access Password</label>
                    <input type="text" id="settings-app-password" value="admin123" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
@@ -1023,6 +1032,7 @@
     let slideInterval = null;
     let showAuditLogsOnReport = true;
     let globalAppPassword = 'admin123'; // Default app access password
+    let globalAutoBackup = false; // Auto-save photos to phone memory
     
     let formData = {
       projectName: '',
@@ -1192,6 +1202,23 @@
         }
       });
 
+      onSnapshot(collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture'), (snapshot) => {
+        let cloudPhotos = [];
+        snapshot.forEach(doc => {
+            let p = doc.data();
+            p.url = `data:${p.mimeType};base64,${p.base64}`;
+            cloudPhotos.push(p);
+        });
+        // If there are photos from cloud, OR if a deletion event just happened, sync local state
+        if(cloudPhotos.length > 0 || snapshot.docChanges().length > 0) {
+            cloudPhotos.sort((a,b) => (a.timestamp || 0) - (b.timestamp || 0));
+            quickCapturePhotos = cloudPhotos;
+            if (document.getElementById('qc-photo-container')) {
+                renderQuickCapturePhotos();
+            }
+        }
+      });
+
       onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), (docSnap) => {
         if (docSnap.exists()) {
           globalProfile = docSnap.data();
@@ -1213,6 +1240,10 @@
           if (data.appPassword) {
               globalAppPassword = data.appPassword;
               document.getElementById('settings-app-password').value = data.appPassword;
+          }
+          if (data.autoBackup !== undefined) {
+              globalAutoBackup = data.autoBackup;
+              document.getElementById('settings-auto-backup').checked = data.autoBackup;
           }
           if (data.teamSupervision !== undefined) {
               document.getElementById('settings-team-supervision').value = data.teamSupervision;
@@ -1302,12 +1333,14 @@
       const newContractor = document.getElementById('settings-team-contractor').value.trim();
       const newSubmittalLink = document.getElementById('settings-submittal-link').value.trim();
       const newAnnouncement = document.getElementById('settings-announcement').value.trim();
+      const newAutoBackup = document.getElementById('settings-auto-backup').checked;
 
       try {
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'appSettings'), {
             projectName: newProjName || 'Active Project',
             appPassword: newPassword || 'admin123',
+            autoBackup: newAutoBackup,
             teamSupervision: newSupervision,
             teamPmc: newPmc,
             teamContractor: newContractor,
@@ -1317,6 +1350,7 @@
         
         document.getElementById('hero-project-name').innerText = newProjName || 'Active Project';
         globalAppPassword = newPassword || 'admin123';
+        globalAutoBackup = newAutoBackup;
         
         document.getElementById('dir-supervision').innerText = newSupervision || 'No members added yet.';
         document.getElementById('dir-pmc').innerText = newPmc || 'No members added yet.';
@@ -2213,19 +2247,21 @@
         <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-slate-200 shadow-sm print-break-inside-avoid print-shadow-none" ${isRTL ? 'dir="rtl"' : ''}>
             ${activeCover ? `<img src="${activeCover}" class="w-full h-48 sm:h-64 object-contain bg-slate-900 print:h-48" alt="Project Cover" />` : '<div class="w-full h-4 bg-slate-900 print:h-4"></div>'}
             
-            <div class="px-6 pb-5 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-end bg-white relative border-t-4 border-amber-500">
-                ${activeLogo ? `
-                  <div class="absolute -top-12 ${isRTL ? 'right-6' : 'left-6'}">
-                     <img src="${activeLogo}" alt="Company Logo" class="h-20 w-auto max-w-[180px] object-contain rounded-xl p-2 bg-white border border-slate-200 shadow-md" />
-                  </div>
-                ` : ''}
+            <div class="px-6 pb-5 pt-6 flex flex-col md:flex-row justify-between items-start md:items-center bg-white relative border-t-4 border-amber-500 gap-4">
                 
-                <div class="${activeLogo ? 'mt-10' : ''} ${isRTL ? 'ml-4' : 'mr-4'}">
-                  <h1 class="text-[1.7rem] font-black text-slate-900 uppercase tracking-tighter m-0 p-0 leading-none">Daily Progress Report</h1>
-                  <p class="text-sm text-indigo-700 font-bold tracking-wide mt-1.5 uppercase">${generatedReport.projectName}</p>
+                <div class="flex items-center gap-4">
+                   ${activeLogo ? `
+                     <div class="shrink-0">
+                        <img src="${activeLogo}" alt="Company Logo" class="h-16 w-auto max-w-[180px] object-contain" />
+                     </div>
+                   ` : ''}
+                   <div>
+                     <h1 class="text-[1.7rem] font-black text-slate-900 uppercase tracking-tighter m-0 p-0 leading-none">Daily Progress Report</h1>
+                     <p class="text-sm text-indigo-700 font-bold tracking-wide mt-1.5 uppercase">${generatedReport.projectName}</p>
+                   </div>
                 </div>
 
-                <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-600 space-y-1 font-semibold mt-4 sm:mt-0 bg-slate-50 p-2.5 rounded-xl border border-slate-100 shadow-inner">
+                <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-600 space-y-1 font-semibold bg-slate-50 p-2.5 rounded-xl border border-slate-100 shadow-inner w-full md:w-auto mt-4 md:mt-0">
                   <p><strong class="text-slate-900">Date:</strong> ${generatedReport.date} <span class="mx-1 text-slate-300">|</span> <strong class="text-slate-900">Shift:</strong> <span class="text-indigo-600 font-bold">${generatedReport.shift || 'Morning Shift'}</span></p>
                   <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName}</p>
                   <p><strong class="text-slate-900">Supervision Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
@@ -2494,21 +2530,32 @@
         
         const btn = document.getElementById('btn-save-draft');
         const originalText = btn.innerHTML;
-        btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Saving...';
+        btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Saving to Cloud...';
         lucide.createIcons();
 
         try {
             const idb = await initQCDB();
             const tx = idb.transaction(QC_STORE_NAME, "readwrite");
             const store = tx.objectStore(QC_STORE_NAME);
-            store.clear(); // Overwrite existing draft
+            store.clear(); 
             quickCapturePhotos.forEach(p => store.add(p));
             
-            tx.oncomplete = () => {
-                showCustomAlert("Draft Saved!", "Photos are securely saved to your device. You can safely close the app and return later.");
-            };
+            if (db && currentUser) {
+                const qcRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture');
+                const snap = await getDocs(qcRef);
+                const deletePromises = snap.docs.map(d => deleteDoc(d.ref));
+                await Promise.all(deletePromises);
+                
+                const addPromises = quickCapturePhotos.map((p, idx) => {
+                    p.timestamp = Date.now() + idx; 
+                    return setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture', p.id), p);
+                });
+                await Promise.all(addPromises);
+            }
+            
+            showCustomAlert("Cloud Draft Saved!", "Photos are securely saved to the cloud and your device. Your team can now access them from the PC.");
         } catch (e) {
-            showCustomAlert("Storage Error", "Could not save photos to your device.");
+            showCustomAlert("Storage Error", "Could not save photos. " + e.message);
         } finally {
             btn.innerHTML = originalText;
             lucide.createIcons();
@@ -2547,6 +2594,12 @@
             const idb = await initQCDB();
             const tx = idb.transaction(QC_STORE_NAME, "readwrite");
             tx.objectStore(QC_STORE_NAME).clear();
+            
+            if (db && currentUser) {
+                const qcRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture');
+                const snap = await getDocs(qcRef);
+                snap.docs.forEach(d => deleteDoc(d.ref));
+            }
         } catch(e) {}
     }
 
@@ -2562,7 +2615,7 @@
            allowedFiles = files.slice(0, 40 - quickCapturePhotos.length);
        }
 
-       allowedFiles.forEach(file => {
+       allowedFiles.forEach((file, index) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             const img = new Image();
@@ -2584,6 +2637,18 @@
                  mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress'
                });
                renderQuickCapturePhotos();
+               
+               // Trigger background backup download to device memory if setting is enabled
+               if (globalAutoBackup) {
+                   setTimeout(() => {
+                       const a = document.createElement('a');
+                       a.href = `data:image/jpeg;base64,${compressedBase64}`;
+                       a.download = `Site_Capture_${photoId}.jpg`;
+                       document.body.appendChild(a);
+                       a.click();
+                       document.body.removeChild(a);
+                   }, 500 * index); // Stagger downloads by 500ms to prevent browser blocking
+               }
             };
             img.src = e.target.result;
           };
@@ -2592,9 +2657,24 @@
        event.target.value = ''; // Reset input so same file can trigger change again
     }
 
-    window.removeQuickCapturePhoto = function(id) {
+    window.removeQuickCapturePhoto = async function(id) {
+        // 1. Remove from UI Array
         quickCapturePhotos = quickCapturePhotos.filter(p => p.id !== id);
         renderQuickCapturePhotos();
+        
+        // 2. Permanently delete from Local Offline Storage
+        try {
+            const idb = await initQCDB();
+            const tx = idb.transaction(QC_STORE_NAME, "readwrite");
+            tx.objectStore(QC_STORE_NAME).delete(id);
+        } catch(e) { console.warn("Failed to delete from local storage", e); }
+        
+        // 3. Permanently delete from Cloud Storage
+        if (db && currentUser) {
+            try {
+                await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture', id));
+            } catch(e) { console.warn("Failed to delete from cloud storage", e); }
+        }
     }
 
     window.updateQuickCaptureCaption = function(id, val) {
@@ -2621,7 +2701,10 @@
         
         container.innerHTML = quickCapturePhotos.map(p => `
            <div class="relative group border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-slate-50 flex flex-col">
-              <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/90 hover:bg-white text-red-500 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition z-10 shadow-md">
+              <a href="${p.url}" download="Site_Capture_${p.id}.jpg" title="Backup to Phone" class="absolute top-2 left-2 bg-white/95 hover:bg-white text-blue-600 p-2 rounded-lg opacity-90 transition z-10 shadow-md">
+                 <i data-lucide="download" class="w-4 h-4"></i>
+              </a>
+              <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/95 hover:bg-white text-red-500 p-2 rounded-lg opacity-90 transition z-10 shadow-md">
                  <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
               <img src="${p.url}" class="w-full h-40 object-cover" />
@@ -2659,6 +2742,13 @@
             const tx = idb.transaction(QC_STORE_NAME, "readwrite");
             tx.objectStore(QC_STORE_NAME).clear();
         }).catch(e => console.warn(e));
+
+        if (db && currentUser) {
+            const qcRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture');
+            getDocs(qcRef).then(snap => {
+                snap.docs.forEach(d => deleteDoc(d.ref));
+            }).catch(e => console.warn(e));
+        }
 
         let msg = `${sentCount} photos successfully added to the Site Photo Log. You can now use the 'Sync from Tracker' button or add descriptions manually.`;
         if (ignoredCount > 0) msg += ` (${ignoredCount} photos were ignored to stay within the 40 photo limit.)`;
