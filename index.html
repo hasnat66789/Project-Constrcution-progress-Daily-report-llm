@@ -141,9 +141,16 @@
       border-bottom: 1px solid #e2e8f0;
       color: #334155;
     }
+
+    /* Mobile Responsiveness Overrides */
+    @media (max-width: 768px) {
+      .pr-72 { padding-right: 0 !important; }
+      .ml-64 { margin-left: 0 !important; }
+      .view-section header { padding-right: 0 !important; margin-bottom: 1.5rem !important; }
+    }
   </style>
 </head>
-<body class="flex text-slate-800 bg-slate-50/50 min-h-screen antialiased">
+<body class="flex flex-col md:flex-row text-slate-800 bg-slate-50/50 min-h-screen antialiased overflow-x-hidden w-full relative">
 
   <!-- Global App Lock Overlay -->
   <div id="app-lock-overlay" class="fixed inset-0 bg-slate-950 z-[99999] flex flex-col items-center justify-center transition-opacity duration-500">
@@ -162,10 +169,29 @@
     </div>
   </div>
 
+  <!-- Mobile Overlay -->
+  <div id="mobile-overlay" onclick="toggleMobileMenu()" class="fixed inset-0 bg-slate-900/80 z-40 hidden backdrop-blur-sm transition-opacity opacity-0 md:hidden"></div>
+
+  <!-- Mobile Top Bar -->
+  <div class="md:hidden bg-slate-950 text-white p-4 flex items-center justify-between sticky top-0 z-30 shadow-md w-full">
+    <div class="flex items-center gap-2.5">
+      <div class="p-1.5 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-lg shadow-sm">
+        <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
+      </div>
+      <span class="text-base font-bold tracking-tight">Construction Reports</span>
+    </div>
+    <button onclick="toggleMobileMenu()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition text-white">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+
   <!-- Sidebar -->
-  <aside class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-40 border-r border-slate-900 shadow-xl">
+  <aside id="sidebar" class="w-64 bg-slate-950 text-white flex flex-col h-screen fixed left-0 top-0 print-hidden z-50 border-r border-slate-900 shadow-xl transform -translate-x-full md:translate-x-0 transition-transform duration-300">
     <!-- Header Title Area -->
-    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950">
+    <div class="p-6 flex flex-col gap-1.5 border-b border-slate-800 bg-slate-950 relative">
+      <button onclick="toggleMobileMenu()" class="md:hidden absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
       <div class="flex items-center gap-3">
         <div class="p-2 bg-gradient-to-tr from-amber-500 to-yellow-400 rounded-xl shadow-md shadow-yellow-500/10">
           <i data-lucide="hard-hat" class="text-slate-950 w-5 h-5"></i>
@@ -182,6 +208,9 @@
       </button>
       <button onclick="switchView('create_report')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="create_report">
         <i data-lucide="plus-circle" class="w-4.5 h-4.5"></i><span>New Report</span>
+      </button>
+      <button onclick="switchView('quick_capture')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="quick_capture">
+        <i data-lucide="camera" class="w-4.5 h-4.5"></i><span>Field Capture</span>
       </button>
       <button onclick="switchView('upload_documents')" class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-medium text-sm" data-target="upload_documents">
         <i data-lucide="upload-cloud" class="w-4.5 h-4.5"></i><span>Upload Documents</span>
@@ -220,13 +249,13 @@
   </aside>
 
   <!-- Main Content Area -->
-  <main class="flex-1 ml-64 p-8 relative print-m-0 print-p-0 print-w-full">
+  <main class="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 relative print-m-0 print-p-0 print-w-full w-full max-w-full overflow-x-hidden">
     
     <!-- API Key Bar -->
-    <div class="absolute top-8 right-8 flex items-center gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-50 print-hidden">
-      <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300" title="API Disconnected"></div>
-      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-44 bg-transparent transition-colors">
-      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm">
+    <div class="static md:absolute top-8 right-8 flex flex-wrap items-center justify-end gap-3 bg-white p-2.5 rounded-2xl border border-slate-200 shadow-sm z-30 print-hidden mb-6 md:mb-0 w-full md:w-max max-w-full mt-2 md:mt-0">
+      <div id="api-indicator" class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.5)] transition-colors duration-300 shrink-0" title="API Disconnected"></div>
+      <input type="password" id="api-key-input" placeholder="Custom API Key (Optional)" class="text-xs p-1 outline-none border-b border-slate-100 focus:border-indigo-500 w-32 sm:w-44 flex-1 md:flex-none bg-transparent transition-colors">
+      <button onclick="connectApi()" id="connect-btn" class="text-[11px] bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-xl font-semibold transition-all duration-200 flex items-center gap-1.5 shadow-sm shrink-0">
         Connect
       </button>
     </div>
@@ -239,15 +268,7 @@
       <!-- Premium Hero Project Banner -->
       <div class="relative w-full h-72 rounded-3xl overflow-hidden mb-8 shadow-[0_20px_50px_rgba(15,23,42,0.2)] group flex items-end bg-slate-950">
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent z-10 pointer-events-none"></div>
-        <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-contain bg-slate-950 transition-transform duration-[1.5s]" alt="Project Cover" />
-        
-        <!-- Permanent Cover Upload Button -->
-        <div class="absolute top-6 right-6 z-30 opacity-90 hover:opacity-100 transition duration-300">
-           <label class="cursor-pointer bg-black/60 backdrop-blur-md hover:bg-black/80 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-2 border border-white/20 shadow-xl">
-              <i data-lucide="camera" class="w-4 h-4"></i> Update Cover Photo
-              <input type="file" accept="image/*" onchange="handleCoverUpload(event)" class="hidden" />
-           </label>
-        </div>
+        <img id="dashboard-cover-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-contain bg-slate-950 transition-all duration-300" alt="Project Cover" />
 
         <div class="absolute bottom-0 left-0 p-8 z-20 w-full flex justify-between items-end">
           <div>
@@ -258,11 +279,6 @@
           <div class="hidden md:flex flex-col items-end gap-3">
             <div class="flex items-center gap-4">
               <img id="dashboard-logo-img" src="" alt="Company Logo" class="h-10 max-w-[150px] object-contain hidden rounded-lg border border-white/20 p-1 bg-white/10 backdrop-blur-md shadow-lg" />
-              <label class="cursor-pointer bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-3 py-1.5 rounded-lg border border-white/20 shadow-lg text-[10px] font-semibold transition-all flex items-center gap-1.5">
-                <i data-lucide="image" class="w-3.5 h-3.5"></i>
-                <span id="logo-btn-text">Upload Logo</span>
-                <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="hidden" />
-              </label>
             </div>
             <p class="text-slate-400 text-xs mt-1">Welcome back, <span class="profile-name-span font-bold text-white">Hasnat Safdar</span>.</p>
           </div>
@@ -597,6 +613,54 @@
       </div>
     </section>
 
+    <!-- Field Capture View -->
+    <section id="quick_capture" class="view-section pb-24">
+      <header class="mb-8 pr-72">
+        <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Field Camera Capture</h1>
+        <p class="text-slate-500 text-sm">Snap photos directly from your mobile device and sync them to your daily report.</p>
+      </header>
+      <div class="max-w-5xl space-y-6">
+         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col gap-4">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="flex flex-wrap gap-3 w-full md:w-auto">
+                    <label class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
+                      <i data-lucide="camera" class="w-5 h-5"></i> Open Camera
+                      <input type="file" accept="image/*" capture="environment" multiple onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                    </label>
+                    <label class="cursor-pointer bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
+                      <i data-lucide="image" class="w-5 h-5"></i> Gallery
+                      <input type="file" accept="image/*" multiple onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                    </label>
+                </div>
+                <div class="flex flex-wrap gap-3 w-full md:w-auto">
+                    <button id="btn-save-draft" onclick="saveQuickCapture()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-5 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none border border-blue-200">
+                      <i data-lucide="save" class="w-4 h-4"></i> Save Draft
+                    </button>
+                    <button onclick="clearQuickCapture()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 px-5 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none border border-rose-200">
+                      <i data-lucide="trash-2" class="w-4 h-4"></i> Clear All
+                    </button>
+                </div>
+            </div>
+            <div class="border-t border-slate-100 pt-4 flex justify-end">
+                <button onclick="syncQuickCaptureToReport()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-md w-full md:w-auto">
+                  <i data-lucide="send" class="w-5 h-5"></i> Send to Report Log
+                </button>
+            </div>
+         </div>
+         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+            <h2 class="text-base font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
+               <i data-lucide="images" class="text-indigo-500 w-5 h-5"></i> Captured Photos (<span id="qc-count">0</span>)
+            </h2>
+            <div id="qc-photo-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+               <div class="col-span-full p-12 text-center text-slate-400 italic bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                  <i data-lucide="camera" class="w-8 h-8 mx-auto mb-3 opacity-50"></i>
+                  No photos captured yet. Use the buttons above.
+               </div>
+            </div>
+         </div>
+      </div>
+    </section>
+
     <!-- Upload Documents View -->
     <section id="upload_documents" class="view-section pb-24">
       <header class="mb-8 pr-72">
@@ -766,8 +830,8 @@
                    <input type="text" id="settings-project-name" value="Active Project" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
                  </div>
                  <div>
-                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Global Announcement Ticker</label>
-                   <input type="text" id="settings-announcement" placeholder="Leave blank to hide banner..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Global Announcement Ticker (Multiple rows allowed)</label>
+                   <textarea id="settings-announcement" placeholder="Enter announcements (one per line). Leave blank to hide banner..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
                  </div>
                  <div>
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">App Access Password</label>
@@ -804,6 +868,36 @@
                <div>
                  <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Engineering Submittals Link (Excel/Sheets URL)</label>
                  <input type="url" id="settings-submittal-link" placeholder="https://docs.google.com/spreadsheets/d/..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+               </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-100">
+               <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
+                 <i data-lucide="image" class="text-indigo-500 w-5 h-5"></i> Branding & Visuals
+               </h3>
+               <div class="space-y-4 grid grid-cols-1 md:grid-cols-3 md:space-y-0 gap-4">
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Company Logo</label>
+                   <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
+                      <i data-lucide="upload" class="w-4 h-4"></i> <span id="settings-logo-btn-text">Upload Logo</span>
+                      <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="hidden" />
+                   </label>
+                 </div>
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Dashboard Slideshow (Multiple)</label>
+                   <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
+                      <i data-lucide="images" class="w-4 h-4"></i> Upload Slideshow
+                      <input type="file" accept="image/*" multiple onchange="handleSlideshowUpload(event)" class="hidden" />
+                   </label>
+                   <button onclick="clearSlideshow()" class="mt-2 text-[10px] text-red-500 hover:underline w-full text-center">Clear Slideshow Data</button>
+                 </div>
+                 <div>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PDF Report Cover</label>
+                   <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
+                      <i data-lucide="file-image" class="w-4 h-4"></i> Upload PDF Cover
+                      <input type="file" accept="image/*" onchange="handlePdfCoverUpload(event)" class="hidden" />
+                   </label>
+                 </div>
                </div>
             </div>
 
@@ -924,7 +1018,9 @@
     let documents = [];
     let generatedReport = null;
     let companyLogoBase64 = null;
-    let globalCoverPhotoBase64 = null;
+    let globalCoverPhotos = [];
+    let globalPdfCoverPhoto = null;
+    let slideInterval = null;
     let showAuditLogsOnReport = true;
     let globalAppPassword = 'admin123'; // Default app access password
     
@@ -955,6 +1051,7 @@
     };
     
     let lookAheadImageBase64 = null;
+    let quickCapturePhotos = [];
 
     // --- Defining Modals & Callbacks ---
     let modalResolveCallback = null;
@@ -1051,6 +1148,30 @@
         }
       });
 
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().images) {
+          globalCoverPhotos = docSnap.data().images;
+          startSlideshow();
+        }
+      });
+
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'pdfCover'), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().image) {
+          globalPdfCoverPhoto = docSnap.data().image;
+        }
+      });
+
+      // Legacy fallback
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().image) {
+          if (globalCoverPhotos.length === 0) {
+              globalCoverPhotos = [docSnap.data().image];
+              startSlideshow();
+          }
+          if (!globalPdfCoverPhoto) globalPdfCoverPhoto = docSnap.data().image;
+        }
+      });
+
       onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), (docSnap) => {
         if (docSnap.exists()) {
           companyLogoBase64 = docSnap.data().image;
@@ -1058,7 +1179,8 @@
           if (companyLogoBase64 && img) {
             img.src = companyLogoBase64;
             img.classList.remove('hidden');
-            document.getElementById('logo-btn-text').innerText = 'Change Logo';
+            const btnTxt = document.getElementById('settings-logo-btn-text');
+            if(btnTxt) btnTxt.innerText = 'Change Logo';
           }
         }
       });
@@ -1122,8 +1244,10 @@
               document.getElementById('settings-announcement').value = data.announcement;
               const banner = document.getElementById('announcement-banner');
               const bannerText = document.getElementById('announcement-text');
-              if(data.announcement) {
-                  bannerText.innerText = data.announcement;
+              if(data.announcement && data.announcement.trim()) {
+                  // Split multi-line text into array, remove empty lines, and join with a bullet separator
+                  const announcementsArray = data.announcement.split('\n').map(a => a.trim()).filter(a => a);
+                  bannerText.innerHTML = announcementsArray.join(' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="text-amber-400 text-lg leading-none">&bull;</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ');
                   banner.classList.remove('hidden');
               } else {
                   banner.classList.add('hidden');
@@ -1434,6 +1558,7 @@
             document.getElementById('app-lock-overlay').classList.add('hidden');
         }
         renderLookAheadTable();
+        loadQuickCapture();
     });
 
     // --- STREAMING_CHUNK:AI Generative Workflows... ---
@@ -1520,10 +1645,34 @@
 
     // --- STREAMING_CHUNK:Photo & Form Management... ---
     // --- Configuring Form & Upload Actions ---
+    
+    window.toggleMobileMenu = function(closeOnly = false) {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('mobile-overlay');
+        if(!sidebar || !overlay) return;
+        
+        const isClosed = sidebar.classList.contains('-translate-x-full');
+        if (closeOnly && isClosed) return;
+        
+        if (isClosed && !closeOnly) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        } else {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => overlay.classList.add('hidden'), 300);
+        }
+    }
+
     window.switchView = function(viewName) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(viewName).classList.add('active');
       currentView = viewName;
+
+      if (window.innerWidth < 768) {
+          window.toggleMobileMenu(true); // Close menu on mobile when a tab is clicked
+      }
 
       if(viewName === 'create_report') {
          // When opening new report view, make sure button is visible and panel is hidden
@@ -1579,32 +1728,91 @@
       }
     }
 
-    window.handleCoverUpload = function(event) {
+    function startSlideshow() {
+       clearInterval(slideInterval);
+       const imgEl = document.getElementById('dashboard-cover-img');
+       if(!imgEl) return;
+       
+       if (globalCoverPhotos.length === 0) {
+           imgEl.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop";
+           return;
+       }
+       
+       imgEl.src = globalCoverPhotos[0];
+       if (globalCoverPhotos.length > 1) {
+           let i = 0;
+           slideInterval = setInterval(() => {
+               imgEl.style.opacity = 0;
+               setTimeout(() => {
+                   i = (i + 1) % globalCoverPhotos.length;
+                   imgEl.src = globalCoverPhotos[i];
+                   imgEl.style.opacity = 1;
+               }, 300); // 300ms fade transition
+           }, 2000);
+       }
+    }
+
+    function resizeImageToBase64(file, maxWidth) {
+       return new Promise((resolve) => {
+           const reader = new FileReader();
+           reader.onload = (e) => {
+              const img = new Image();
+              img.onload = function() {
+                 const canvas = document.createElement('canvas');
+                 let scaleSize = 1;
+                 if(img.width > maxWidth) scaleSize = maxWidth / img.width;
+                 canvas.width = img.width * scaleSize;
+                 canvas.height = img.height * scaleSize;
+                 const ctx = canvas.getContext('2d');
+                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                 resolve(canvas.toDataURL('image/jpeg', 0.8));
+              };
+              img.src = e.target.result;
+           };
+           reader.readAsDataURL(file);
+       });
+    }
+
+    window.handleSlideshowUpload = async function(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+      
+      showCustomAlert("Uploading...", "Processing and resizing slideshow images. Please wait.");
+      
+      let newPhotos = [];
+      for (let file of files) {
+          const base64 = await resizeImageToBase64(file, 1920);
+          newPhotos.push(base64);
+      }
+      
+      // Combine and restrict to max 10 photos to save database space
+      globalCoverPhotos = [...globalCoverPhotos, ...newPhotos].slice(0, 10);
+      startSlideshow();
+      
+      if (db && currentUser) {
+         setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: globalCoverPhotos });
+      }
+      closeCustomModal();
+    }
+
+    window.clearSlideshow = function() {
+        globalCoverPhotos = [];
+        startSlideshow();
+        if (db && currentUser) {
+           setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: [] });
+        }
+    }
+
+    window.handlePdfCoverUpload = async function(event) {
       const file = event.target.files[0];
       if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-         const img = new Image();
-         img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1920;
-            let scaleSize = 1;
-            if(img.width > MAX_WIDTH) scaleSize = MAX_WIDTH / img.width;
-            canvas.width = img.width * scaleSize;
-            canvas.height = img.height * scaleSize;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            
-            globalCoverPhotoBase64 = canvas.toDataURL('image/jpeg', 0.8);
-            document.getElementById('dashboard-cover-img').src = globalCoverPhotoBase64;
-            
-            if (db && currentUser) {
-               setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), { image: globalCoverPhotoBase64 });
-            }
-         };
-         img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
+      const base64 = await resizeImageToBase64(file, 1920);
+      globalPdfCoverPhoto = base64;
+      showCustomAlert("Success", "PDF Report Cover photo successfully updated!");
+      
+      if (db && currentUser) {
+         setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'pdfCover'), { image: globalPdfCoverPhoto });
+      }
     }
 
     window.handleLogoUpload = function(event) {
@@ -1616,7 +1824,8 @@
         const img = document.getElementById('dashboard-logo-img');
         img.src = companyLogoBase64;
         img.classList.remove('hidden');
-        document.getElementById('logo-btn-text').innerText = 'Change Logo';
+        const btnTxt = document.getElementById('settings-logo-btn-text');
+        if (btnTxt) btnTxt.innerText = 'Change Logo';
 
         if (db && currentUser) {
           setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'logo'), { image: companyLogoBase64 });
@@ -1629,11 +1838,15 @@
       const files = Array.from(event.target.files);
       if (!files.length) return;
 
-      files.forEach(file => {
-        if(photos.length >= 50) return; 
-        
+      let allowedFiles = files;
+      if (photos.length + files.length > 40) {
+          showCustomAlert("Photo Limit", "Maximum of 40 photos allowed per report. Extra photos will be ignored.");
+          allowedFiles = files.slice(0, 40 - photos.length);
+      }
+
+      allowedFiles.forEach((file, index) => {
         // --- AUTO-CAPTION LOGIC ---
-        const currentIdx = photos.length;
+        const currentIdx = photos.length + index;
         let autoCaption = '';
         if (lookAheadData[currentIdx] && (lookAheadData[currentIdx].activity || lookAheadData[currentIdx].remarks)) {
              autoCaption = `${lookAheadData[currentIdx].activity ? lookAheadData[currentIdx].activity + ' - ' : ''}${lookAheadData[currentIdx].remarks || ''}`.trim();
@@ -1801,7 +2014,7 @@
           referenceNo: formData.referenceNo || `DPR-${formData.date.replace(/-/g, '')}`, // Fallback to auto-generated if empty
           photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
-          coverPhoto: globalCoverPhotoBase64, 
+          coverPhoto: globalPdfCoverPhoto || (globalCoverPhotos.length > 0 ? globalCoverPhotos[0] : null), 
           preparedBy: "TYA & Associates",
           status: 'Generated',
           reviewStatus: 'Open', 
@@ -2256,6 +2469,208 @@
         btn.innerHTML = '✨ Translated';
         btn.disabled = true;
       }
+    }
+
+    // --- LOCAL DEVICE STORAGE FOR FIELD CAPTURE ---
+    const QC_DB_NAME = "ConstructionApp_QC";
+    const QC_STORE_NAME = "qc_photos";
+
+    function initQCDB() {
+        return new Promise((resolve, reject) => {
+            const req = indexedDB.open(QC_DB_NAME, 1);
+            req.onupgradeneeded = (e) => {
+                const idb = e.target.result;
+                if (!idb.objectStoreNames.contains(QC_STORE_NAME)) {
+                    idb.createObjectStore(QC_STORE_NAME, { keyPath: "id" });
+                }
+            };
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
+
+    window.saveQuickCapture = async function() {
+        if(quickCapturePhotos.length === 0) return showCustomAlert("No Photos", "Add some photos first to save a draft.");
+        
+        const btn = document.getElementById('btn-save-draft');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Saving...';
+        lucide.createIcons();
+
+        try {
+            const idb = await initQCDB();
+            const tx = idb.transaction(QC_STORE_NAME, "readwrite");
+            const store = tx.objectStore(QC_STORE_NAME);
+            store.clear(); // Overwrite existing draft
+            quickCapturePhotos.forEach(p => store.add(p));
+            
+            tx.oncomplete = () => {
+                showCustomAlert("Draft Saved!", "Photos are securely saved to your device. You can safely close the app and return later.");
+            };
+        } catch (e) {
+            showCustomAlert("Storage Error", "Could not save photos to your device.");
+        } finally {
+            btn.innerHTML = originalText;
+            lucide.createIcons();
+        }
+    }
+
+    window.loadQuickCapture = async function() {
+        try {
+            const idb = await initQCDB();
+            const tx = idb.transaction(QC_STORE_NAME, "readonly");
+            const store = tx.objectStore(QC_STORE_NAME);
+            const req = store.getAll();
+            req.onsuccess = () => {
+                if(req.result && req.result.length > 0) {
+                    quickCapturePhotos = req.result.map(p => {
+                        // Recreate url from base64 ensuring it persists across sessions
+                        p.url = `data:${p.mimeType};base64,${p.base64}`; 
+                        return p;
+                    });
+                    renderQuickCapturePhotos();
+                }
+            };
+        } catch (e) {
+            console.log("No local QC drafts loaded.");
+        }
+    }
+
+    window.clearQuickCapture = async function() {
+        const proceed = await showCustomConfirm("Clear All Photos?", "Are you sure you want to delete all photos currently in Field Capture? This cannot be undone.");
+        if (!proceed) return;
+
+        quickCapturePhotos = [];
+        renderQuickCapturePhotos();
+        
+        try {
+            const idb = await initQCDB();
+            const tx = idb.transaction(QC_STORE_NAME, "readwrite");
+            tx.objectStore(QC_STORE_NAME).clear();
+        } catch(e) {}
+    }
+
+
+    // --- FIELD CAPTURE LOGIC ---
+    window.handleQuickCaptureUpload = function(event) {
+       const files = Array.from(event.target.files);
+       if (!files.length) return;
+
+       let allowedFiles = files;
+       if (quickCapturePhotos.length + files.length > 40) {
+           showCustomAlert("Photo Limit", "Maximum of 40 photos allowed in staging. Extra photos will be ignored.");
+           allowedFiles = files.slice(0, 40 - quickCapturePhotos.length);
+       }
+
+       allowedFiles.forEach(file => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = function() {
+               const canvas = document.createElement('canvas');
+               const MAX_WIDTH = 1200;
+               let scaleSize = 1;
+               if(img.width > MAX_WIDTH) scaleSize = MAX_WIDTH / img.width;
+               canvas.width = img.width * scaleSize;
+               canvas.height = img.height * scaleSize;
+               const ctx = canvas.getContext('2d');
+               ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+               
+               const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+               const photoId = Math.random().toString(36).substr(2, 9);
+               
+               quickCapturePhotos.push({
+                 id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
+                 mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress'
+               });
+               renderQuickCapturePhotos();
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+       });
+       event.target.value = ''; // Reset input so same file can trigger change again
+    }
+
+    window.removeQuickCapturePhoto = function(id) {
+        quickCapturePhotos = quickCapturePhotos.filter(p => p.id !== id);
+        renderQuickCapturePhotos();
+    }
+
+    window.updateQuickCaptureCaption = function(id, val) {
+        const p = quickCapturePhotos.find(x => x.id === id);
+        if(p) p.aiText = val;
+    }
+
+    function renderQuickCapturePhotos() {
+        const countEl = document.getElementById('qc-count');
+        if(countEl) countEl.innerText = quickCapturePhotos.length;
+        
+        const container = document.getElementById('qc-photo-container');
+        if(!container) return;
+        
+        if(quickCapturePhotos.length === 0) {
+           container.innerHTML = `
+             <div class="col-span-full p-12 text-center text-slate-400 italic bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                <i data-lucide="camera" class="w-8 h-8 mx-auto mb-3 opacity-50"></i>
+                No photos captured yet. Use the buttons above.
+             </div>`;
+           lucide.createIcons();
+           return;
+        }
+        
+        container.innerHTML = quickCapturePhotos.map(p => `
+           <div class="relative group border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-slate-50 flex flex-col">
+              <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/90 hover:bg-white text-red-500 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition z-10 shadow-md">
+                 <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+              <img src="${p.url}" class="w-full h-40 object-cover" />
+              <div class="p-2 border-t border-slate-200 flex-1 flex flex-col">
+                  <textarea onchange="updateQuickCaptureCaption('${p.id}', this.value)" placeholder="Write caption here..." class="w-full flex-1 p-2 text-[11px] font-medium border border-slate-200 rounded-lg outline-none focus:border-indigo-500 resize-none min-h-[60px] bg-white text-slate-700 leading-relaxed">${p.aiText || ''}</textarea>
+              </div>
+           </div>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    window.syncQuickCaptureToReport = function() {
+        if(quickCapturePhotos.length === 0) {
+           return showCustomAlert("No Photos", "Please capture or select photos first before sending them to the report log.");
+        }
+        
+        const availableSpace = 40 - photos.length;
+        if (availableSpace <= 0) {
+           return showCustomAlert("Limit Reached", "Your report already has 40 photos. Cannot sync more.");
+        }
+
+        const photosToSync = quickCapturePhotos.slice(0, availableSpace);
+        const ignoredCount = quickCapturePhotos.length - photosToSync.length;
+
+        // Append to main photos array
+        photos = [...photos, ...photosToSync]; 
+        
+        const sentCount = photosToSync.length;
+        quickCapturePhotos = []; // clear staging area
+        renderQuickCapturePhotos();
+        renderPhotos(); // update main report UI
+        
+        // Clear background memory so draft is empty
+        initQCDB().then(idb => {
+            const tx = idb.transaction(QC_STORE_NAME, "readwrite");
+            tx.objectStore(QC_STORE_NAME).clear();
+        }).catch(e => console.warn(e));
+
+        let msg = `${sentCount} photos successfully added to the Site Photo Log. You can now use the 'Sync from Tracker' button or add descriptions manually.`;
+        if (ignoredCount > 0) msg += ` (${ignoredCount} photos were ignored to stay within the 40 photo limit.)`;
+
+        showCustomAlert("Photos Synced!", msg);
+        switchView('create_report'); 
+        
+        // Scroll smoothly to photo section in create_report
+        setTimeout(() => {
+           const photoSec = document.getElementById('photo-list-container');
+           if(photoSec) photoSec.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }, 300);
     }
 
     lucide.createIcons();
