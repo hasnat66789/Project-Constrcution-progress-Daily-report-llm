@@ -82,56 +82,57 @@
     }
 
     /* Professional vertical rhythm and spacing overrides for report paper */
-    #report-paper h1, #report-paper h2, #report-paper h3 {
+    #report-paper h1, #report-paper h2, #report-paper h3,
+    #preview-paper h1, #preview-paper h2, #preview-paper h3 {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       color: #0f172a !important; /* slate-900 */
       font-weight: 800 !important;
       line-height: 1.4 !important;
     }
-    #report-paper h1 {
+    #report-paper h1, #preview-paper h1 {
       font-size: 1.75rem !important;
       margin-top: 1.5rem !important;
       margin-bottom: 1.25rem !important;
       border-bottom: 2px solid #e2e8f0 !important;
       padding-bottom: 0.65rem !important;
     }
-    #report-paper h2 {
+    #report-paper h2, #preview-paper h2 {
       font-size: 1.3rem !important;
       margin-top: 2rem !important;
       margin-bottom: 1rem !important;
       border-bottom: 1px solid #f1f5f9 !important;
       padding-bottom: 0.4rem !important;
     }
-    #report-paper h3 {
+    #report-paper h3, #preview-paper h3 {
       font-size: 1.125rem !important;
       margin-top: 1.5rem !important;
       margin-bottom: 0.75rem !important;
     }
-    #report-paper p {
+    #report-paper p, #preview-paper p {
       font-size: 0.95rem !important;
       line-height: 1.75 !important;
       color: #334155 !important; /* slate-700 */
       margin-bottom: 1.25rem !important;
     }
-    #report-paper ul, #report-paper ol {
+    #report-paper ul, #report-paper ol, #preview-paper ul, #preview-paper ol {
       margin-bottom: 1.25rem !important;
       padding-left: 1.5rem !important;
       list-style-type: disc !important;
     }
-    #report-paper li {
+    #report-paper li, #preview-paper li {
       font-size: 0.95rem !important;
       line-height: 1.75 !important;
       color: #475569 !important; /* slate-600 */
       margin-bottom: 0.5rem !important;
     }
-    #report-paper table {
+    #report-paper table, #preview-paper table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
       margin-bottom: 1.5rem;
       font-size: 0.85rem;
     }
-    #report-paper th {
+    #report-paper th, #preview-paper th {
       background-color: #f8fafc;
       font-weight: 700;
       text-transform: uppercase;
@@ -141,7 +142,7 @@
       padding: 0.75rem;
       text-align: left;
     }
-    #report-paper td {
+    #report-paper td, #preview-paper td {
       padding: 0.75rem;
       border-bottom: 1px solid #e2e8f0;
       color: #334155;
@@ -375,6 +376,30 @@
       </header>
 
       <div class="max-w-5xl space-y-6">
+        
+        <!-- Report Cover Photo (NEW) -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="image" class="text-indigo-500 w-5 h-5"></i> Report Cover Photo
+            </h2>
+            <label class="flex items-center gap-1.5 cursor-pointer text-[10px] font-bold text-slate-500 hover:text-slate-700 transition">
+                <input type="checkbox" id="lock-cover-toggle" class="w-3 h-3 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500" />
+                <i data-lucide="lock" class="w-3 h-3"></i> Save as Default for New Reports
+            </label>
+          </div>
+          <div class="flex flex-wrap items-center gap-4">
+             <div class="relative group">
+                 <img id="form-cover-preview" src="" class="w-48 h-24 object-cover bg-slate-100 rounded-xl border border-slate-200 hidden shadow-sm" />
+                 <button type="button" id="form-cover-remove" onclick="removeFormCover()" class="absolute -top-2 -right-2 bg-red-500 text-white p-1.5 rounded-full shadow-md hover:bg-red-600 transition hidden z-10"><i data-lucide="x" class="w-3 h-3"></i></button>
+             </div>
+             <label class="cursor-pointer bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-5 py-3 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm border border-indigo-200">
+                <i data-lucide="upload" class="w-4 h-4"></i> Upload Cover Image
+                <input type="file" accept="image/*" class="hidden" onchange="handleFormCoverUpload(event)" />
+             </label>
+          </div>
+        </div>
+
         <!-- Project Details -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
           <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
@@ -581,6 +606,24 @@
             </div>
           </div>
 
+          <!-- NEW: Report Styling & Layout -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <p class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Report Styling & Layout</p>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div class="flex-1 w-full">
+                 <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Header Style</label>
+                 <select id="cfg-header-layout" class="premium-input w-full p-2 border border-slate-200 rounded-lg text-xs outline-none bg-white cursor-pointer">
+                    <option value="standard">Standard (Full Cover Image & Details)</option>
+                    <option value="compact">Compact (Thin Cover & Compact Padding)</option>
+                    <option value="minimal">Minimal (No Cover Image, Text Only)</option>
+                 </select>
+              </div>
+              <div class="flex-1 w-full sm:pt-4">
+                 <p class="text-[10px] text-slate-500 italic">Try <strong>"Minimal"</strong> or <strong>"Compact"</strong> to save significant space on the first printed page!</p>
+              </div>
+            </div>
+          </div>
+
           <!-- Editable Draft Summaries -->
           <div class="space-y-4">
             <div>
@@ -606,12 +649,17 @@
           </div>
 
           <!-- Final Compilation Trigger -->
-          <div class="flex justify-between items-center pt-4 border-t border-slate-100">
-            <span class="text-xs text-slate-400 italic">Verify and edit above parameters before saving permanently.</span>
-            <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center gap-2.5">
-              <i data-lucide="check" class="w-5 h-5"></i>
-              <span>💾 Finalize & Publish Daily Report</span>
-            </button>
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-4 border-t border-slate-100 gap-4">
+            <span class="text-xs text-slate-400 italic hidden sm:block">Verify and edit above parameters before saving permanently.</span>
+            <div class="flex flex-wrap sm:flex-nowrap gap-3 w-full sm:w-auto">
+                <button onclick="previewReport()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-6 py-3.5 rounded-xl font-bold text-sm transition duration-200 shadow-sm flex items-center justify-center gap-2 flex-1 sm:flex-none">
+                  <i data-lucide="eye" class="w-4 h-4"></i> Preview PDF
+                </button>
+                <button id="generate-report-btn" onclick="generateFinalReport()" class="bg-indigo-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-indigo-700 transition duration-200 shadow-lg shadow-indigo-600/10 flex items-center justify-center gap-2.5 flex-1 sm:flex-none">
+                  <i data-lucide="check" class="w-5 h-5"></i>
+                  <span>💾 Finalize & Publish</span>
+                </button>
+            </div>
           </div>
         </div>
 
@@ -889,28 +937,22 @@
                <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
                  <i data-lucide="image" class="text-indigo-500 w-5 h-5"></i> Branding & Visuals
                </h3>
-               <div class="space-y-4 grid grid-cols-1 md:grid-cols-3 md:space-y-0 gap-4">
+               <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Company Logo</label>
                    <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
                       <i data-lucide="upload" class="w-4 h-4"></i> <span id="settings-logo-btn-text">Upload Logo</span>
                       <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="hidden" />
                    </label>
+                   <p class="text-[10px] text-slate-400 mt-2">Note: PDF report covers are managed directly inside the "New Report" tab.</p>
                  </div>
                  <div>
-                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Dashboard Slideshow (Multiple)</label>
+                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Dashboard Slideshow (Multiple Photos)</label>
                    <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
                       <i data-lucide="images" class="w-4 h-4"></i> Upload Slideshow
                       <input type="file" accept="image/*" multiple onchange="handleSlideshowUpload(event)" class="hidden" />
                    </label>
-                   <button onclick="clearSlideshow()" class="mt-2 text-[10px] text-red-500 hover:underline w-full text-center">Clear Slideshow Data</button>
-                 </div>
-                 <div>
-                   <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">PDF Report Cover</label>
-                   <label class="cursor-pointer bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm w-full">
-                      <i data-lucide="file-image" class="w-4 h-4"></i> Upload PDF Cover
-                      <input type="file" accept="image/*" onchange="handlePdfCoverUpload(event)" class="hidden" />
-                   </label>
+                   <button onclick="clearSlideshow()" class="mt-2 text-[10px] text-red-500 hover:text-red-600 transition hover:underline w-full text-center">Clear Slideshow Data</button>
                  </div>
                </div>
             </div>
@@ -968,6 +1010,24 @@
       <div class="text-xs text-slate-500 mb-6 leading-relaxed" id="custom-modal-message"></div>
       <div class="flex justify-end gap-2.5" id="custom-modal-actions">
         <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Preview Modal Overlay -->
+  <div id="preview-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-[9999] hidden print-hidden overflow-y-auto p-4 sm:p-8">
+    <div class="bg-slate-200 rounded-2xl w-full max-w-5xl shadow-2xl border border-slate-300 relative flex flex-col max-h-full">
+      <div class="flex justify-between items-center p-4 sm:p-6 border-b border-slate-300 bg-white rounded-t-2xl shrink-0">
+         <h2 class="text-lg font-extrabold text-slate-900 flex items-center gap-2"><i data-lucide="eye" class="w-5 h-5 text-indigo-500"></i> Report Preview</h2>
+         <button onclick="closePreviewModal()" class="bg-slate-100 hover:bg-rose-100 text-slate-500 hover:text-rose-600 p-2 rounded-xl transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="overflow-y-auto p-4 sm:p-8 flex-1 flex justify-center bg-slate-200">
+         <div id="preview-paper" class="bg-white shadow-xl border border-slate-100 rounded-xl w-full max-w-4xl p-6 sm:p-10">
+             <!-- Generated preview content injected here -->
+         </div>
+      </div>
+      <div class="p-4 sm:p-6 border-t border-slate-300 bg-white rounded-b-2xl shrink-0 flex justify-end">
+         <button onclick="closePreviewModal()" class="bg-slate-900 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-md hover:bg-slate-800 transition">Close & Keep Editing</button>
       </div>
     </div>
   </div>
@@ -1032,12 +1092,13 @@
     let documents = [];
     let generatedReport = null;
     let companyLogoBase64 = null;
-    let globalCoverPhotos = [];
     let globalPdfCoverPhoto = null;
-    let slideInterval = null;
+    let currentReportCoverBase64 = null;
     let showAuditLogsOnReport = true;
     let globalAppPassword = 'admin123'; // Default app access password
     let globalAutoBackup = false; // Auto-save photos to phone memory
+    let globalCoverPhotos = [];
+    let slideInterval = null;
     
     let formData = {
       projectName: '',
@@ -1163,27 +1224,17 @@
         }
       });
 
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), (docSnap) => {
-        if (docSnap.exists() && docSnap.data().images) {
-          globalCoverPhotos = docSnap.data().images;
-          startSlideshow();
-        }
-      });
-
       onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'pdfCover'), (docSnap) => {
         if (docSnap.exists() && docSnap.data().image) {
           globalPdfCoverPhoto = docSnap.data().image;
-        }
-      });
-
-      // Legacy fallback
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), (docSnap) => {
-        if (docSnap.exists() && docSnap.data().image) {
-          if (globalCoverPhotos.length === 0) {
-              globalCoverPhotos = [docSnap.data().image];
-              startSlideshow();
+          
+          const dashImg = document.getElementById('dashboard-cover-img');
+          if (dashImg) dashImg.src = globalPdfCoverPhoto;
+          
+          if (!currentReportCoverBase64) {
+              currentReportCoverBase64 = globalPdfCoverPhoto;
+              updateFormCoverUI();
           }
-          if (!globalPdfCoverPhoto) globalPdfCoverPhoto = docSnap.data().image;
         }
       });
 
@@ -1200,10 +1251,10 @@
         }
       });
 
-      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'cover'), (docSnap) => {
-        if (docSnap.exists() && docSnap.data().image) {
-          globalCoverPhotoBase64 = docSnap.data().image;
-          document.getElementById('dashboard-cover-img').src = globalCoverPhotoBase64;
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), (docSnap) => {
+        if (docSnap.exists() && docSnap.data().images) {
+          globalCoverPhotos = docSnap.data().images;
+          startSlideshow();
         }
       });
 
@@ -1293,6 +1344,22 @@
       });
     }
 
+    function updateFormCoverUI() {
+        const preview = document.getElementById('form-cover-preview');
+        const removeBtn = document.getElementById('form-cover-remove');
+        if (!preview || !removeBtn) return;
+        
+        if (currentReportCoverBase64) {
+            preview.src = currentReportCoverBase64;
+            preview.classList.remove('hidden');
+            removeBtn.classList.remove('hidden');
+        } else {
+            preview.src = '';
+            preview.classList.add('hidden');
+            removeBtn.classList.add('hidden');
+        }
+    }
+
     function updateProfileUI() {
       const nameSpans = document.querySelectorAll('.profile-name-span');
       nameSpans.forEach(span => span.innerText = globalProfile.name);
@@ -1380,10 +1447,24 @@
                 newlyFetchedList.push({ ...data, docId: doc.id, dbId: data.dbId || doc.id });
             });
             
-            newlyFetchedList.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
-            reportsList = newlyFetchedList;
+            // Smart Memory Cache: Identify and protect manual uploads or local reports that haven't synced yet
+            const fetchedIds = new Set(newlyFetchedList.map(r => r.dbId));
+            const protectedLocalDocs = reportsList.filter(r => r.isManualDoc || (!fetchedIds.has(r.dbId) && r.status === 'Generated'));
+            
+            // Seamlessly merge the protected local documents with the live cloud data
+            let combinedList = [...protectedLocalDocs, ...newlyFetchedList];
+            
+            // Sort everything accurately by timestamp or date
+            combinedList.sort((a,b) => {
+                const timeA = a.createdAt || (new Date(a.date).getTime()) || 0;
+                const timeB = b.createdAt || (new Date(b.date).getTime()) || 0;
+                return timeB - timeA;
+            });
+            
+            reportsList = combinedList;
             updateReportsTables();
             
+            // Auto-refresh the PDF viewer if a report is currently open
             if(currentView === 'view_report' && generatedReport) {
                 const refreshedReport = reportsList.find(r => r.dbId === generatedReport.dbId || r.docId === generatedReport.docId);
                 if(refreshedReport) {
@@ -1776,6 +1857,26 @@
         if(field === 'projectName') document.getElementById('hero-project-name').innerText = value || document.getElementById('settings-project-name').value || 'Active Project';
         if(field === 'location') document.getElementById('hero-location').innerText = value || 'Yanbu, Saudi Arabia';
     }
+
+    window.handleFormCoverUpload = async function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      showCustomAlert("Processing...", "Optimizing cover image...");
+      try {
+          const base64 = await resizeImageToBase64(file, 1920);
+          currentReportCoverBase64 = base64;
+          updateFormCoverUI();
+          closeCustomModal();
+      } catch(e) {
+          showCustomAlert("Error", "Could not process image.");
+      }
+      event.target.value = '';
+    }
+
+    window.removeFormCover = function() {
+        currentReportCoverBase64 = null;
+        updateFormCoverUI();
+    }
     
     window.updateStat = async function(field, value) {
       dashboardStats[field] = value;
@@ -1795,10 +1896,13 @@
        
        if (globalCoverPhotos.length === 0) {
            imgEl.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop";
+           imgEl.style.opacity = 1;
            return;
        }
        
        imgEl.src = globalCoverPhotos[0];
+       imgEl.style.opacity = 1;
+       
        if (globalCoverPhotos.length > 1) {
            let i = 0;
            slideInterval = setInterval(() => {
@@ -1808,8 +1912,39 @@
                    imgEl.src = globalCoverPhotos[i];
                    imgEl.style.opacity = 1;
                }, 300); // 300ms fade transition
-           }, 2000);
+           }, 3000); // Change image every 3 seconds
        }
+    }
+
+    window.handleSlideshowUpload = async function(event) {
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+      
+      showCustomAlert("Uploading...", "Processing and resizing slideshow images. Please wait.");
+      
+      let newPhotos = [];
+      for (let file of files) {
+          const base64 = await resizeImageToBase64(file, 1920);
+          newPhotos.push(base64);
+      }
+      
+      globalCoverPhotos = [...globalCoverPhotos, ...newPhotos].slice(0, 10); // Max 10 photos
+      startSlideshow();
+      
+      if (db && currentUser) {
+         setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: globalCoverPhotos });
+      }
+      closeCustomModal();
+      event.target.value = '';
+    }
+
+    window.clearSlideshow = function() {
+        globalCoverPhotos = [];
+        startSlideshow();
+        if (db && currentUser) {
+           setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: [] });
+        }
+        showCustomAlert("Slideshow Cleared", "The dashboard has been reset to the default cover image.");
     }
 
     function resizeImageToBase64(file, maxWidth) {
@@ -1831,48 +1966,6 @@
            };
            reader.readAsDataURL(file);
        });
-    }
-
-    window.handleSlideshowUpload = async function(event) {
-      const files = Array.from(event.target.files);
-      if (!files.length) return;
-      
-      showCustomAlert("Uploading...", "Processing and resizing slideshow images. Please wait.");
-      
-      let newPhotos = [];
-      for (let file of files) {
-          const base64 = await resizeImageToBase64(file, 1920);
-          newPhotos.push(base64);
-      }
-      
-      // Combine and restrict to max 10 photos to save database space
-      globalCoverPhotos = [...globalCoverPhotos, ...newPhotos].slice(0, 10);
-      startSlideshow();
-      
-      if (db && currentUser) {
-         setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: globalCoverPhotos });
-      }
-      closeCustomModal();
-    }
-
-    window.clearSlideshow = function() {
-        globalCoverPhotos = [];
-        startSlideshow();
-        if (db && currentUser) {
-           setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboardCovers'), { images: [] });
-        }
-    }
-
-    window.handlePdfCoverUpload = async function(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const base64 = await resizeImageToBase64(file, 1920);
-      globalPdfCoverPhoto = base64;
-      showCustomAlert("Success", "PDF Report Cover photo successfully updated!");
-      
-      if (db && currentUser) {
-         setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'pdfCover'), { image: globalPdfCoverPhoto });
-      }
     }
 
     window.handleLogoUpload = function(event) {
@@ -2009,6 +2102,178 @@
       lucide.createIcons();
     }
 
+    window.closePreviewModal = function() {
+        document.getElementById('preview-modal').classList.add('hidden');
+    }
+
+    window.previewReport = function() {
+        const reviewedSummary = document.getElementById('draft-exec-summary').value.trim();
+        const reviewedCompleted = document.getElementById('draft-completed-today').value.trim();
+        const reviewedSafety = document.getElementById('draft-safety-quality').value.trim();
+
+        const showExec = document.getElementById('cfg-include-summary').checked;
+        const showComp = document.getElementById('cfg-include-completed').checked;
+        const showSafety = document.getElementById('cfg-include-safety').checked;
+        const showResources = document.getElementById('cfg-include-resources').checked;
+        const showDelays = document.getElementById('cfg-include-delays').checked;
+        const showPlanned = document.getElementById('cfg-include-planned').checked;
+        const showPhotos = document.getElementById('cfg-include-photos').checked;
+        const showAudit = document.getElementById('cfg-include-audit').checked;
+        const headerLayout = document.getElementById('cfg-header-layout').value;
+
+        let markdownBody = ``;
+
+        if (showExec && reviewedSummary) markdownBody += `## Executive Summary\n${reviewedSummary}\n\n`;
+        if (showComp && reviewedCompleted) markdownBody += `## Activities Completed Today\n${reviewedCompleted}\n\n`;
+        if (showSafety && reviewedSafety) markdownBody += `## Safety & Quality Observations\n${reviewedSafety}\n\n`;
+        if (showResources) markdownBody += `## Site Resources\n* **Workforce allocation:** ${formData.workforce || 'Not provided'}\n\n`;
+        if (showDelays) markdownBody += `## Delays / Constraints\n${formData.delays || 'None'}\n\n`;
+        
+        if (showPlanned) {
+            markdownBody += `## Look Ahead Tracker\n\n`;
+            if (lookAheadImageBase64) {
+               markdownBody += `<img src="${lookAheadImageBase64}" style="width: 100%; height: auto; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; background: white;" alt="Look Ahead Tracker Custom Image" />\n\n`;
+            } else if (lookAheadData.length > 0 && lookAheadData[0].activity) {
+                markdownBody += `<table class="w-full text-left text-xs mb-8 border-collapse">\n`;
+                markdownBody += `<thead><tr class="bg-slate-100"><th class="border border-slate-300 p-2">No</th><th class="border border-slate-300 p-2">Zone</th><th class="border border-slate-300 p-2">Location</th><th class="border border-slate-300 p-2">Trade</th><th class="border border-slate-300 p-2">Activity</th><th class="border border-slate-300 p-2">Target Finish</th><th class="border border-slate-300 p-2">Remarks</th></tr></thead>\n`;
+                markdownBody += `<tbody>\n`;
+                lookAheadData.forEach((r, i) => {
+                   markdownBody += `<tr><td class="border border-slate-300 p-2">${i+1}</td><td class="border border-slate-300 p-2">${r.zone}</td><td class="border border-slate-300 p-2">${r.location}</td><td class="border border-slate-300 p-2">${r.trade}</td><td class="border border-slate-300 p-2">${r.activity}</td><td class="border border-slate-300 p-2">${r.target}</td><td class="border border-slate-300 p-2">${r.remarks}</td></tr>\n`;
+                });
+                markdownBody += `</tbody></table>\n\n`;
+            } else {
+                markdownBody += `*No planned activities recorded.*\n\n`;
+            }
+        }
+
+        const safeDate = formData.date || new Date().toISOString().split('T')[0];
+        const safeReferenceNo = formData.referenceNo || `DPR-${safeDate.replace(/-/g, '')}`;
+        const safeMarkdown = (markdownBody || '').replace(/\[PAGE-BREAK\]/gi, '<div class="page-break"></div>');
+
+        let rReviewSection = '';
+        if(showAudit) {
+          rReviewSection = `
+            <div class="mt-12 pt-8 border-t-2 border-slate-200 print-break-inside-avoid">
+               <div class="flex items-center justify-between border-b pb-2 mb-4">
+                 <h2 class="text-xl font-bold text-slate-900">Consultant Review & Action Logs</h2>
+                 <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-slate-100 text-slate-800 border border-slate-200">Status: Pending Preview</span>
+               </div>
+               <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                   <p class="font-bold text-slate-800 mb-1.5">Consultant Remarks:</p>
+                   <p class="text-slate-600 italic whitespace-pre-line">Preview Mode - No remarks yet.</p>
+                 </div>
+                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                   <p class="font-bold text-slate-800 mb-1.5">Corrective Action Taken:</p>
+                   <p class="text-slate-600 italic whitespace-pre-line">Preview Mode - No actions yet.</p>
+                 </div>
+               </div>
+            </div>
+          `;
+        }
+
+        let html = '';
+
+        if (headerLayout === 'minimal') {
+            html += `
+            <div class="w-full mb-6 border-b-2 border-slate-800 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end print-break-inside-avoid gap-4">
+              <div class="flex items-center gap-4">
+                 ${companyLogoBase64 ? `<img src="${companyLogoBase64}" class="h-10 sm:h-12 w-auto object-contain" />` : ''}
+                 <div>
+                   <h1 class="text-xl font-black uppercase m-0 p-0 leading-none text-slate-900">Daily Progress Report</h1>
+                   <p class="text-xs font-bold text-indigo-700 mt-1">${formData.projectName || document.getElementById('settings-project-name').value || 'Active Project'}</p>
+                 </div>
+              </div>
+              <div class="text-right text-[10px] text-slate-600 space-y-0.5 font-semibold w-full md:w-auto mt-2 md:mt-0">
+                  <p><strong class="text-slate-900">Date:</strong> ${safeDate} | <strong class="text-slate-900">Shift:</strong> ${formData.shift || 'Morning Shift'}</p>
+                  <p><strong class="text-slate-900">Report #:</strong> ${safeReferenceNo}</p>
+                  <p><strong class="text-slate-900">Client:</strong> ${formData.clientName || 'N/A'}</p>
+                  <p><strong class="text-slate-900">Consultant:</strong> ${formData.supervisionConsultant || 'TYA & Associates'}</p>
+                  <p><strong class="text-slate-900">Location:</strong> ${formData.location || 'Yanbu'}</p>
+              </div>
+            </div>`;
+        } else {
+            const isCompact = headerLayout === 'compact';
+            html += `
+            <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-slate-200 shadow-sm print-break-inside-avoid print-shadow-none">
+                ${currentReportCoverBase64 ? `<img src="${currentReportCoverBase64}" class="w-full ${isCompact ? 'h-16 print:h-12' : 'h-24 sm:h-32 print:h-24'} object-contain bg-slate-900" alt="Project Cover" />` : `<div class="w-full ${isCompact ? 'h-2 print:h-2' : 'h-4 print:h-4'} bg-slate-900"></div>`}
+                
+                <div class="${isCompact ? 'px-4 pb-2 pt-2' : 'px-6 pb-4 pt-4'} flex flex-col md:flex-row justify-between items-start md:items-center bg-white relative border-t-4 border-amber-500 gap-4">
+                    <div class="flex items-center gap-4">
+                       ${companyLogoBase64 ? `
+                         <div class="shrink-0">
+                            <img src="${companyLogoBase64}" alt="Company Logo" class="${isCompact ? 'h-8 max-w-[100px]' : 'h-12 max-w-[140px]'} w-auto object-contain" />
+                         </div>
+                       ` : ''}
+                       <div>
+                         <h1 class="${isCompact ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} font-black text-slate-900 uppercase tracking-tighter m-0 p-0 leading-none">Daily Progress Report</h1>
+                         <p class="text-[10px] text-indigo-700 font-bold tracking-wide mt-1 uppercase">${formData.projectName || document.getElementById('settings-project-name').value || 'Active Project'}</p>
+                       </div>
+                    </div>
+
+                    <div class="text-right text-[9px] text-slate-600 space-y-0.5 font-semibold ${isCompact ? 'bg-transparent shadow-none p-0 border-none' : 'bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-inner'} w-full md:w-auto mt-2 md:mt-0">
+                      <div class="flex flex-col md:flex-row md:gap-4 justify-between">
+                        <p><strong class="text-slate-900">Date:</strong> ${safeDate} <span class="mx-1 text-slate-300">|</span> <strong class="text-slate-900">Shift:</strong> <span class="text-indigo-600 font-bold">${formData.shift || 'Morning Shift'}</span></p>
+                        <p><strong class="text-slate-900">Report #:</strong> <span class="bg-slate-900 text-white px-1.5 py-0.5 rounded text-[9px] shadow-sm md:ml-1 uppercase tracking-widest">${safeReferenceNo}</span></p>
+                      </div>
+                      <div class="flex flex-col md:flex-row md:gap-4 justify-between mt-1 pt-1 ${isCompact ? '' : 'border-t border-slate-200'}">
+                        <p><strong class="text-slate-900">Client:</strong> ${formData.clientName || 'N/A'}</p>
+                        <p><strong class="text-slate-900">Consultant:</strong> ${formData.supervisionConsultant || 'TYA & Associates'}</p>
+                      </div>
+                      <p class="mt-1"><strong class="text-slate-900">Location:</strong> ${formData.location || 'Yanbu'}</p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        html += `
+          <div class="prose prose-slate max-w-none mt-6 text-sm">
+            ${marked.parse(safeMarkdown)}
+          </div>
+        `;
+
+        if (showPhotos && photos && photos.length > 0) {
+          html += `
+            <div class="mt-10 pt-6 border-t-2 border-slate-200 print-break-inside-avoid">
+              <h2 class="text-lg font-bold text-slate-900 mb-4">Site Photo Log</h2>
+              <div class="grid grid-cols-2 gap-6">
+                ${photos.map((photo, i) => {
+                   return `
+                  <div class="print-break-inside-avoid border border-slate-200 rounded-xl overflow-hidden shadow-sm relative group">
+                    ${photo.url ? `<img src="${photo.url}" class="w-full h-64 object-contain bg-slate-50" />` : `<div class="w-full h-64 bg-slate-100 flex items-center justify-center text-slate-400 text-xs">Image Placeholder</div>`}
+                    <div class="p-3 bg-slate-50 border-t border-slate-200 text-xs text-slate-600">
+                      <p class="font-bold text-slate-900">Photo ${i + 1} - ${photo.category}</p>
+                      <p class="mt-1">${photo.aiText}</p>
+                    </div>
+                  </div>
+                `}).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        html += rReviewSection;
+
+        html += `
+          <div class="mt-16 pt-8 border-t-2 border-slate-900 flex justify-between print-break-inside-avoid">
+            <div class="w-1/3 text-center">
+              <div class="border-b border-slate-300 h-12 mb-2"></div>
+              <p class="font-bold text-slate-900 text-sm">Prepared By</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">${globalProfile.name || 'TYA & Associates'}</p>
+            </div>
+            <div class="w-1/3 text-center">
+              <div class="border-b border-slate-300 h-12 mb-2"></div>
+              <p class="font-bold text-slate-900 text-sm">Reviewed By</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">Project Manager</p>
+            </div>
+          </div>
+        `;
+
+        document.getElementById('preview-paper').innerHTML = html;
+        document.getElementById('preview-modal').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
     // --- STREAMING_CHUNK:Final PDF Report Generation... ---
     // --- Executing Final Report Generation Logic ---
     window.generateFinalReport = async function() {
@@ -2030,6 +2295,7 @@
         const showPlanned = document.getElementById('cfg-include-planned').checked;
         const showPhotos = document.getElementById('cfg-include-photos').checked;
         const showAudit = document.getElementById('cfg-include-audit').checked;
+        const headerLayout = document.getElementById('cfg-header-layout').value;
         showAuditLogsOnReport = showAudit; // Sync global preference for print
 
         // Build Markdown Body without numbers
@@ -2059,6 +2325,13 @@
             }
         }
 
+        // Save cover as default if lock box is checked
+        const lockCover = document.getElementById('lock-cover-toggle').checked;
+        if (lockCover && currentReportCoverBase64 && db) {
+            globalPdfCoverPhoto = currentReportCoverBase64;
+            setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'pdfCover'), { image: currentReportCoverBase64 });
+        }
+
         const currentLocalTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         const newReport = {
@@ -2069,12 +2342,13 @@
           shift: formData.shift,
           projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
           clientName: formData.clientName || 'Not specified',
-          supervisionConsultant: formData.supervisionConsultant || 'TYA & Associates', // Fixed Default here!
-          location: formData.location || 'Yanbu, Saudi Arabia', // Fixed Default here!
-          referenceNo: formData.referenceNo || `DPR-${formData.date.replace(/-/g, '')}`, // Fallback to auto-generated if empty
+          supervisionConsultant: formData.supervisionConsultant || 'TYA & Associates', 
+          location: formData.location || 'Yanbu, Saudi Arabia', 
+          referenceNo: formData.referenceNo || `DPR-${formData.date.replace(/-/g, '')}`, 
+          headerLayout: headerLayout,
           photos: showPhotos ? [...photos] : [], 
           logo: companyLogoBase64,
-          coverPhoto: globalPdfCoverPhoto || (globalCoverPhotos.length > 0 ? globalCoverPhotos[0] : null), 
+          coverPhoto: currentReportCoverBase64, 
           preparedBy: "TYA & Associates",
           status: 'Generated',
           reviewStatus: 'Open', 
@@ -2214,6 +2488,9 @@
             if (window.removeLookAheadImage) window.removeLookAheadImage();
         }
         
+        currentReportCoverBase64 = globalPdfCoverPhoto || null;
+        updateFormCoverUI();
+
         photos = [];
         renderPhotos();
         
@@ -2267,48 +2544,72 @@
         }
 
         const activeLogo = generatedReport.logo || companyLogoBase64;
-        const activeCover = generatedReport.coverPhoto || globalCoverPhotoBase64;
+        const activeCover = generatedReport.coverPhoto; // STRICTLY bind to saved report, no fallbacks!
         const isRTL = generatedReport.isArabic || false;
 
         // Safe Fallbacks to prevent silent crashes on older reports
         const safeDate = generatedReport.date || new Date().toISOString().split('T')[0];
         const safeReferenceNo = generatedReport.referenceNo || `DPR-${safeDate.replace(/-/g, '')}`;
         const safeMarkdown = (generatedReport.markdown || '').replace(/\[PAGE-BREAK\]/gi, '<div class="page-break"></div>');
+        const headerLayout = generatedReport.headerLayout || 'standard';
 
-        let html = `
-          <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-slate-200 shadow-sm print-break-inside-avoid print-shadow-none" ${isRTL ? 'dir="rtl"' : ''}>
-              ${activeCover ? `<img src="${activeCover}" class="w-full h-24 sm:h-32 object-contain bg-slate-900 print:h-24" alt="Project Cover" />` : '<div class="w-full h-4 bg-slate-900 print:h-4"></div>'}
-              
-              <div class="px-6 pb-4 pt-4 flex flex-col md:flex-row justify-between items-start md:items-center bg-white relative border-t-4 border-amber-500 gap-4">
-                  
-                  <div class="flex items-center gap-4">
-                     ${activeLogo ? `
-                       <div class="shrink-0">
-                          <img src="${activeLogo}" alt="Company Logo" class="h-12 w-auto max-w-[140px] object-contain" />
-                       </div>
-                     ` : ''}
-                     <div>
-                       <h1 class="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter m-0 p-0 leading-none">Daily Progress Report</h1>
-                       <p class="text-xs text-indigo-700 font-bold tracking-wide mt-1 uppercase">${generatedReport.projectName || 'Active Project'}</p>
-                     </div>
-                  </div>
+        let html = '';
 
-                  <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-600 space-y-0.5 font-semibold bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-inner w-full md:w-auto mt-2 md:mt-0">
-                    <div class="flex flex-col md:flex-row md:gap-4 justify-between">
-                      <p><strong class="text-slate-900">Date:</strong> ${safeDate} <span class="mx-1 text-slate-300">|</span> <strong class="text-slate-900">Shift:</strong> <span class="text-indigo-600 font-bold">${generatedReport.shift || 'Morning Shift'}</span></p>
-                      <p><strong class="text-slate-900">Report #:</strong> <span class="bg-slate-900 text-white px-1.5 py-0.5 rounded text-[9px] shadow-sm md:ml-1 uppercase tracking-widest">${safeReferenceNo}</span></p>
-                    </div>
-                    <div class="flex flex-col md:flex-row md:gap-4 justify-between mt-1 pt-1 border-t border-slate-200">
-                      <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName || 'N/A'}</p>
-                      <p><strong class="text-slate-900">Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
-                    </div>
-                    <p class="mt-1"><strong class="text-slate-900">Location:</strong> ${generatedReport.location || 'Yanbu, Saudi Arabia'}</p>
-                  </div>
+        if (headerLayout === 'minimal') {
+            html += `
+            <div class="w-full mb-6 border-b-2 border-slate-800 pb-4 flex flex-col md:flex-row justify-between items-start md:items-end print-break-inside-avoid gap-4" ${isRTL ? 'dir="rtl"' : ''}>
+              <div class="flex items-center gap-4">
+                 ${activeLogo ? `<img src="${activeLogo}" class="h-10 sm:h-12 w-auto object-contain" />` : ''}
+                 <div>
+                   <h1 class="text-xl font-black uppercase m-0 p-0 leading-none text-slate-900">Daily Progress Report</h1>
+                   <p class="text-xs font-bold text-indigo-700 mt-1">${generatedReport.projectName || 'Active Project'}</p>
+                 </div>
               </div>
-          </div>
+              <div class="text-${isRTL ? 'left' : 'right'} text-[10px] text-slate-600 space-y-0.5 font-semibold w-full md:w-auto mt-2 md:mt-0">
+                  <p><strong class="text-slate-900">Date:</strong> ${safeDate} | <strong class="text-slate-900">Shift:</strong> ${generatedReport.shift || 'Morning Shift'}</p>
+                  <p><strong class="text-slate-900">Report #:</strong> ${safeReferenceNo}</p>
+                  <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName || 'N/A'}</p>
+                  <p><strong class="text-slate-900">Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
+                  <p><strong class="text-slate-900">Location:</strong> ${generatedReport.location || 'Yanbu'}</p>
+              </div>
+            </div>`;
+        } else {
+            const isCompact = headerLayout === 'compact';
+            html += `
+            <div class="relative w-full rounded-2xl overflow-hidden mb-6 border border-slate-200 shadow-sm print-break-inside-avoid print-shadow-none" ${isRTL ? 'dir="rtl"' : ''}>
+                ${activeCover ? `<img src="${activeCover}" class="w-full ${isCompact ? 'h-16 print:h-12' : 'h-24 sm:h-32 print:h-24'} object-contain bg-slate-900" alt="Project Cover" />` : `<div class="w-full ${isCompact ? 'h-2 print:h-2' : 'h-4 print:h-4'} bg-slate-900"></div>`}
+                
+                <div class="${isCompact ? 'px-4 pb-2 pt-2' : 'px-6 pb-4 pt-4'} flex flex-col md:flex-row justify-between items-start md:items-center bg-white relative border-t-4 border-amber-500 gap-4">
+                    
+                    <div class="flex items-center gap-4">
+                       ${activeLogo ? `
+                         <div class="shrink-0">
+                            <img src="${activeLogo}" alt="Company Logo" class="${isCompact ? 'h-8 max-w-[100px]' : 'h-12 max-w-[140px]'} w-auto object-contain" />
+                         </div>
+                       ` : ''}
+                       <div>
+                         <h1 class="${isCompact ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'} font-black text-slate-900 uppercase tracking-tighter m-0 p-0 leading-none">Daily Progress Report</h1>
+                         <p class="text-[10px] text-indigo-700 font-bold tracking-wide mt-1 uppercase">${generatedReport.projectName || 'Active Project'}</p>
+                       </div>
+                    </div>
 
+                    <div class="text-${isRTL ? 'left' : 'right'} text-[9px] text-slate-600 space-y-0.5 font-semibold ${isCompact ? 'bg-transparent shadow-none p-0 border-none' : 'bg-slate-50 p-3 rounded-xl border border-slate-100 shadow-inner'} w-full md:w-auto mt-2 md:mt-0">
+                      <div class="flex flex-col md:flex-row md:gap-4 justify-between">
+                        <p><strong class="text-slate-900">Date:</strong> ${safeDate} <span class="mx-1 text-slate-300">|</span> <strong class="text-slate-900">Shift:</strong> <span class="text-indigo-600 font-bold">${generatedReport.shift || 'Morning Shift'}</span></p>
+                        <p><strong class="text-slate-900">Report #:</strong> <span class="bg-slate-900 text-white px-1.5 py-0.5 rounded text-[9px] shadow-sm md:ml-1 uppercase tracking-widest">${safeReferenceNo}</span></p>
+                      </div>
+                      <div class="flex flex-col md:flex-row md:gap-4 justify-between mt-1 pt-1 ${isCompact ? '' : 'border-t border-slate-200'}">
+                        <p><strong class="text-slate-900">Client:</strong> ${generatedReport.clientName || 'N/A'}</p>
+                        <p><strong class="text-slate-900">Consultant:</strong> ${generatedReport.supervisionConsultant || 'TYA & Associates'}</p>
+                      </div>
+                      <p class="mt-1"><strong class="text-slate-900">Location:</strong> ${generatedReport.location || 'Yanbu'}</p>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        html += `
           ${viewersHtml}
-
           <div class="prose prose-slate max-w-none mt-6 text-sm" ${isRTL ? 'dir="rtl" style="text-align: right;"' : ''}>
             ${marked.parse(safeMarkdown)}
           </div>
