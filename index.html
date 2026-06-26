@@ -680,8 +680,12 @@
             <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div class="flex flex-wrap gap-3 w-full md:w-auto">
                     <label class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
-                      <i data-lucide="camera" class="w-5 h-5"></i> Open Camera
+                      <i data-lucide="camera" class="w-5 h-5"></i> Default Camera
                       <input type="file" accept="image/*" capture="environment" multiple onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                    </label>
+                    <label class="cursor-pointer bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
+                      <i data-lucide="camera" class="w-5 h-5"></i> Timestamp Camera App
+                      <input type="file" accept="image/*" multiple onchange="handleQuickCaptureUpload(event)" class="hidden" />
                     </label>
                     <label class="cursor-pointer bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
                       <i data-lucide="image" class="w-5 h-5"></i> Gallery
@@ -699,14 +703,20 @@
             </div>
             <div class="border-t border-slate-100 pt-4 flex justify-end">
                 <button onclick="syncQuickCaptureToReport()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-3.5 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-md w-full md:w-auto">
-                  <i data-lucide="send" class="w-5 h-5"></i> Send to Report Log
+                  <i data-lucide="send" class="w-5 h-5"></i> Send Selected to Report Log
                 </button>
             </div>
          </div>
          <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-            <h2 class="text-base font-bold text-slate-900 mb-4 border-b border-slate-100 pb-3 flex items-center gap-2">
-               <i data-lucide="images" class="text-indigo-500 w-5 h-5"></i> Captured Photos (<span id="qc-count">0</span>)
-            </h2>
+            <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-3">
+               <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <i data-lucide="images" class="text-indigo-500 w-5 h-5"></i> Captured Photos (<span id="qc-count">0</span>)
+               </h2>
+               <label class="flex items-center gap-2 text-xs font-bold text-slate-600 cursor-pointer hover:text-indigo-600 transition">
+                  <input type="checkbox" id="qc-select-all" checked onchange="toggleAllQuickCapture(this.checked)" class="w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer" />
+                  Select All
+               </label>
+            </div>
             <div id="qc-photo-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                <div class="col-span-full p-12 text-center text-slate-400 italic bg-slate-50 rounded-xl border border-dashed border-slate-200">
                   <i data-lucide="camera" class="w-8 h-8 mx-auto mb-3 opacity-50"></i>
@@ -3062,7 +3072,8 @@
                
                quickCapturePhotos.push({
                  id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
-                 mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress'
+                 mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress',
+                 isSelected: true // default to selected
                });
                renderQuickCapturePhotos();
                
@@ -3110,6 +3121,22 @@
         if(p) p.aiText = val;
     }
 
+    window.toggleQuickCaptureSelection = function(id, checked) {
+        const p = quickCapturePhotos.find(x => x.id === id);
+        if(p) p.isSelected = checked;
+        
+        // Update "Select All" checkbox state
+        const allChecked = quickCapturePhotos.every(x => x.isSelected !== false);
+        const selectAllCb = document.getElementById('qc-select-all');
+        if(selectAllCb) selectAllCb.checked = allChecked;
+    }
+
+    window.toggleAllQuickCapture = function(checked) {
+        quickCapturePhotos.forEach(p => p.isSelected = checked);
+        // Sync checkboxes in DOM without re-rendering text areas so users don't lose focus
+        document.querySelectorAll('.qc-item-checkbox').forEach(cb => cb.checked = checked);
+    }
+
     function renderQuickCapturePhotos() {
         const countEl = document.getElementById('qc-count');
         if(countEl) countEl.innerText = quickCapturePhotos.length;
@@ -3127,20 +3154,23 @@
            return;
         }
         
-        container.innerHTML = quickCapturePhotos.map(p => `
-           <div class="relative group border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-slate-50 flex flex-col">
-              <a href="${p.url}" download="Site_Capture_${p.id}.jpg" title="Backup to Phone" class="absolute top-2 left-2 bg-white/95 hover:bg-white text-blue-600 p-2 rounded-lg opacity-90 transition z-10 shadow-md">
+        container.innerHTML = quickCapturePhotos.map(p => {
+           const isSel = p.isSelected !== false; // Default true if undefined
+           return `
+           <div class="relative group border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-slate-50 flex flex-col ${isSel ? 'ring-2 ring-indigo-500' : ''}">
+              <input type="checkbox" class="qc-item-checkbox absolute top-2.5 left-2.5 z-20 w-5 h-5 cursor-pointer accent-indigo-600 rounded shadow-md border-white border-2" ${isSel ? 'checked' : ''} onchange="toggleQuickCaptureSelection('${p.id}', this.checked)" />
+              <a href="${p.url}" download="Site_Capture_${p.id}.jpg" title="Backup to Phone" class="absolute top-2 left-10 bg-white/95 hover:bg-white text-blue-600 p-1.5 rounded-lg opacity-90 transition z-10 shadow-md">
                  <i data-lucide="download" class="w-4 h-4"></i>
               </a>
-              <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/95 hover:bg-white text-red-500 p-2 rounded-lg opacity-90 transition z-10 shadow-md">
+              <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/95 hover:bg-white text-red-500 p-1.5 rounded-lg opacity-90 transition z-10 shadow-md">
                  <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
-              <img src="${p.url}" class="w-full h-40 object-cover" />
+              <img src="${p.url}" class="w-full h-40 object-cover ${isSel ? '' : 'opacity-60 grayscale-[50%]'}" />
               <div class="p-2 border-t border-slate-200 flex-1 flex flex-col">
                   <textarea onchange="updateQuickCaptureCaption('${p.id}', this.value)" placeholder="Write caption here..." class="w-full flex-1 p-2 text-[11px] font-medium border border-slate-200 rounded-lg outline-none focus:border-indigo-500 resize-none min-h-[60px] bg-white text-slate-700 leading-relaxed">${p.aiText || ''}</textarea>
               </div>
            </div>
-        `).join('');
+        `}).join('');
         lucide.createIcons();
     }
 
@@ -3149,37 +3179,48 @@
            return showCustomAlert("No Photos", "Please capture or select photos first before sending them to the report log.");
         }
         
+        const selectedPhotos = quickCapturePhotos.filter(p => p.isSelected !== false);
+        if(selectedPhotos.length === 0) {
+           return showCustomAlert("No Selection", "Please check the tick boxes of the photos you want to send.");
+        }
+        
         const availableSpace = 40 - photos.length;
         if (availableSpace <= 0) {
            return showCustomAlert("Limit Reached", "Your report already has 40 photos. Cannot sync more.");
         }
 
-        const photosToSync = quickCapturePhotos.slice(0, availableSpace);
-        const ignoredCount = quickCapturePhotos.length - photosToSync.length;
+        const photosToSync = selectedPhotos.slice(0, availableSpace);
+        const ignoredCount = selectedPhotos.length - photosToSync.length;
 
         // Append to main photos array
         photos = [...photos, ...photosToSync]; 
         
         const sentCount = photosToSync.length;
-        quickCapturePhotos = []; // clear staging area
+        
+        // Remove ONLY the synced photos from staging
+        const syncedIds = new Set(photosToSync.map(p => p.id));
+        quickCapturePhotos = quickCapturePhotos.filter(p => !syncedIds.has(p.id));
+        
         renderQuickCapturePhotos();
         renderPhotos(); // update main report UI
         
-        // Clear background memory so draft is empty
+        // Clear background memory and resave only what's left
         initQCDB().then(idb => {
             const tx = idb.transaction(QC_STORE_NAME, "readwrite");
-            tx.objectStore(QC_STORE_NAME).clear();
+            const store = tx.objectStore(QC_STORE_NAME);
+            store.clear();
+            quickCapturePhotos.forEach(p => store.add(p));
         }).catch(e => console.warn(e));
 
         if (db && currentUser) {
-            const qcRef = collection(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture');
-            getDocs(qcRef).then(snap => {
-                snap.docs.forEach(d => deleteDoc(d.ref));
-            }).catch(e => console.warn(e));
+            // Delete the specific synced ones from cloud
+            photosToSync.forEach(p => {
+                deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'quickCapture', p.id)).catch(e=>console.warn(e));
+            });
         }
 
         let msg = `${sentCount} photos successfully added to the Site Photo Log. You can now use the 'Sync from Tracker' button or add descriptions manually.`;
-        if (ignoredCount > 0) msg += ` (${ignoredCount} photos were ignored to stay within the 40 photo limit.)`;
+        if (ignoredCount > 0) msg += ` (${ignoredCount} selected photos were ignored to stay within the 40 photo limit.)`;
 
         showCustomAlert("Photos Synced!", msg);
         switchView('create_report'); 
