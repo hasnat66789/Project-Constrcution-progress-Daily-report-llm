@@ -678,16 +678,16 @@
                 <div class="flex flex-col gap-1.5 w-full md:w-auto">
                     <div class="flex flex-wrap gap-3">
                         <label class="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
-                          <i data-lucide="camera" class="w-5 h-5"></i> Default Camera
-                          <input type="file" accept="image/*" capture="environment" onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                          <i data-lucide="camera" class="w-5 h-5"></i> Built-in Stamp Cam
+                          <input type="file" accept="image/*" capture="environment" onchange="handleQuickCaptureUpload(event, true)" class="hidden" />
                         </label>
                         <label class="cursor-pointer bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
-                          <i data-lucide="camera" class="w-5 h-5"></i> Timestamp Camera
-                          <input type="file" accept="image/*" onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                          <i data-lucide="camera" class="w-5 h-5"></i> 3rd Party Stamp Cam
+                          <input type="file" accept="image/*" onchange="handleQuickCaptureUpload(event, false)" class="hidden" />
                         </label>
                         <label class="cursor-pointer bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-6 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-sm flex-1 md:flex-none">
                           <i data-lucide="image" class="w-5 h-5"></i> Gallery
-                          <input type="file" accept="image/*" multiple onchange="handleQuickCaptureUpload(event)" class="hidden" />
+                          <input type="file" accept="image/*" multiple onchange="handleQuickCaptureUpload(event, false)" class="hidden" />
                         </label>
                     </div>
                     <p class="text-[10px] text-slate-500 font-medium px-1 italic">Note: To use a 3rd party Timestamp app, select it from the app chooser menu that appears. If it still opens the default camera automatically, you must clear your default camera app in your phone's OS Settings -> Apps -> Default Apps.</p>
@@ -1684,8 +1684,23 @@
     window.autoSaveLookAheadLocal = function() {
         localStorage.setItem('lookAheadData', JSON.stringify(lookAheadData));
         const keepToggle = document.getElementById('lock-lookahead-toggle');
+        const isKept = keepToggle ? keepToggle.checked : false;
         if (keepToggle) {
-            localStorage.setItem('keepLookAheadToggle', keepToggle.checked);
+            localStorage.setItem('keepLookAheadToggle', isKept);
+        }
+        
+        // NEW: Sync to cloud so your draft is available on both Mobile and PC!
+        if (db && currentUser) {
+            // Debounce to prevent database spam while typing fast
+            if(window.trackerCloudSaveTimeout) clearTimeout(window.trackerCloudSaveTimeout);
+            window.trackerCloudSaveTimeout = setTimeout(() => {
+                try {
+                    setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'trackerDraft'), {
+                        data: lookAheadData,
+                        keepToggle: isKept
+                    });
+                } catch(e) { console.warn("Failed to sync tracker to cloud", e); }
+            }, 800); 
         }
     };
 
@@ -2112,11 +2127,14 @@
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
             
-            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+            const processedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+            const compressedBase64 = processedDataUrl.split(',')[1];
             const photoId = Math.random().toString(36).substr(2, 9);
             
             photos.push({
-              id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
+              id: photoId, 
+              url: processedDataUrl, 
+              base64: compressedBase64,
               mimeType: 'image/jpeg', aiText: autoCaption, isAnalyzing: false, category: 'General Progress'
             });
             renderPhotos();
@@ -3213,7 +3231,7 @@
 
 
     // --- FIELD CAPTURE LOGIC ---
-    window.handleQuickCaptureUpload = function(event) {
+    window.handleQuickCaptureUpload = function(event, addStamp = false) {
        const files = Array.from(event.target.files);
        if (!files.length) return;
 
@@ -3237,11 +3255,48 @@
                const ctx = canvas.getContext('2d');
                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                
-               const compressedBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+               // --- NEW: Add Timestamp & Location Overlay ---
+               if (addStamp) {
+                   const now = new Date();
+                   const dateString = now.toLocaleDateString() + ' ' + now.toLocaleTimeString();
+                   const locString = (formData.projectName || "Yanbu Beach Club Project") + " - " + (formData.location || "Yanbu, Saudi Arabia");
+
+                   const fontSize = Math.max(18, canvas.width * 0.025); // Responsive font size
+                   ctx.font = `bold ${fontSize}px sans-serif`;
+                   ctx.textAlign = 'left';
+                   ctx.textBaseline = 'top';
+
+                   // Measure text to draw background box
+                   const padding = fontSize * 0.6;
+                   const dateWidth = ctx.measureText(dateString).width;
+                   const locWidth = ctx.measureText(locString).width;
+                   const boxWidth = Math.max(dateWidth, locWidth) + padding * 2;
+                   const boxHeight = fontSize * 2.5 + padding * 2;
+
+                   const xBox = 0;
+                   const yBox = 0;
+
+                   // Draw semi-transparent black background
+                   ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+                   ctx.fillRect(xBox, yBox, boxWidth, boxHeight);
+
+                   // Draw Location Text
+                   ctx.fillStyle = '#ffffff';
+                   ctx.fillText(locString, padding, padding);
+                   
+                   // Draw Date/Time Text
+                   ctx.fillStyle = '#fbbf24'; // Amber-400 color
+                   ctx.fillText(dateString, padding, padding + fontSize * 1.2);
+               }
+               
+               const processedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+               const compressedBase64 = processedDataUrl.split(',')[1];
                const photoId = Math.random().toString(36).substr(2, 9);
                
                quickCapturePhotos.push({
-                 id: photoId, url: URL.createObjectURL(file), base64: compressedBase64,
+                 id: photoId, 
+                 url: processedDataUrl, 
+                 base64: compressedBase64,
                  mimeType: 'image/jpeg', aiText: '', isAnalyzing: false, category: 'General Progress',
                  isSelected: true // default to selected
                });
@@ -3252,7 +3307,7 @@
                if (globalAutoBackup) {
                    setTimeout(() => {
                        const a = document.createElement('a');
-                       a.href = `data:image/jpeg;base64,${compressedBase64}`;
+                       a.href = processedDataUrl;
                        a.download = `Site_Capture_${photoId}.jpg`;
                        document.body.appendChild(a);
                        a.click();
@@ -3320,6 +3375,26 @@
         autoSaveQuickCaptureLocal();
     }
 
+    window.downloadQuickCapturePhoto = function(id) {
+        const p = quickCapturePhotos.find(x => x.id === id);
+        if(!p || !p.url) return;
+        
+        let baseName = "Site_Capture";
+        if (p.aiText && p.aiText.trim() !== '') {
+             // Create a clean filename from the caption (max 40 chars)
+             baseName = p.aiText.substring(0, 40).replace(/[^a-z0-9]/gi, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+        } else {
+             baseName = `Site_Capture_${p.id}`;
+        }
+        
+        const a = document.createElement('a');
+        a.href = p.url;
+        a.download = `${baseName}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
+
     function renderQuickCapturePhotos() {
         const countEl = document.getElementById('qc-count');
         if(countEl) countEl.innerText = quickCapturePhotos.length;
@@ -3342,9 +3417,9 @@
            return `
            <div class="relative group border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-slate-50 flex flex-col ${isSel ? 'ring-2 ring-indigo-500' : ''}">
               <input type="checkbox" class="qc-item-checkbox absolute top-2.5 left-2.5 z-20 w-5 h-5 cursor-pointer accent-indigo-600 rounded shadow-md border-white border-2" ${isSel ? 'checked' : ''} onchange="toggleQuickCaptureSelection('${p.id}', this.checked)" />
-              <a href="${p.url}" download="Site_Capture_${p.id}.jpg" title="Backup to Phone" class="absolute top-2 left-10 bg-white/95 hover:bg-white text-blue-600 p-1.5 rounded-lg opacity-90 transition z-10 shadow-md">
+              <button onclick="downloadQuickCapturePhoto('${p.id}')" title="Backup to Phone" class="absolute top-2 left-10 bg-white/95 hover:bg-white text-blue-600 p-1.5 rounded-lg opacity-90 transition z-10 shadow-md">
                  <i data-lucide="download" class="w-4 h-4"></i>
-              </a>
+              </button>
               <button onclick="removeQuickCapturePhoto('${p.id}')" class="absolute top-2 right-2 bg-white/95 hover:bg-white text-red-500 p-1.5 rounded-lg opacity-90 transition z-10 shadow-md">
                  <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
