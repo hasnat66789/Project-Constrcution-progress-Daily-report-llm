@@ -315,20 +315,20 @@
             <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-total-reports">0</p>
           </div>
         </div>
-        <!-- Card 2: Avg Workforce -->
+        <!-- Card 2: Avg Manpower -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
           <div class="p-3.5 rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Workforce</p>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Manpower</p>
             <input type="text" id="stat-avg-workforce" value="350" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('avgWorkforce', this.value)" title="Click to edit"/>
           </div>
         </div>
-        <!-- Card 3: Days Active -->
+        <!-- Card 3: Total Days -->
         <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4">
-          <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="clock" class="w-5 h-5"></i></div>
+          <div class="p-3.5 rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="calendar" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
-            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Days Active</p>
-            <input type="text" id="stat-days-active" value="245" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('daysActive', this.value)" title="Click to edit"/>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Project Days</p>
+            <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-total-days">--</p>
           </div>
         </div>
         <!-- Card 4: Remaining Days -->
@@ -336,8 +336,42 @@
           <div class="p-3.5 rounded-xl bg-rose-50 text-rose-600"><i data-lucide="hourglass" class="w-5 h-5"></i></div>
           <div class="flex-1 min-w-0">
             <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Remaining Days</p>
-            <input type="text" id="stat-remaining-days" value="120" class="text-2xl font-bold text-slate-900 bg-transparent w-full border-b border-dashed border-slate-100 hover:border-slate-300 focus:border-indigo-500 mt-0.5 outline-none transition-colors" onchange="updateStat('remainingDays', this.value)" title="Click to edit"/>
+            <p class="text-2xl font-bold text-slate-900 mt-1 truncate" id="stat-remaining-days">--</p>
           </div>
+        </div>
+      </div>
+
+      <!-- NEW: Live Project Timeline Tracker -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-8 relative overflow-hidden">
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <i data-lucide="timer" class="w-5 h-5 text-indigo-500"></i> Live Project Timeline
+            </h2>
+            <div id="timeline-badge" class="px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-full border transition-colors duration-500 bg-slate-100 text-slate-600">
+                <span id="badge-icon-ok" class="hidden"><i data-lucide="check-circle" class="w-3 h-3 inline mr-1"></i></span>
+                <span id="badge-icon-warn" class="hidden"><i data-lucide="alert-triangle" class="w-3 h-3 inline mr-1"></i></span>
+                <span id="badge-text">Calculating...</span>
+            </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <div class="flex-1 w-full">
+                <div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+                    <span id="timeline-start-text">Start: --</span>
+                    <span id="timeline-end-text">Target: --</span>
+                </div>
+                <div class="h-4 w-full bg-slate-100 rounded-full overflow-hidden flex shadow-inner">
+                    <div id="timeline-progress-done" class="h-full bg-indigo-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                    <div id="timeline-progress-rem" class="h-full transition-all duration-1000 ease-out" style="width: 100%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] uppercase tracking-widest font-extrabold mt-2">
+                    <span id="timeline-pct-done" class="text-indigo-600">0% Completed</span>
+                    <span id="timeline-pct-rem" class="text-slate-400">100% Remaining</span>
+                </div>
+            </div>
+            <div class="md:w-72 shrink-0 text-center md:text-right bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <p class="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mb-1.5" id="timeline-status-label">Time Remaining</p>
+                <div id="timeline-countdown" class="text-2xl sm:text-3xl font-black tabular-nums tracking-tight transition-colors duration-500 text-slate-300">--:--:--:--</div>
+            </div>
         </div>
       </div>
 
@@ -529,8 +563,11 @@
               <i data-lucide="camera" class="text-purple-500 w-5 h-5"></i> Site Photo Log
             </h2>
             <div class="flex flex-wrap gap-2">
-              <button onclick="syncPhotosWithTracker()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm border border-amber-200">
-                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Sync from Tracker
+              <button onclick="syncTrackerWithPhotos()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm border border-blue-200" title="Copy photo captions UP into the Look Ahead Tracker table">
+                <i data-lucide="arrow-up-circle" class="w-4 h-4"></i> Sync to Tracker
+              </button>
+              <button onclick="syncPhotosWithTracker()" class="bg-amber-50 hover:bg-amber-100 text-amber-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm border border-amber-200" title="Copy tracker activities DOWN into the photo captions">
+                <i data-lucide="arrow-down-circle" class="w-4 h-4"></i> Sync from Tracker
               </button>
               <label class="cursor-pointer bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm shadow-indigo-100/50">
                 <i data-lucide="image" class="w-4 h-4"></i> Upload Site Photos
@@ -734,15 +771,20 @@
         <p class="text-slate-500 text-sm">Upload site plans, specifications, drawings, and legacy PDF reports. Manually uploaded reports will appear on your Dashboard.</p>
       </header>
       <div class="max-w-5xl space-y-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center relative hover:bg-slate-50/50 transition duration-200 border-dashed border-2">
-          <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-          <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
-            <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
-              <i data-lucide="upload" class="text-indigo-600 w-8 h-8"></i>
-            </div>
-            <div>
-              <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
-              <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Custom Document Name (Optional)</label>
+          <input type="text" id="custom-doc-name" placeholder="Leave blank to use original filename..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 mb-6" />
+          
+          <div class="bg-slate-50 rounded-2xl border-slate-300 p-10 text-center relative hover:bg-slate-100 transition duration-200 border-dashed border-2">
+            <input type="file" multiple onchange="handleDocumentUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+            <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
+              <div class="p-4 bg-indigo-50 text-indigo-600 rounded-2xl shadow-sm shadow-indigo-100/30">
+                <i data-lucide="upload" class="text-indigo-600 w-8 h-8"></i>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-700">Click or drag files here to upload</p>
+                <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX, DWG up to 50MB</p>
+              </div>
             </div>
           </div>
         </div>
@@ -762,15 +804,20 @@
         <p class="text-slate-500 text-sm">Manually upload daily, weekly, or incident safety reports. Uploaded files will appear on your Dashboard.</p>
       </header>
       <div class="max-w-5xl space-y-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-10 text-center relative hover:bg-slate-50/50 transition duration-200 border-dashed border-2">
-          <input type="file" multiple onchange="handleSafetyUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-          <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
-            <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl shadow-sm shadow-emerald-100/30">
-              <i data-lucide="shield-plus" class="text-emerald-600 w-8 h-8"></i>
-            </div>
-            <div>
-              <p class="text-sm font-bold text-slate-700">Click or drag safety documents here to upload</p>
-              <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX up to 50MB</p>
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Custom Safety Report Name (Optional)</label>
+          <input type="text" id="custom-safety-name" placeholder="e.g. Weekly Safety Audit - Week 4..." class="premium-input w-full p-3 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 mb-6" />
+          
+          <div class="bg-slate-50 rounded-2xl border-slate-300 p-10 text-center relative hover:bg-slate-100 transition duration-200 border-dashed border-2">
+            <input type="file" multiple onchange="handleSafetyUpload(event)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+            <div class="flex flex-col items-center justify-center space-y-4 pointer-events-none">
+              <div class="p-4 bg-emerald-50 text-emerald-600 rounded-2xl shadow-sm shadow-emerald-100/30">
+                <i data-lucide="shield-plus" class="text-emerald-600 w-8 h-8"></i>
+              </div>
+              <div>
+                <p class="text-sm font-bold text-slate-700">Click or drag safety documents here to upload</p>
+                <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, XLSX up to 50MB</p>
+              </div>
             </div>
           </div>
         </div>
@@ -923,6 +970,23 @@
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Default Project Name (Dashboard Cover)</label>
                    <input type="text" id="settings-project-name" value="Active Project" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
                  </div>
+                 
+                 <!-- NEW: Project Date & Progress Configurations -->
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                     <div>
+                       <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Project Start Date</label>
+                       <input type="date" id="settings-project-start" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" />
+                     </div>
+                     <div>
+                       <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Project Target End Date</label>
+                       <input type="date" id="settings-project-end" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 cursor-pointer" />
+                     </div>
+                     <div>
+                       <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Actual Progress (%)</label>
+                       <input type="number" id="settings-project-progress" min="0" max="100" placeholder="e.g. 45.5" class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50" />
+                     </div>
+                 </div>
+
                  <div>
                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Global Announcement Ticker (Multiple rows allowed)</label>
                    <textarea id="settings-announcement" placeholder="Enter announcements (one per line). Leave blank to hide banner..." class="premium-input w-full p-2.5 border border-slate-200 rounded-xl text-sm outline-none bg-slate-50/50 h-24 resize-y"></textarea>
@@ -1077,7 +1141,7 @@
     // --- Firebase Initialization ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, setDoc, updateDoc, arrayUnion, increment, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // Restore Original Firebase Config Layout perfectly
     const isLocalOrVercel = typeof __firebase_config === 'undefined';
@@ -1141,6 +1205,12 @@
     let globalCoverPhotos = [];
     let slideInterval = null;
     
+    // NEW: Timeline State
+    let globalProjectStart = null;
+    let globalProjectEnd = null;
+    let globalProjectProgress = 0;
+    let timelineInterval = null;
+
     let formData = {
       projectName: '',
       clientName: '',
@@ -1159,7 +1229,7 @@
        { id: Date.now(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' }
     ];
 
-    let dashboardStats = { avgWorkforce: '350', daysActive: '245', remainingDays: '120' };
+    let dashboardStats = { avgWorkforce: '350' };
 
     let globalProfile = {
       name: 'Hasnat Safdar',
@@ -1259,9 +1329,10 @@
       onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'dashboard'), (docSnap) => {
         if (docSnap.exists()) {
           dashboardStats = docSnap.data();
-          document.getElementById('stat-avg-workforce').value = dashboardStats.avgWorkforce || '350';
-          document.getElementById('stat-days-active').value = dashboardStats.daysActive || '245';
-          document.getElementById('stat-remaining-days').value = dashboardStats.remainingDays || '120';
+          const wfInput = document.getElementById('stat-avg-workforce');
+          if (wfInput) {
+             wfInput.value = dashboardStats.avgWorkforce || '350';
+          }
         }
       });
 
@@ -1296,6 +1367,23 @@
         if (docSnap.exists() && docSnap.data().images) {
           globalCoverPhotos = docSnap.data().images;
           startSlideshow();
+        }
+      });
+
+      // NEW: Listen for cloud-synced Tracker Drafts across devices
+      onSnapshot(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'trackerDraft'), (docSnap) => {
+        if (docSnap.exists()) {
+          const draft = docSnap.data();
+          if (draft.data && Array.isArray(draft.data)) {
+              lookAheadData = draft.data;
+              renderLookAheadTable();
+              localStorage.setItem('lookAheadData', JSON.stringify(lookAheadData));
+          }
+          if (draft.keepToggle !== undefined) {
+              const toggleEl = document.getElementById('lock-lookahead-toggle');
+              if (toggleEl) toggleEl.checked = draft.keepToggle;
+              localStorage.setItem('keepLookAheadToggle', draft.keepToggle);
+          }
         }
       });
 
@@ -1351,6 +1439,21 @@
                  document.getElementById('frm-projectName').value = data.projectName;
               }
           }
+          if (data.projectStart) {
+              globalProjectStart = data.projectStart;
+              document.getElementById('settings-project-start').value = data.projectStart;
+          }
+          if (data.projectEnd) {
+              globalProjectEnd = data.projectEnd;
+              document.getElementById('settings-project-end').value = data.projectEnd;
+          }
+          if (data.projectProgress !== undefined) {
+              globalProjectProgress = data.projectProgress;
+              document.getElementById('settings-project-progress').value = data.projectProgress;
+          }
+          // Start timeline once dates are loaded
+          startTimelineCountdown();
+          
           if (data.appPassword) {
               globalAppPassword = data.appPassword;
               document.getElementById('settings-app-password').value = data.appPassword;
@@ -1457,6 +1560,10 @@
 
       const newProjName = document.getElementById('settings-project-name').value.trim();
       const newPassword = document.getElementById('settings-app-password').value.trim();
+      
+      const newProjStart = document.getElementById('settings-project-start').value;
+      const newProjEnd = document.getElementById('settings-project-end').value;
+      const newProjProgress = parseFloat(document.getElementById('settings-project-progress').value) || 0;
 
       const newSupervision = document.getElementById('settings-team-supervision').value.trim();
       const newPmc = document.getElementById('settings-team-pmc').value.trim();
@@ -1469,6 +1576,9 @@
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'profile'), globalProfile);
         await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'config', 'appSettings'), {
             projectName: newProjName || 'Active Project',
+            projectStart: newProjStart,
+            projectEnd: newProjEnd,
+            projectProgress: newProjProgress,
             appPassword: newPassword || 'admin123',
             autoBackup: newAutoBackup,
             teamSupervision: newSupervision,
@@ -1481,6 +1591,10 @@
         document.getElementById('hero-project-name').innerText = newProjName || 'Active Project';
         globalAppPassword = newPassword || 'admin123';
         globalAutoBackup = newAutoBackup;
+        globalProjectStart = newProjStart;
+        globalProjectEnd = newProjEnd;
+        globalProjectProgress = newProjProgress;
+        startTimelineCountdown();
         
         document.getElementById('dir-supervision').innerText = newSupervision || 'No members added yet.';
         document.getElementById('dir-pmc').innerText = newPmc || 'No members added yet.';
@@ -1507,7 +1621,7 @@
             
             // Smart Memory Cache: Identify and protect manual uploads or local reports that haven't synced yet
             const fetchedIds = new Set(newlyFetchedList.map(r => r.dbId));
-            const protectedLocalDocs = reportsList.filter(r => r.isManualDoc || (!fetchedIds.has(r.dbId) && r.status === 'Generated'));
+            const protectedLocalDocs = reportsList.filter(r => !fetchedIds.has(r.dbId));
             
             // Seamlessly merge the protected local documents with the live cloud data
             let combinedList = [...protectedLocalDocs, ...newlyFetchedList];
@@ -1581,8 +1695,8 @@
         reportsList = reportsList.filter(r => r.dbId !== dbId);
         updateReportsTables();
         
-        // Stop if offline or if it is a manual upload (no cloud deletion needed)
-        if (!currentUser || !db || report.isManualDoc) {
+        // Stop if offline
+        if (!currentUser || !db) {
             return;
         }
 
@@ -1592,6 +1706,9 @@
                for (const p of report.photos) {
                   await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'photos', p.id));
                }
+            }
+            if (report.isManualDoc) {
+                await deleteDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'files', 'main'));
             }
         } catch(e) { showCustomAlert("Deletion Failed", e.message); }
     };
@@ -1605,7 +1722,7 @@
             }
 
             if(report.isManualDoc) {
-                 downloadWordDoc(report.name, "Manual PDF Upload Document");
+                 viewManualDoc(dbId, report.name);
                  return;
             }
 
@@ -1643,6 +1760,86 @@
         } catch(error) {
             console.error("View Report Error:", error);
             showCustomAlert("Rendering Error", "An error occurred while loading the report: " + error.message);
+        }
+    };
+
+    window.viewManualDoc = async function(dbId, name, event) {
+        if (!db || !currentUser) {
+            return showCustomAlert("Offline", "You must be connected to the cloud to retrieve this file.");
+        }
+        
+        let btn = null;
+        let originalText = "View Document";
+        if (event && event.currentTarget) {
+            btn = event.currentTarget;
+            originalText = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin inline"></i> Loading...';
+            btn.disabled = true;
+            lucide.createIcons();
+        }
+
+        try {
+            const report = reportsList.find(r => r.dbId === dbId);
+            const targetId = (report && report.docId) ? report.docId : dbId;
+            const fileDoc = await getDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', targetId, 'files', 'main'));
+            
+            if (fileDoc.exists() && fileDoc.data().data) {
+                const dataUrl = fileDoc.data().data;
+                const paper = document.getElementById('preview-paper');
+                
+                // If it is a PDF or Image, show it inside our app's Preview window!
+                if (name.toLowerCase().endsWith('.pdf') || dataUrl.startsWith('data:application/pdf')) {
+                    const res = await fetch(dataUrl);
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    
+                    paper.innerHTML = `
+                        <div class="flex flex-wrap justify-between items-center mb-4 border-b border-slate-200 pb-4 gap-4">
+                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 truncate flex-1">${name}</h2>
+                            <div class="flex flex-wrap gap-2 shrink-0">
+                                <a href="${blobUrl}" target="_blank" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"><i data-lucide="external-link" class="w-4 h-4"></i> Open in Tab</a>
+                                <a href="${dataUrl}" download="${name}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"><i data-lucide="download" class="w-4 h-4"></i> Download File</a>
+                            </div>
+                        </div>
+                        <object data="${blobUrl}" type="application/pdf" class="w-full h-[75vh] rounded-xl border border-slate-200 bg-slate-100 shadow-inner overflow-hidden">
+                            <div class="flex flex-col items-center justify-center h-full p-8 text-center bg-slate-50 rounded-xl border-2 border-dashed border-slate-200 m-4">
+                                <i data-lucide="file-warning" class="w-12 h-12 text-slate-400 mb-3"></i>
+                                <p class="text-slate-700 font-bold text-base mb-1">Browser Preview Blocked</p>
+                                <p class="text-slate-500 text-sm max-w-md mx-auto">Your browser prevents embedded PDF previews for security reasons. Click <b>Open in Tab</b> or <b>Download File</b> above to view your document.</p>
+                            </div>
+                        </object>
+                    `;
+                    document.getElementById('preview-modal').classList.remove('hidden');
+                    lucide.createIcons();
+                } else if (dataUrl.startsWith('data:image/')) {
+                    paper.innerHTML = `
+                        <div class="flex justify-between items-center mb-4 border-b border-slate-200 pb-4">
+                            <h2 class="text-xl font-bold text-slate-900">${name}</h2>
+                            <a href="${dataUrl}" download="${name}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm"><i data-lucide="download" class="w-4 h-4"></i> Download Image</a>
+                        </div>
+                        <img src="${dataUrl}" class="w-full h-auto max-h-[75vh] object-contain rounded-xl border border-slate-200 bg-slate-50" />
+                    `;
+                    document.getElementById('preview-modal').classList.remove('hidden');
+                    lucide.createIcons();
+                } else {
+                    // For Excel, Word docs, force immediate download as browsers cannot preview them natively
+                    const a = document.createElement('a');
+                    a.href = dataUrl;
+                    a.download = name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            } else {
+                showCustomAlert("File Not Found", "The actual file content was not found in the cloud database. It may be a legacy placeholder or failed to sync due to size limits.");
+            }
+        } catch(e) {
+            showCustomAlert("Retrieval Error", e.message);
+        } finally {
+            if (btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     };
 
@@ -2055,6 +2252,145 @@
         showCustomAlert("Slideshow Cleared", "The dashboard has been reset to the default cover image.");
     }
 
+    // --- NEW: Live Timeline Logic ---
+    function startTimelineCountdown() {
+        if (timelineInterval) clearInterval(timelineInterval);
+        if (!globalProjectStart || !globalProjectEnd) {
+            document.getElementById('timeline-countdown').innerText = "-- Config Required --";
+            document.getElementById('timeline-countdown').classList.add('text-slate-300', 'text-sm');
+            document.getElementById('timeline-countdown').classList.remove('text-2xl', 'sm:text-3xl');
+            document.getElementById('badge-text').innerText = "SETUP NEEDED IN SETTINGS";
+            
+            const statTotalDaysEl = document.getElementById('stat-total-days');
+            if(statTotalDaysEl) statTotalDaysEl.innerText = "--";
+            const statRemDaysEl = document.getElementById('stat-remaining-days');
+            if(statRemDaysEl) statRemDaysEl.innerText = "--";
+            
+            return;
+        }
+        document.getElementById('timeline-countdown').classList.remove('text-sm', 'text-slate-300');
+        document.getElementById('timeline-countdown').classList.add('text-2xl', 'sm:text-3xl');
+        
+        updateTimelineUI(); // run immediately
+        timelineInterval = setInterval(updateTimelineUI, 1000);
+    }
+
+    function updateTimelineUI() {
+        if (!globalProjectStart || !globalProjectEnd) return;
+
+        const start = new Date(globalProjectStart).getTime();
+        const end = new Date(globalProjectEnd + "T23:59:59").getTime(); // Assume EOD
+        const now = new Date().getTime();
+
+        const total = end - start;
+        if (total <= 0) return; // Invalid config
+
+        const elapsed = now - start;
+        let remaining = end - now;
+        let isDelayed = false;
+
+        // If end date has passed, project is delayed
+        if (remaining < 0) {
+            isDelayed = true;
+            remaining = Math.abs(remaining);
+        }
+
+        // Percentage Math (Manual from Settings, Clamped 0-100)
+        let donePct = parseFloat(globalProjectProgress) || 0;
+        if (donePct < 0) donePct = 0;
+        if (donePct > 100) donePct = 100;
+        let remPct = 100 - donePct;
+
+        // Time calculations
+        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        const totalDays = Math.ceil(total / (1000 * 60 * 60 * 24));
+
+        // Update Dashboard Cards
+        const statTotalDaysEl = document.getElementById('stat-total-days');
+        if(statTotalDaysEl) statTotalDaysEl.innerText = totalDays;
+
+        const statRemDaysEl = document.getElementById('stat-remaining-days');
+        if(statRemDaysEl) {
+             statRemDaysEl.innerText = isDelayed ? "0" : days;
+        }
+
+        // Format strings
+        const dStr = String(days).padStart(2, '0');
+        const hStr = String(hours).padStart(2, '0');
+        const mStr = String(minutes).padStart(2, '0');
+        const sStr = String(seconds).padStart(2, '0');
+
+        // UI Binding - Colors
+        let colorClass = 'text-emerald-500';
+        let bgClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+        let badgeIcon = 'badge-icon-ok';
+        let badgeText = 'ON SCHEDULE';
+
+        if (isDelayed) {
+            colorClass = 'text-rose-500';
+            bgClass = 'bg-rose-50 text-rose-700 border-rose-200';
+            badgeIcon = 'badge-icon-warn';
+            badgeText = 'PROJECT DELAYED';
+            document.getElementById('timeline-status-label').innerText = "Overdue By";
+            document.getElementById('timeline-status-label').className = "text-[10px] font-extrabold uppercase tracking-widest mb-1.5 text-rose-500";
+            document.getElementById('timeline-progress-done').className = "h-full bg-rose-500 transition-all duration-1000 ease-out";
+            document.getElementById('timeline-pct-done').innerText = `${donePct.toFixed(1)}% Completed`;
+            document.getElementById('timeline-pct-rem').innerText = `Delay Active`;
+            document.getElementById('timeline-pct-rem').className = "text-rose-500 font-bold";
+        } else {
+            document.getElementById('timeline-status-label').innerText = "Time Remaining";
+            document.getElementById('timeline-status-label').className = "text-[10px] font-extrabold uppercase tracking-widest mb-1.5 text-slate-400";
+            document.getElementById('timeline-progress-done').className = "h-full bg-indigo-500 transition-all duration-1000 ease-out";
+            document.getElementById('timeline-pct-done').innerText = `${donePct.toFixed(1)}% Completed`;
+            document.getElementById('timeline-pct-rem').innerText = `${remPct.toFixed(1)}% Remaining`;
+            document.getElementById('timeline-pct-rem').className = "text-slate-400";
+
+            if (days < 30) {
+                colorClass = 'text-rose-500';
+                bgClass = 'bg-rose-50 text-rose-700 border-rose-200';
+                badgeIcon = 'badge-icon-warn';
+                badgeText = 'CRITICAL PHASE (<30 DAYS)';
+            } else if (days <= 90) {
+                colorClass = 'text-orange-500';
+                bgClass = 'bg-orange-50 text-orange-700 border-orange-200';
+                badgeIcon = 'badge-icon-warn';
+                badgeText = 'FINAL STRETCH (<90 DAYS)';
+            }
+        }
+
+        // Apply Colors & Texts
+        const countdownEl = document.getElementById('timeline-countdown');
+        countdownEl.innerText = `${dStr}d ${hStr}h ${mStr}m ${sStr}s`;
+        countdownEl.className = `text-2xl sm:text-3xl font-black tabular-nums tracking-tight transition-colors duration-500 ${colorClass}`;
+
+        const badgeEl = document.getElementById('timeline-badge');
+        badgeEl.className = `px-3 py-1.5 text-[10px] uppercase tracking-wider font-bold rounded-full border transition-colors duration-500 flex items-center gap-1 w-max ${bgClass}`;
+        
+        document.getElementById('badge-text').innerText = badgeText;
+        document.getElementById('badge-icon-ok').classList.toggle('hidden', badgeIcon !== 'badge-icon-ok');
+        document.getElementById('badge-icon-warn').classList.toggle('hidden', badgeIcon !== 'badge-icon-warn');
+
+        document.getElementById('timeline-start-text').innerText = `Start: ${new Date(start).toLocaleDateString()}`;
+        document.getElementById('timeline-end-text').innerText = `Target: ${new Date(end).toLocaleDateString()}`;
+
+        document.getElementById('timeline-progress-done').style.width = `${donePct}%`;
+        document.getElementById('timeline-progress-rem').style.width = `${remPct}%`;
+        
+        // Give the remaining bar a nice contrasting color based on urgency
+        if(isDelayed) {
+           document.getElementById('timeline-progress-rem').className = "h-full bg-rose-100 transition-all duration-1000 ease-out";
+        } else if (days < 30) {
+           document.getElementById('timeline-progress-rem').className = "h-full bg-rose-100 transition-all duration-1000 ease-out";
+        } else if (days <= 90) {
+           document.getElementById('timeline-progress-rem').className = "h-full bg-orange-100 transition-all duration-1000 ease-out";
+        } else {
+           document.getElementById('timeline-progress-rem').className = "h-full bg-slate-200 transition-all duration-1000 ease-out";
+        }
+    }
+
     function resizeImageToBase64(file, maxWidth) {
        return new Promise((resolve) => {
            const reader = new FileReader();
@@ -2109,8 +2445,8 @@
         // --- AUTO-CAPTION LOGIC ---
         const currentIdx = photos.length + index;
         let autoCaption = '';
-        if (lookAheadData[currentIdx] && (lookAheadData[currentIdx].activity || lookAheadData[currentIdx].remarks)) {
-             autoCaption = `${lookAheadData[currentIdx].activity ? lookAheadData[currentIdx].activity + ' - ' : ''}${lookAheadData[currentIdx].remarks || ''}`.trim();
+        if (lookAheadData[currentIdx] && lookAheadData[currentIdx].activity) {
+             autoCaption = lookAheadData[currentIdx].activity.trim();
         }
         // ------------------------------
 
@@ -2193,16 +2529,41 @@
         autoSaveMainPhotosLocal();
     }
 
+    window.syncTrackerWithPhotos = function() {
+        if(photos.length === 0) return showCustomAlert("No Photos", "Please upload and caption photos first to map them to your tracker.");
+        if(lookAheadImageBase64) return showCustomAlert("Image Tracker Uploaded", "You uploaded a custom image for the tracker. We cannot map text to an image directly.");
+
+        let syncedCount = 0;
+        photos.forEach((p, idx) => {
+            if(p.aiText && p.aiText.trim()) {
+                // Ensure tracker row exists, if not, create a new one automatically
+                if(!lookAheadData[idx]) {
+                    lookAheadData.push({ id: Date.now() + Math.random(), zone: '', location: '', trade: '', activity: '', target: '', remarks: '' });
+                }
+                lookAheadData[idx].remarks = p.aiText.trim();
+                syncedCount++;
+            }
+        });
+
+        if(syncedCount > 0) {
+            renderLookAheadTable();
+            if(typeof autoSaveLookAheadLocal === 'function') autoSaveLookAheadLocal(); // Keep offline cache and cloud sync updated
+            showCustomAlert("Tracker Synced", `Successfully copied ${syncedCount} photo captions into the Look Ahead Tracker Status/Remarks column.`);
+        } else {
+            showCustomAlert("No Data", "No photo captions found to copy to the tracker.");
+        }
+    }
+
     window.syncPhotosWithTracker = function() {
         if(photos.length === 0) return showCustomAlert("No Photos", "Please upload photos first to map them to your activities.");
         if(lookAheadImageBase64) return showCustomAlert("Image Tracker Uploaded", "You uploaded a custom image for the tracker. We cannot map text from an image directly. Please use the AI 'Step 1' button to analyze it, or type captions manually.");
 
         let syncedCount = 0;
         photos.forEach((p, idx) => {
-            if(lookAheadData[idx] && (lookAheadData[idx].activity || lookAheadData[idx].remarks)) {
-                const autoCaption = `${lookAheadData[idx].activity ? lookAheadData[idx].activity + ' - ' : ''}${lookAheadData[idx].remarks || ''}`.trim();
+            if(lookAheadData[idx] && lookAheadData[idx].remarks) {
+                const autoCaption = lookAheadData[idx].remarks.trim();
                 if(autoCaption) {
-                    p.aiText = autoCaption;
+                    p.aiText = autoCaption; // entirely replaces caption with tracker remarks
                     syncedCount++;
                 }
             }
@@ -2210,9 +2571,9 @@
         renderPhotos();
         autoSaveMainPhotosLocal(); // Keep offline cache updated
         if(syncedCount > 0) {
-            showCustomAlert("Captions Synced", `Successfully auto-filled ${syncedCount} photos with activities from your Look Ahead Tracker.`);
+            showCustomAlert("Captions Synced", `Successfully auto-filled and replaced ${syncedCount} photo captions with Status/Remarks from your Look Ahead Tracker.`);
         } else {
-            showCustomAlert("No Data", "No activities found in the Look Ahead tracker to map.");
+            showCustomAlert("No Data", "No Status/Remarks found in the Look Ahead tracker to map.");
         }
     }
 
@@ -2431,7 +2792,7 @@
             <div class="w-1/3 text-center">
               <div class="border-b border-slate-300 h-12 mb-2"></div>
               <p class="font-bold text-slate-900 text-sm">Prepared By</p>
-              <p class="text-xs text-slate-500 font-medium mt-0.5">${globalProfile.name || 'TYA & Associates'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">TYA & Associates</p>
             </div>
             <div class="w-1/3 text-center">
               <div class="border-b border-slate-300 h-12 mb-2"></div>
@@ -2557,63 +2918,115 @@
       const files = Array.from(event.target.files);
       if (!files.length) return;
 
-      for (const file of files) {
-          const newDoc = {
-            dbId: Math.random().toString(36).substr(2, 9),
-            name: file.name,
-            projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
-            date: new Date().toISOString().split('T')[0],
-            shift: 'N/A',
-            preparedBy: globalProfile.name,
-            status: 'Manual Upload',
-            isManualDoc: true,
-            createdAt: Date.now()
+      const customNameInput = document.getElementById('custom-doc-name').value.trim();
+
+      showCustomAlert("Uploading...", "Reading and uploading documents to the cloud database. Please wait...");
+
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+              const dataUrl = reader.result;
+              
+              // Apply Custom Name if provided
+              let finalName = file.name;
+              if (customNameInput) {
+                  const ext = file.name.split('.').pop();
+                  finalName = files.length > 1 ? `${customNameInput} (${i + 1}).${ext}` : `${customNameInput}.${ext}`;
+              }
+
+              const newDoc = {
+                dbId: Math.random().toString(36).substr(2, 9),
+                name: finalName,
+                projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
+                date: new Date().toISOString().split('T')[0],
+                shift: 'N/A',
+                preparedBy: "TYA & Associates",
+                status: 'Manual Upload',
+                isManualDoc: true,
+                fileType: file.type,
+                createdAt: Date.now()
+              };
+              reportsList.unshift(newDoc); // add to main dashboard table
+              
+              // Save to Cloud so it persists after refresh
+              if (db && currentUser) {
+                 try {
+                    await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId), newDoc);
+                    await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId, 'files', 'main'), { data: dataUrl });
+                 } catch(e) { 
+                    console.warn("Failed to sync document log to cloud", e); 
+                    if(e.code === 'resource-exhausted') {
+                        showCustomAlert("File Too Large", "This file exceeds the 1MB Firestore limit for your free-tier database and the document content wasn't fully uploaded.");
+                    }
+                 }
+              }
+              updateReportsTables();
           };
-          reportsList.unshift(newDoc); // add to main dashboard table
-          
-          // Save to Cloud so it persists after refresh
-          if (db && currentUser) {
-             try {
-                await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId), newDoc);
-             } catch(e) { console.warn("Failed to sync document log to cloud", e); }
-          }
+          reader.readAsDataURL(file);
       }
       
-      updateReportsTables();
+      document.getElementById('custom-doc-name').value = ''; // clear input
       switchView('dashboard');
-      showCustomAlert("Upload Logged", "Document successfully tracked in the project dashboard.");
+      setTimeout(() => closeCustomModal(), 2000);
     }
 
     window.handleSafetyUpload = async function(event) {
       const files = Array.from(event.target.files);
       if (!files.length) return;
 
-      for (const file of files) {
-          const newDoc = {
-            dbId: Math.random().toString(36).substr(2, 9),
-            name: file.name,
-            projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
-            date: new Date().toISOString().split('T')[0],
-            shift: 'N/A',
-            preparedBy: globalProfile.name,
-            status: 'Safety Report',
-            isManualDoc: true,
-            isSafetyDoc: true,
-            createdAt: Date.now()
+      const customNameInput = document.getElementById('custom-safety-name').value.trim();
+
+      showCustomAlert("Uploading...", "Reading and uploading safety documents to the cloud database. Please wait...");
+
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+              const dataUrl = reader.result;
+              
+              // Apply Custom Name if provided
+              let finalName = file.name;
+              if (customNameInput) {
+                  const ext = file.name.split('.').pop();
+                  finalName = files.length > 1 ? `${customNameInput} (${i + 1}).${ext}` : `${customNameInput}.${ext}`;
+              }
+
+              const newDoc = {
+                dbId: Math.random().toString(36).substr(2, 9),
+                name: finalName,
+                projectName: formData.projectName || document.getElementById('settings-project-name').value || 'Active Project',
+                date: new Date().toISOString().split('T')[0],
+                shift: 'N/A',
+                preparedBy: "TYA & Associates",
+                status: 'Safety Report',
+                isManualDoc: true,
+                isSafetyDoc: true,
+                fileType: file.type,
+                createdAt: Date.now()
+              };
+              reportsList.unshift(newDoc); // add to main dashboard table
+              
+              // Save to Cloud so it persists after refresh
+              if (db && currentUser) {
+                 try {
+                    await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId), newDoc);
+                    await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId, 'files', 'main'), { data: dataUrl });
+                 } catch(e) { 
+                    console.warn("Failed to sync safety log to cloud", e); 
+                    if(e.code === 'resource-exhausted') {
+                        showCustomAlert("File Too Large", "This file exceeds the 1MB Firestore limit for your free-tier database and the document content wasn't fully uploaded.");
+                    }
+                 }
+              }
+              updateReportsTables();
           };
-          reportsList.unshift(newDoc); // add to main dashboard table
-          
-          // Save to Cloud so it persists after refresh
-          if (db && currentUser) {
-             try {
-                await setDoc(doc(db, 'artifacts', appFirebaseId, 'public', 'data', 'reports', newDoc.dbId), newDoc);
-             } catch(e) { console.warn("Failed to sync safety log to cloud", e); }
-          }
+          reader.readAsDataURL(file);
       }
       
-      updateReportsTables();
+      document.getElementById('custom-safety-name').value = ''; // clear input
       switchView('dashboard');
-      showCustomAlert("Safety Report Logged", "Safety document successfully tracked in the project dashboard.");
+      setTimeout(() => closeCustomModal(), 2000);
     }
 
     function updateReportsTables() {
@@ -2629,7 +3042,8 @@
           
           let actionButtons = '';
           if(r.isManualDoc) {
-             actionButtons = `<button class="text-blue-600 hover:text-blue-800 text-xs font-bold bg-blue-50 px-3 py-1.5 rounded-lg transition" onclick="downloadWordDoc('${r.name}', 'Manual Upload')">Download Doc</button>
+             const safeName = r.name ? r.name.replace(/'/g, "\\'") : 'Document';
+             actionButtons = `<button class="text-blue-600 hover:text-blue-800 text-xs font-bold bg-blue-50 px-3 py-1.5 rounded-lg transition" onclick="viewManualDoc('${r.dbId}', '${safeName}', event)">View Document</button>
              <button class="p-2 hover:bg-red-50 text-red-400 rounded-lg transition" onclick="deleteReport('${r.dbId}')"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`;
           } else {
              actionButtons = `<button class="p-2 hover:bg-slate-100 text-slate-400 rounded-lg transition" title="Download Word Doc" onclick="exportWordDoc('${r.dbId}')"><i data-lucide="download" class="w-4 h-4"></i></button>
@@ -2868,7 +3282,7 @@
             <div class="w-1/3 text-center">
               <div class="border-b border-slate-300 h-12 mb-2"></div>
               <p class="font-bold text-slate-900 text-sm">Prepared By</p>
-              <p class="text-xs text-slate-500 font-medium mt-0.5">${generatedReport.preparedBy || 'TYA & Associates'}</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">TYA & Associates</p>
             </div>
             <div class="w-1/3 text-center">
               <div class="border-b border-slate-300 h-12 mb-2"></div>
